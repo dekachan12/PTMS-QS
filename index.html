@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PTMS — Team Quality RedDoorz</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -17,61 +18,43 @@
   --info:#38bdf8;--ibg:rgba(56,189,248,.1);
   --purple:#a855f7;--purbg:rgba(168,85,247,.1);
   --red-rddz:#e31837;
-  --r:8px;--rl:12px;
-  --sw:220px;
+  --r:8px;--rl:12px;--sw:220px;
 }
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;font-size:14px;line-height:1.5;overflow-x:hidden}
-
-/* ── SIDEBAR ── */
-.sidebar{width:var(--sw);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;z-index:100;transition:transform .25s ease,width .25s ease;overflow:hidden}
-.sidebar.collapsed{width:0;transform:translateX(-100%)}
-
-/* LOGO AREA */
-.logo{padding:14px 14px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;white-space:nowrap}
-.rddz-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sidebar{width:var(--sw);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;z-index:100;transition:transform .25s ease;overflow:hidden}
+.sidebar.collapsed{transform:translateX(-100%)}
+.logo{padding:14px 14px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .rddz-icon{width:34px;height:34px;background:var(--red-rddz);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.rddz-icon svg{width:20px;height:20px;fill:#fff}
-.logo-texts{display:flex;flex-direction:column}
-.logo-brand{font-size:12px;font-weight:700;color:var(--red-rddz);letter-spacing:.02em;line-height:1.2}
-.logo-team{font-size:11px;font-weight:600;color:var(--text);letter-spacing:.02em}
+.logo-brand{font-size:12px;font-weight:700;color:var(--red-rddz)}
+.logo-team{font-size:11px;font-weight:600;color:var(--text)}
 .logo-sub{font-size:9px;color:var(--text3);margin-top:1px}
-
-.nav-sec{padding:12px 8px 3px;font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:var(--r);margin:1px 6px;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;border:none;background:none;width:calc(100% - 12px);text-align:left;position:relative;white-space:nowrap}
+.nav-sec{padding:12px 8px 3px;font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:var(--r);margin:1px 6px;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;border:none;background:none;width:calc(100% - 12px);text-align:left;white-space:nowrap}
 .nav-item:hover{background:var(--bg3);color:var(--text)}
 .nav-item.active{background:var(--pbg);color:var(--primary2);font-weight:500}
 .nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
 .nav-item.active svg{opacity:1}
 .nbadge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center}
-.sidebar-footer{padding:10px;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
+.sidebar-footer{padding:10px;border-top:1px solid var(--border);margin-top:auto}
 .ucard{display:flex;align-items:center;gap:9px;padding:8px;border-radius:var(--r);background:var(--bg3)}
 .avatar{width:30px;height:30px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-
-/* ── MAIN ── */
 .main{flex:1;margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;transition:margin-left .25s ease}
 .main.expanded{margin-left:0}
 .topbar{height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;position:sticky;top:0;z-index:50}
-.toggle-btn{width:34px;height:34px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);flex-shrink:0;transition:background .15s}
+.toggle-btn{width:34px;height:34px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);flex-shrink:0}
 .toggle-btn:hover{background:var(--bg4);color:var(--text)}
-.ptitle{font-size:15px;font-weight:600;color:var(--text)}
+.ptitle{font-size:15px;font-weight:600}
 .topbar-r{margin-left:auto;display:flex;gap:8px;align-items:center}
 .content{flex:1;padding:18px 20px}
 .page{display:none}.page.active{display:block}
-
-/* ── OVERLAY (mobile) ── */
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
 .sidebar-overlay.show{display:block}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:inherit;line-height:1}
-.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn-primary:hover{background:var(--primary2)}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary2)}
 .btn-success{background:var(--success);color:#fff}.btn-success:hover{filter:brightness(1.1)}
 .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{filter:brightness(1.1)}
 .btn-ghost{background:transparent;color:var(--text2);border-color:var(--border)}.btn-ghost:hover{background:var(--bg3);color:var(--text)}
-.btn-sm{padding:5px 10px;font-size:12px}
-.btn-xs{padding:3px 8px;font-size:11px;border-radius:6px}
-
-/* KPI */
+.btn-sm{padding:5px 10px;font-size:12px}.btn-xs{padding:3px 8px;font-size:11px;border-radius:6px}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:18px}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -81,16 +64,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .kpi-label{font-size:10px;color:var(--text3);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
 .kpi-value{font-size:22px;font-weight:700;line-height:1}
 .kpi-sub{font-size:11px;color:var(--text3);margin-top:4px}
-
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:16px}
 .card-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
 .card-title{font-size:13px;font-weight:600}
 .card-body{padding:14px 16px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
-
-/* BADGE */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
 .bd{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .bc{background:var(--dbg);color:var(--danger)}.bc .bd{background:var(--danger)}
@@ -99,8 +78,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .bb{background:var(--ibg);color:var(--info)}.bb .bd{background:var(--info)}
 .bp{background:var(--purbg);color:var(--purple)}.bp .bd{background:var(--purple)}
 .bgr{background:var(--bg3);color:var(--text2)}.bgr .bd{background:var(--text3)}
-
-/* TABLE */
 .twrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 thead th{padding:9px 12px;font-size:10px;font-weight:600;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);background:var(--bg2);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
@@ -109,206 +86,102 @@ tbody tr:hover{background:var(--bg3)}
 tbody tr:last-child{border-bottom:none}
 td{padding:10px 12px;font-size:13px;color:var(--text2);vertical-align:middle}
 td.p{color:var(--text);font-weight:500}
-
-/* FORM */
 .fg{margin-bottom:12px}
 .fl{display:block;font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:500}
 .fi,.fs,.fta{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;font-family:inherit}
 .fi:focus,.fs:focus,.fta:focus{border-color:var(--primary)}
 .fta{resize:vertical;min-height:72px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
 .overlay.hidden{display:none}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);width:100%;max-width:580px;max-height:90vh;overflow-y:auto}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
 .mhead{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
 .mtitle{font-size:14px;font-weight:600}
 .mclose{background:none;border:none;color:var(--text3);cursor:pointer;font-size:22px;line-height:1;padding:0 4px}
-.mclose:hover{color:var(--text)}
-.mbody{padding:18px}
-.mfoot{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
-
-/* PROGRESS */
+.mbody{padding:18px}.mfoot{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
 .pbar{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden}
 .pfill{height:100%;border-radius:4px;transition:width .4s}
-.pfill.blue{background:var(--primary)}.pfill.green{background:var(--success)}
-.pfill.amber{background:var(--warning)}.pfill.gray{background:var(--text3)}
-
-/* APPROVAL TIMELINE */
+.pfill.blue{background:var(--primary)}.pfill.green{background:var(--success)}.pfill.amber{background:var(--warning)}
 .asteps{padding:4px 0}
 .astep{display:flex;gap:12px;padding:10px 0;position:relative}
 .astep:not(:last-child)::after{content:'';position:absolute;left:13px;top:36px;width:2px;height:calc(100% - 12px);background:var(--border)}
 .sdot{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;z-index:1}
-.sdot.done{background:var(--success);color:#fff}
-.sdot.curr{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--pbg)}
-.sdot.pend{background:var(--bg3);color:var(--text3);border:2px solid var(--border)}
-.sdot.rej{background:var(--danger);color:#fff}
-.sinfo{flex:1;padding-top:2px}
-.stitle{font-size:13px;font-weight:500;color:var(--text)}
-.srole{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
-.ssub{font-size:11px;color:var(--text3);margin-top:2px}
-.scomment{background:var(--bg3);border-left:2px solid var(--success);padding:6px 10px;border-radius:0 6px 6px 0;font-size:12px;color:var(--text2);margin-top:6px}
-.scomment.rej{border-left-color:var(--danger)}
-
-/* Approval info box */
-.approver-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.approver-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
-.approver-info{flex:1}
-.approver-name{font-size:13px;font-weight:500;color:var(--text)}
-.approver-role{font-size:11px;color:var(--text3)}
-.approver-status{font-size:11px;font-weight:600}
-
-/* MISC */
+.sdot.done{background:var(--success);color:#fff}.sdot.curr{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--pbg)}.sdot.pend{background:var(--bg3);color:var(--text3);border:2px solid var(--border)}.sdot.rej{background:var(--danger);color:#fff}
+.sinfo{flex:1;padding-top:2px}.stitle{font-size:13px;font-weight:500;color:var(--text)}.srole{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}.ssub{font-size:11px;color:var(--text3);margin-top:2px}.scomment{background:var(--bg3);border-left:2px solid var(--success);padding:6px 10px;border-radius:0 6px 6px 0;font-size:12px;color:var(--text2);margin-top:6px}
+.fcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.fcard:hover{border-color:var(--border2)}.fcard.crit{border-left:3px solid var(--danger)}.fcard.major{border-left:3px solid var(--warning)}.fcard.minor{border-left:3px solid var(--success)}
+.irow{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.irow:last-child{border-bottom:none}.ilabel{color:var(--text3);min-width:120px;flex-shrink:0;font-size:12px}.ival{color:var(--text)}
+.rbar{margin-bottom:10px}.rbar-head{display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px}
 .secttitle{font-size:13px;font-weight:600;margin-bottom:10px}
-.muted{color:var(--text3);font-size:12px}
 .empty{text-align:center;padding:36px 16px;color:var(--text3)}
 .empty svg{width:40px;height:40px;margin:0 auto 10px;display:block;opacity:.25}
-.irow{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
-.irow:last-child{border-bottom:none}
-.ilabel{color:var(--text3);min-width:120px;flex-shrink:0;font-size:12px}
-.ival{color:var(--text)}
-.rbar{margin-bottom:10px}
-.rbar-head{display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px}
-.gantt-row{display:flex;align-items:center;height:28px;margin-bottom:3px}
-.gantt-label{width:120px;font-size:11px;color:var(--text2);text-align:right;padding-right:8px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.gantt-track{flex:1;background:var(--bg3);border-radius:4px;height:18px;position:relative;overflow:hidden}
-.gantt-bar{position:absolute;height:100%;border-radius:4px;font-size:10px;font-weight:600;display:flex;align-items:center;padding:0 8px;color:#fff;white-space:nowrap;overflow:hidden}
-.ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border)}
-.ba-panel{background:var(--bg3);height:140px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;position:relative;font-size:11px;color:var(--text3)}
-.ba-lbl{position:absolute;top:7px;left:7px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
-
-/* TOAST */
+.divider{border:none;border-top:1px solid var(--border);margin:12px 0}
+.approver-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.approver-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.level-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.level-1{background:rgba(56,189,248,.15);color:var(--info)}.level-2{background:rgba(168,85,247,.15);color:var(--purple)}.level-3{background:rgba(249,115,22,.15);color:#f97316}
 .toasts{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:7px}
 .toast{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--text);box-shadow:0 4px 20px rgba(0,0,0,.4);animation:tin .3s ease;max-width:300px}
 .toast.s{border-left:3px solid var(--success)}.toast.e{border-left:3px solid var(--danger)}.toast.i{border-left:3px solid var(--primary)}
 @keyframes tin{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 .ndot{width:8px;height:8px;background:var(--danger);border-radius:50%;position:absolute;top:5px;right:5px}
-.divider{border:none;border-top:1px solid var(--border);margin:12px 0}
-.fcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
-.fcard:hover{border-color:var(--border2)}
-.fcard.crit{border-left:3px solid var(--danger)}
-.fcard.major{border-left:3px solid var(--warning)}
-.fcard.minor{border-left:3px solid var(--success)}
-
-/* APPROVAL LEVEL BADGE */
-.level-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.level-1{background:rgba(56,189,248,.15);color:var(--info)}
-.level-2{background:rgba(168,85,247,.15);color:var(--purple)}
-.level-3{background:rgba(249,115,22,.15);color:#f97316}
-
-/* WORKFLOW PROGRESS */
-.wf-progress{background:var(--bg3);border-radius:var(--r);padding:12px 14px;margin-bottom:12px}
-.wf-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.wf-steps{display:flex;gap:0;align-items:center}
-.wf-step{flex:1;text-align:center;position:relative}
-.wf-step:not(:last-child)::after{content:'';position:absolute;top:14px;left:60%;width:80%;height:2px;background:var(--border);z-index:0}
-.wf-step.done::after{background:var(--success)}
-.wf-dot{width:28px;height:28px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;position:relative;z-index:1}
-.wf-dot.done{background:var(--success);color:#fff}
-.wf-dot.curr{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--pbg)}
-.wf-dot.pend{background:var(--bg4);color:var(--text3);border:2px solid var(--border)}
-.wf-dot.rej{background:var(--danger);color:#fff}
-.wf-label{font-size:10px;color:var(--text3);line-height:1.3}
-
-@media(max-width:768px){
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.mobile-open{transform:translateX(0)}
-  .main{margin-left:0}
-  .g2,.g3{grid-template-columns:1fr}
-  .frow{grid-template-columns:1fr}
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
-}
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text3);gap:10px;font-size:13px}
+.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border)}
+.ba-panel{background:var(--bg3);height:130px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;position:relative;font-size:11px;color:var(--text3)}
+.ba-lbl{position:absolute;top:7px;left:7px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
+@media(max-width:768px){.sidebar.collapsed{transform:translateX(0)}.sidebar{transform:translateX(-100%)}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.g2,.g3{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR OVERLAY (mobile) -->
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-<!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar">
   <div class="logo">
-    <div class="rddz-logo">
-      <div class="rddz-icon">
-        <!-- RedDoorz door icon SVG -->
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M1 21h22" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
-          <rect x="9" y="13" width="6" height="8" rx="1" fill="#fff"/>
-          <rect x="6" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.6)"/>
-          <rect x="14" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.6)"/>
-        </svg>
-      </div>
-      <div class="logo-texts">
-        <div class="logo-brand">RedDoorz</div>
-        <div class="logo-team">Team Quality</div>
-        <div class="logo-sub">Property Transformation</div>
-      </div>
+    <div class="rddz-icon">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8">
+        <path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M1 21h22"/>
+        <rect x="9" y="13" width="6" height="8" rx="1" fill="#fff" stroke="none"/>
+        <rect x="6" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
+        <rect x="14" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-brand">RedDoorz</div>
+      <div class="logo-team">Team Quality</div>
+      <div class="logo-sub">Property Transformation</div>
     </div>
   </div>
-
   <div class="nav-sec">Overview</div>
-  <button class="nav-item active" onclick="goTo('dashboard')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
-  </button>
-
+  <button class="nav-item active" onclick="goTo('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</button>
   <div class="nav-sec">Properti</div>
-  <button class="nav-item" onclick="goTo('properties')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Properties
-  </button>
-  <button class="nav-item" onclick="goTo('findings')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Findings
-    <span class="nbadge" id="b-findings">0</span>
-  </button>
-
+  <button class="nav-item" onclick="goTo('properties')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Properties</button>
+  <button class="nav-item" onclick="goTo('findings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Findings<span class="nbadge" id="b-findings">0</span></button>
   <div class="nav-sec">Perencanaan</div>
-  <button class="nav-item" onclick="goTo('improvements')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Improvement Plans
-  </button>
-  <button class="nav-item" onclick="goTo('rab')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>RAB / Budget
-  </button>
-
+  <button class="nav-item" onclick="goTo('improvements')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Improvement Plans</button>
+  <button class="nav-item" onclick="goTo('rab')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>RAB / Budget</button>
   <div class="nav-sec">Eksekusi</div>
-  <button class="nav-item" onclick="goTo('approvals')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Approvals
-    <span class="nbadge" id="b-approvals">0</span>
-  </button>
-  <button class="nav-item" onclick="goTo('tracker')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Progress Tracker
-  </button>
-  <button class="nav-item" onclick="goTo('beforeafter')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Before &amp; After
-  </button>
-
+  <button class="nav-item" onclick="goTo('approvals')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Approvals<span class="nbadge" id="b-approvals">0</span></button>
+  <button class="nav-item" onclick="goTo('tracker')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Progress Tracker</button>
+  <button class="nav-item" onclick="goTo('beforeafter')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Before &amp; After</button>
   <div class="nav-sec">Hasil</div>
-  <button class="nav-item" onclick="goTo('scoring')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Scoring
-  </button>
-  <button class="nav-item" onclick="goTo('impact')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Business Impact
-  </button>
-
+  <button class="nav-item" onclick="goTo('scoring')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Scoring</button>
+  <button class="nav-item" onclick="goTo('impact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Business Impact</button>
   <div class="sidebar-footer">
     <div class="ucard">
       <div class="avatar">DK</div>
-      <div>
-        <div style="font-size:12px;font-weight:600">Dika</div>
-        <div style="font-size:10px;color:var(--text3)">QSE — Area West</div>
-      </div>
+      <div><div style="font-size:12px;font-weight:600">Dika</div><div style="font-size:10px;color:var(--text3)">QSE — Area West</div></div>
     </div>
   </div>
 </nav>
 
-<!-- MAIN -->
 <div class="main" id="main">
   <div class="topbar">
-    <!-- TOGGLE BUTTON -->
-    <button class="toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
+    <button class="toggle-btn" onclick="toggleSidebar()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <div class="ptitle" id="ptitle">Executive Dashboard</div>
     <div class="topbar-r">
@@ -319,27 +192,17 @@ td.p{color:var(--text);font-weight:500}
       <button class="btn btn-primary btn-sm" onclick="openM('m-finding')">+ New Finding</button>
     </div>
   </div>
-
   <div class="content">
 
     <!-- DASHBOARD -->
     <div class="page active" id="p-dashboard">
-      <div class="kpi-grid" id="kpi-grid"></div>
+      <div class="kpi-grid" id="kpi-grid"><div class="loading"><div class="spinner"></div>Memuat data...</div></div>
       <div class="g2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Status Transformasi</div></div>
-          <div class="card-body" id="status-bars"></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Findings Kritis</div></div>
-          <div id="crit-list"></div>
-        </div>
+        <div class="card"><div class="card-header"><div class="card-title">Status Transformasi</div></div><div class="card-body" id="status-bars"></div></div>
+        <div class="card"><div class="card-header"><div class="card-title">Findings Kritis</div></div><div id="crit-list"></div></div>
       </div>
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Findings Terbaru</div>
-          <button class="btn btn-ghost btn-sm" onclick="goTo('findings')">Lihat semua</button>
-        </div>
+        <div class="card-header"><div class="card-title">Findings Terbaru</div><button class="btn btn-ghost btn-sm" onclick="goTo('findings')">Lihat semua</button></div>
         <div class="twrap" id="dash-findings"></div>
       </div>
     </div>
@@ -349,12 +212,11 @@ td.p{color:var(--text);font-weight:500}
       <div class="card">
         <div class="card-header">
           <div class="card-title">Property Database</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-            <input class="fi" id="psearch" placeholder="Cari properti..." style="width:150px;padding:6px 10px;font-size:12px" oninput="renderProperties()">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input class="fi" id="psearch" placeholder="Cari..." style="width:150px;padding:6px 10px;font-size:12px" oninput="renderProperties()">
             <select class="fs" id="pfilter" style="width:140px;padding:6px 10px;font-size:12px" onchange="renderProperties()">
               <option value="">Semua Status</option>
-              <option>Not Started</option><option>Assessment</option>
-              <option>Approval</option><option>In Progress</option><option>Completed</option>
+              <option>Not Started</option><option>Assessment</option><option>Approval</option><option>In Progress</option><option>Completed</option>
             </select>
             <button class="btn btn-primary btn-sm" onclick="openM('m-property')">+ Tambah</button>
           </div>
@@ -389,29 +251,22 @@ td.p{color:var(--text);font-weight:500}
     <!-- IMPROVEMENTS -->
     <div class="page" id="p-improvements">
       <div class="g2" style="align-items:start">
-        <!-- LIST -->
         <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap">
             <div class="secttitle" style="margin:0">Improvement Plans</div>
             <div style="display:flex;gap:6px">
               <select class="fs" id="ifilter" style="width:150px;padding:6px 10px;font-size:12px" onchange="renderImprovements()">
                 <option value="">Semua Status</option>
-                <option>Draft</option><option>Waiting Approval</option>
-                <option>Approved</option><option>In Progress</option>
-                <option>Completed</option><option>Rejected</option>
+                <option>Draft</option><option>Waiting Approval</option><option>Approved</option><option>In Progress</option><option>Completed</option><option>Rejected</option>
               </select>
               <button class="btn btn-primary btn-sm" onclick="openM('m-improvement')">+ New</button>
             </div>
           </div>
           <div id="imp-cards"></div>
         </div>
-        <!-- DETAIL -->
         <div id="imp-detail">
           <div class="secttitle">Detail Plan</div>
-          <div class="empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <p>Pilih plan di kiri<br>untuk lihat detail</p>
-          </div>
+          <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Pilih plan di kiri</p></div>
         </div>
       </div>
     </div>
@@ -421,11 +276,9 @@ td.p{color:var(--text);font-weight:500}
       <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)" id="rab-kpi"></div>
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Detail RAB — Rencana Anggaran Biaya</div>
+          <div class="card-title">RAB — Rencana Anggaran Biaya</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <select class="fs" id="rab-pf" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderRAB()">
-              <option value="">Semua Properti</option>
-            </select>
+            <select class="fs" id="rab-pf" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderRAB()"><option value="">Semua Properti</option></select>
             <button class="btn btn-primary btn-sm" onclick="openM('m-rab')">+ Item RAB</button>
           </div>
         </div>
@@ -435,54 +288,26 @@ td.p{color:var(--text);font-weight:500}
 
     <!-- APPROVALS -->
     <div class="page" id="p-approvals">
-      <!-- Approval Info Header -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-header"><div class="card-title">📋 Alur Approval — 3 Level</div></div>
         <div class="card-body">
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-            <div class="approver-card">
-              <div class="approver-avatar" style="background:var(--info)">OM</div>
-              <div class="approver-info">
-                <div class="approver-name">Operations Manager</div>
-                <div class="approver-role">Level 1 · Review teknis & lapangan</div>
-              </div>
-              <span class="level-badge level-1">Lvl 1</span>
-            </div>
-            <div class="approver-card">
-              <div class="approver-avatar" style="background:var(--purple)">HO</div>
-              <div class="approver-info">
-                <div class="approver-name">Head of Operation</div>
-                <div class="approver-role">Level 2 · Review budget & prioritas</div>
-              </div>
-              <span class="level-badge level-2">Lvl 2</span>
-            </div>
-            <div class="approver-card">
-              <div class="approver-avatar" style="background:#f97316)">HL</div>
-              <div class="approver-avatar" style="background:#f97316">HL</div>
-              <div class="approver-info">
-                <div class="approver-name">Head of Leasing</div>
-                <div class="approver-role">Level 3 · Final approval & budget release</div>
-              </div>
-              <span class="level-badge level-3">Lvl 3</span>
-            </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <div class="approver-card"><div class="approver-avatar" style="background:var(--info)">OM</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Operations Manager</div><div style="font-size:11px;color:var(--text3)">Level 1 · Review teknis</div></div><span class="level-badge level-1">Lvl 1</span></div>
+            <div class="approver-card"><div class="approver-avatar" style="background:var(--purple)">HO</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Head of Operation</div><div style="font-size:11px;color:var(--text3)">Level 2 · Review budget</div></div><span class="level-badge level-2">Lvl 2</span></div>
+            <div class="approver-card"><div class="approver-avatar" style="background:#f97316">HL</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Head of Leasing</div><div style="font-size:11px;color:var(--text3)">Level 3 · Final approval</div></div><span class="level-badge level-3">Lvl 3</span></div>
           </div>
         </div>
       </div>
-
       <div class="g2" style="align-items:start">
         <div>
           <div class="secttitle">Menunggu Approval</div>
           <div id="approval-list"></div>
-          <div class="secttitle" style="margin-top:16px">Riwayat Approved / Rejected</div>
+          <div class="secttitle" style="margin-top:16px">Riwayat</div>
           <div id="approval-history"></div>
         </div>
         <div>
           <div class="secttitle">Detail Workflow</div>
-          <div class="card" id="approval-detail-card">
-            <div class="card-body" id="approval-workflow">
-              <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><p>Pilih item untuk lihat workflow</p></div>
-            </div>
-          </div>
+          <div class="card"><div class="card-body" id="approval-workflow"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><p>Pilih item untuk lihat workflow</p></div></div></div>
         </div>
       </div>
     </div>
@@ -490,11 +315,8 @@ td.p{color:var(--text);font-weight:500}
     <!-- TRACKER -->
     <div class="page" id="p-tracker">
       <div class="card" style="margin-bottom:16px">
-        <div class="card-header">
-          <div class="card-title">Gantt Chart — Progress Pekerjaan</div>
-          <button class="btn btn-primary btn-sm" onclick="openM('m-progress')">+ Update Progress</button>
-        </div>
-        <div class="card-body" id="gantt"></div>
+        <div class="card-header"><div class="card-title">Progress Tracker</div><button class="btn btn-primary btn-sm" onclick="openM('m-progress')">+ Update Progress</button></div>
+        <div class="card-body" id="tracker-content"></div>
       </div>
       <div class="g3" id="prog-cards"></div>
     </div>
@@ -502,7 +324,7 @@ td.p{color:var(--text);font-weight:500}
     <!-- BEFORE AFTER -->
     <div class="page" id="p-beforeafter">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div class="secttitle" style="margin:0">Before &amp; After Comparison</div>
+        <div class="secttitle" style="margin:0">Before &amp; After</div>
         <button class="btn btn-primary btn-sm" onclick="openM('m-ba')">+ Tambah</button>
       </div>
       <div class="g2" id="ba-gallery"></div>
@@ -512,12 +334,8 @@ td.p{color:var(--text);font-weight:500}
     <div class="page" id="p-scoring">
       <div class="g2" style="align-items:start">
         <div class="card">
-          <div class="card-header">
-            <div class="card-title">Input Transformation Score</div>
-            <select class="fs" id="score-prop" style="width:170px;padding:6px 10px;font-size:12px"></select>
-          </div>
-          <div class="card-body">
-            <div id="score-sliders"></div>
+          <div class="card-header"><div class="card-title">Input Transformation Score</div><select class="fs" id="score-prop" style="width:170px;padding:6px 10px;font-size:12px"></select></div>
+          <div class="card-body"><div id="score-sliders"></div>
             <div style="background:var(--bg3);border-radius:var(--r);padding:12px;display:flex;justify-content:space-between;align-items:center;margin-top:8px">
               <span style="font-size:13px;font-weight:600">Total Score</span>
               <span id="score-total" style="font-size:22px;font-weight:700;color:var(--primary)">0 / 100</span>
@@ -525,10 +343,7 @@ td.p{color:var(--text);font-weight:500}
             <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveScore()">Simpan Score</button>
           </div>
         </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Ranking — Area West</div></div>
-          <div class="card-body" id="score-ranking"></div>
-        </div>
+        <div class="card"><div class="card-header"><div class="card-title">Ranking — Area West</div></div><div class="card-body" id="score-ranking"></div></div>
       </div>
     </div>
 
@@ -537,17 +352,12 @@ td.p{color:var(--text);font-weight:500}
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
         <div class="secttitle" style="margin:0">Business Impact &amp; ROI</div>
         <div style="display:flex;gap:8px">
-          <select class="fs" id="impact-prop" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderImpact()">
-            <option value="">Semua Properti</option>
-          </select>
+          <select class="fs" id="impact-prop" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderImpact()"><option value="">Semua Properti</option></select>
           <button class="btn btn-primary btn-sm" onclick="openM('m-impact')">+ Input Metrics</button>
         </div>
       </div>
       <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="impact-kpi"></div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Riwayat Metrics</div></div>
-        <div class="twrap" id="impact-table"></div>
-      </div>
+      <div class="card"><div class="card-header"><div class="card-title">Riwayat Metrics</div></div><div class="twrap" id="impact-table"></div></div>
     </div>
 
   </div>
@@ -556,441 +366,283 @@ td.p{color:var(--text);font-weight:500}
 <div class="toasts" id="toasts"></div>
 
 <!-- MODALS -->
-<div class="overlay hidden" id="m-property">
-  <div class="modal">
-    <div class="mhead"><div class="mtitle">Tambah Properti</div><button class="mclose" onclick="closeM('m-property')">×</button></div>
-    <div class="mbody">
-      <div class="frow"><div class="fg"><label class="fl">Nama Properti *</label><input class="fi" id="pn-name" placeholder="Sans Hotel Finest Medan"></div>
-      <div class="fg"><label class="fl">Brand *</label><select class="fs" id="pn-brand"><option>RedDoorz</option><option>Sans Hotel</option><option>Zuzu</option></select></div></div>
-      <div class="frow"><div class="fg"><label class="fl">Kota *</label><input class="fi" id="pn-city" placeholder="Medan"></div>
-      <div class="fg"><label class="fl">Region</label><input class="fi" id="pn-region" value="Sumatera Utara"></div></div>
-      <div class="frow"><div class="fg"><label class="fl">Nama Owner *</label><input class="fi" id="pn-owner" placeholder="Nama pemilik"></div>
-      <div class="fg"><label class="fl">Jumlah Kamar</label><input class="fi" type="number" id="pn-rooms" placeholder="32"></div></div>
-      <div class="frow"><div class="fg"><label class="fl">Review Score (0-10)</label><input class="fi" type="number" step="0.1" id="pn-score" placeholder="7.5"></div>
-      <div class="fg"><label class="fl">Occupancy %</label><input class="fi" type="number" id="pn-occ" placeholder="65"></div></div>
-      <div class="fg"><label class="fl">Status</label><select class="fs" id="pn-status"><option>Not Started</option><option>Assessment</option><option>Approval</option><option>In Progress</option><option>Completed</option></select></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-property')">Batal</button><button class="btn btn-primary" onclick="saveProp()">Simpan</button></div>
+<div class="overlay hidden" id="m-property"><div class="modal">
+  <div class="mhead"><div class="mtitle">Tambah Properti</div><button class="mclose" onclick="closeM('m-property')">×</button></div>
+  <div class="mbody">
+    <div class="frow"><div class="fg"><label class="fl">Nama Properti *</label><input class="fi" id="pn-name"></div><div class="fg"><label class="fl">Brand *</label><select class="fs" id="pn-brand"><option>RedDoorz</option><option>Sans Hotel</option><option>Zuzu</option></select></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Kota *</label><input class="fi" id="pn-city" placeholder="Medan"></div><div class="fg"><label class="fl">Region</label><input class="fi" id="pn-region" value="Sumatera Utara"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Nama Owner</label><input class="fi" id="pn-owner"></div><div class="fg"><label class="fl">Jumlah Kamar</label><input class="fi" type="number" id="pn-rooms" placeholder="32"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Review Score</label><input class="fi" type="number" step="0.1" id="pn-score" placeholder="7.5"></div><div class="fg"><label class="fl">Occupancy %</label><input class="fi" type="number" id="pn-occ" placeholder="65"></div></div>
+    <div class="fg"><label class="fl">Status</label><select class="fs" id="pn-status"><option>Not Started</option><option>Assessment</option><option>Approval</option><option>In Progress</option><option>Completed</option></select></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-property')">Batal</button><button class="btn btn-primary" onclick="saveProp()">Simpan</button></div>
+</div></div>
 
-<div class="overlay hidden" id="m-finding">
-  <div class="modal">
-    <div class="mhead"><div class="mtitle">Input Temuan Inspeksi</div><button class="mclose" onclick="closeM('m-finding')">×</button></div>
-    <div class="mbody">
-      <div class="fg"><label class="fl">Properti *</label><select class="fs" id="fn-prop"></select></div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Tanggal Inspeksi *</label><input class="fi" type="date" id="fn-date"></div>
-        <div class="fg"><label class="fl">Kategori *</label><select class="fs" id="fn-cat"><option>Civil</option><option>Mechanical</option><option>Electrical</option><option>Furniture</option><option>Finishing</option><option>Safety</option><option>Sanitation</option></select></div>
-      </div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Area / Lokasi *</label><input class="fi" id="fn-area" placeholder="Room 201, Lobby, dst"></div>
-        <div class="fg"><label class="fl">Severity *</label><select class="fs" id="fn-sev"><option>Critical</option><option>Major</option><option>Minor</option></select></div>
-      </div>
-      <div class="fg"><label class="fl">Deskripsi Temuan *</label><textarea class="fta" id="fn-desc" placeholder="Jelaskan temuan secara detail..."></textarea></div>
-      <div class="fg"><label class="fl">Akar Masalah (opsional)</label><textarea class="fta" id="fn-root" style="min-height:56px" placeholder="Dugaan penyebab..."></textarea></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-finding')">Batal</button><button class="btn btn-primary" onclick="saveFinding()">Simpan</button></div>
+<div class="overlay hidden" id="m-finding"><div class="modal">
+  <div class="mhead"><div class="mtitle">Input Temuan Inspeksi</div><button class="mclose" onclick="closeM('m-finding')">×</button></div>
+  <div class="mbody">
+    <div class="fg"><label class="fl">Properti *</label><select class="fs" id="fn-prop"></select></div>
+    <div class="frow"><div class="fg"><label class="fl">Tanggal *</label><input class="fi" type="date" id="fn-date"></div><div class="fg"><label class="fl">Kategori *</label><select class="fs" id="fn-cat"><option>Civil</option><option>Mechanical</option><option>Electrical</option><option>Furniture</option><option>Finishing</option><option>Safety</option><option>Sanitation</option></select></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Area / Lokasi *</label><input class="fi" id="fn-area" placeholder="Room 201, Lobby..."></div><div class="fg"><label class="fl">Severity *</label><select class="fs" id="fn-sev"><option>Critical</option><option>Major</option><option>Minor</option></select></div></div>
+    <div class="fg"><label class="fl">Deskripsi *</label><textarea class="fta" id="fn-desc" placeholder="Jelaskan temuan secara detail..."></textarea></div>
+    <div class="fg"><label class="fl">Akar Masalah (opsional)</label><textarea class="fta" id="fn-root" style="min-height:56px"></textarea></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-finding')">Batal</button><button class="btn btn-primary" onclick="saveFinding()">Simpan</button></div>
+</div></div>
 
-<div class="overlay hidden" id="m-improvement">
-  <div class="modal">
-    <div class="mhead"><div class="mtitle">Tambah Improvement Plan</div><button class="mclose" onclick="closeM('m-improvement')">×</button></div>
-    <div class="mbody">
-      <div class="fg"><label class="fl">Link Finding (opsional)</label><select class="fs" id="im-finding"></select></div>
-      <div class="fg"><label class="fl">Properti *</label><select class="fs" id="im-prop"></select></div>
-      <div class="fg"><label class="fl">Rekomendasi Perbaikan *</label><textarea class="fta" id="im-rec" placeholder="Deskripsi perbaikan..."></textarea></div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Estimasi Biaya (Rp) *</label><input class="fi" type="number" id="im-cost" placeholder="5000000"></div>
-        <div class="fg"><label class="fl">Target Selesai *</label><input class="fi" type="date" id="im-date"></div>
-      </div>
-      <div class="frow">
-        <div class="fg"><label class="fl">PIC / Penanggung Jawab</label><input class="fi" id="im-pic" placeholder="Nama vendor / CE"></div>
-        <div class="fg"><label class="fl">Status</label><select class="fs" id="im-status"><option>Draft</option><option>Waiting Approval</option><option>Approved</option><option>In Progress</option><option>Completed</option></select></div>
-      </div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-improvement')">Batal</button><button class="btn btn-primary" onclick="saveImprovement()">Simpan</button></div>
+<div class="overlay hidden" id="m-improvement"><div class="modal">
+  <div class="mhead"><div class="mtitle">Tambah Improvement Plan</div><button class="mclose" onclick="closeM('m-improvement')">×</button></div>
+  <div class="mbody">
+    <div class="fg"><label class="fl">Link Finding (opsional)</label><select class="fs" id="im-finding"></select></div>
+    <div class="fg"><label class="fl">Properti *</label><select class="fs" id="im-prop"></select></div>
+    <div class="fg"><label class="fl">Rekomendasi *</label><textarea class="fta" id="im-rec"></textarea></div>
+    <div class="frow"><div class="fg"><label class="fl">Estimasi Biaya (Rp)</label><input class="fi" type="number" id="im-cost" placeholder="5000000"></div><div class="fg"><label class="fl">Target Selesai</label><input class="fi" type="date" id="im-date"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">PIC / Vendor</label><input class="fi" id="im-pic"></div><div class="fg"><label class="fl">Status</label><select class="fs" id="im-status"><option>Draft</option><option>Waiting Approval</option><option>Approved</option><option>In Progress</option><option>Completed</option></select></div></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-improvement')">Batal</button><button class="btn btn-primary" onclick="saveImprovement()">Simpan</button></div>
+</div></div>
 
-<div class="overlay hidden" id="m-rab">
-  <div class="modal">
-    <div class="mhead"><div class="mtitle">Tambah Item RAB</div><button class="mclose" onclick="closeM('m-rab')">×</button></div>
-    <div class="mbody">
-      <div class="frow">
-        <div class="fg"><label class="fl">Properti *</label><select class="fs" id="rb-prop"></select></div>
-        <div class="fg"><label class="fl">Kategori *</label><select class="fs" id="rb-cat"><option>Material</option><option>Labor</option><option>Vendor</option><option>Miscellaneous</option></select></div>
-      </div>
-      <div class="fg"><label class="fl">Deskripsi Item *</label><input class="fi" id="rb-desc" placeholder="Cat dinding anti-jamur 20L"></div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Qty</label><input class="fi" type="number" id="rb-qty" value="1"></div>
-        <div class="fg"><label class="fl">Satuan</label><input class="fi" id="rb-unit" value="unit"></div>
-      </div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Harga Satuan (Rp) *</label><input class="fi" type="number" id="rb-price" placeholder="250000"></div>
-        <div class="fg"><label class="fl">Realisasi Actual (Rp)</label><input class="fi" type="number" id="rb-actual" placeholder="0"></div>
-      </div>
-      <div class="fg"><label class="fl">No. Invoice</label><input class="fi" id="rb-inv" placeholder="INV-2024-001"></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-rab')">Batal</button><button class="btn btn-primary" onclick="saveRAB()">Simpan</button></div>
+<div class="overlay hidden" id="m-rab"><div class="modal">
+  <div class="mhead"><div class="mtitle">Tambah Item RAB</div><button class="mclose" onclick="closeM('m-rab')">×</button></div>
+  <div class="mbody">
+    <div class="frow"><div class="fg"><label class="fl">Properti *</label><select class="fs" id="rb-prop"></select></div><div class="fg"><label class="fl">Kategori *</label><select class="fs" id="rb-cat"><option>Material</option><option>Labor</option><option>Vendor</option><option>Miscellaneous</option></select></div></div>
+    <div class="fg"><label class="fl">Deskripsi *</label><input class="fi" id="rb-desc"></div>
+    <div class="frow"><div class="fg"><label class="fl">Qty</label><input class="fi" type="number" id="rb-qty" value="1"></div><div class="fg"><label class="fl">Satuan</label><input class="fi" id="rb-unit" value="unit"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Harga Satuan (Rp)</label><input class="fi" type="number" id="rb-price"></div><div class="fg"><label class="fl">Realisasi Actual (Rp)</label><input class="fi" type="number" id="rb-actual" placeholder="0"></div></div>
+    <div class="fg"><label class="fl">No. Invoice</label><input class="fi" id="rb-inv"></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-rab')">Batal</button><button class="btn btn-primary" onclick="saveRAB()">Simpan</button></div>
+</div></div>
 
-<div class="overlay hidden" id="m-progress">
-  <div class="modal" style="max-width:420px">
-    <div class="mhead"><div class="mtitle">Update Progress</div><button class="mclose" onclick="closeM('m-progress')">×</button></div>
-    <div class="mbody">
-      <div class="fg"><label class="fl">Improvement Plan *</label><select class="fs" id="pg-imp"></select></div>
-      <div class="fg">
-        <label class="fl">Progress: <span id="pg-val">50%</span></label>
-        <input type="range" class="fi" id="pg-pct" min="0" max="100" value="50" style="padding:0;background:none;border:none;height:20px;cursor:pointer;accent-color:var(--primary)" oninput="document.getElementById('pg-val').textContent=this.value+'%'">
-      </div>
-      <div class="fg"><label class="fl">Catatan Progress</label><textarea class="fta" id="pg-note" placeholder="Apa yang sudah dikerjakan?"></textarea></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-progress')">Batal</button><button class="btn btn-primary" onclick="saveProgress()">Simpan</button></div>
+<div class="overlay hidden" id="m-progress"><div class="modal" style="max-width:420px">
+  <div class="mhead"><div class="mtitle">Update Progress</div><button class="mclose" onclick="closeM('m-progress')">×</button></div>
+  <div class="mbody">
+    <div class="fg"><label class="fl">Improvement Plan *</label><select class="fs" id="pg-imp"></select></div>
+    <div class="fg"><label class="fl">Progress: <span id="pg-val">50%</span></label><input type="range" class="fi" id="pg-pct" min="0" max="100" value="50" style="padding:0;background:none;border:none;height:20px;cursor:pointer;accent-color:var(--primary)" oninput="document.getElementById('pg-val').textContent=this.value+'%'"></div>
+    <div class="fg"><label class="fl">Catatan Progress</label><textarea class="fta" id="pg-note"></textarea></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-progress')">Batal</button><button class="btn btn-primary" onclick="saveProgress()">Simpan</button></div>
+</div></div>
 
-<div class="overlay hidden" id="m-ba">
-  <div class="modal" style="max-width:420px">
-    <div class="mhead"><div class="mtitle">Tambah Before &amp; After</div><button class="mclose" onclick="closeM('m-ba')">×</button></div>
-    <div class="mbody">
-      <div class="fg"><label class="fl">Properti *</label><select class="fs" id="ba-prop"></select></div>
-      <div class="fg"><label class="fl">Area / Lokasi *</label><input class="fi" id="ba-area" placeholder="Lobby, Room 201, Bathroom, dll"></div>
-      <div class="fg"><label class="fl">Deskripsi Perbaikan</label><input class="fi" id="ba-desc" placeholder="Cat ulang dinding, ganti AC, dll"></div>
-      <div class="fg"><label class="fl">Status</label><select class="fs" id="ba-status"><option>In Progress</option><option>Completed</option></select></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-ba')">Batal</button><button class="btn btn-primary" onclick="saveBA()">Simpan</button></div>
+<div class="overlay hidden" id="m-ba"><div class="modal" style="max-width:420px">
+  <div class="mhead"><div class="mtitle">Tambah Before &amp; After</div><button class="mclose" onclick="closeM('m-ba')">×</button></div>
+  <div class="mbody">
+    <div class="fg"><label class="fl">Properti *</label><select class="fs" id="ba-prop"></select></div>
+    <div class="fg"><label class="fl">Area / Lokasi *</label><input class="fi" id="ba-area"></div>
+    <div class="fg"><label class="fl">Deskripsi</label><input class="fi" id="ba-desc"></div>
+    <div class="fg"><label class="fl">Status</label><select class="fs" id="ba-status"><option>In Progress</option><option>Completed</option></select></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-ba')">Batal</button><button class="btn btn-primary" onclick="saveBA()">Simpan</button></div>
+</div></div>
 
-<div class="overlay hidden" id="m-impact">
-  <div class="modal" style="max-width:480px">
-    <div class="mhead"><div class="mtitle">Input Business Metrics</div><button class="mclose" onclick="closeM('m-impact')">×</button></div>
-    <div class="mbody">
-      <div class="frow">
-        <div class="fg"><label class="fl">Properti *</label><select class="fs" id="ip-prop"></select></div>
-        <div class="fg"><label class="fl">Periode (Bulan) *</label><input class="fi" type="month" id="ip-period"></div>
-      </div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Phase</label><select class="fs" id="ip-phase"><option>Before</option><option>After</option></select></div>
-        <div class="fg"><label class="fl">Review Score (0-10)</label><input class="fi" type="number" step="0.1" id="ip-score" placeholder="7.5"></div>
-      </div>
-      <div class="frow">
-        <div class="fg"><label class="fl">Occupancy %</label><input class="fi" type="number" id="ip-occ" placeholder="65"></div>
-        <div class="fg"><label class="fl">ADR (Rp)</label><input class="fi" type="number" id="ip-adr" placeholder="200000"></div>
-      </div>
-      <div class="fg"><label class="fl">Revenue Bulanan (Rp)</label><input class="fi" type="number" id="ip-rev" placeholder="65000000"></div>
-    </div>
-    <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-impact')">Batal</button><button class="btn btn-primary" onclick="saveImpact()">Simpan</button></div>
+<div class="overlay hidden" id="m-impact"><div class="modal" style="max-width:480px">
+  <div class="mhead"><div class="mtitle">Input Business Metrics</div><button class="mclose" onclick="closeM('m-impact')">×</button></div>
+  <div class="mbody">
+    <div class="frow"><div class="fg"><label class="fl">Properti *</label><select class="fs" id="ip-prop"></select></div><div class="fg"><label class="fl">Periode *</label><input class="fi" type="month" id="ip-period"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Phase</label><select class="fs" id="ip-phase"><option>Before</option><option>After</option></select></div><div class="fg"><label class="fl">Review Score</label><input class="fi" type="number" step="0.1" id="ip-score"></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Occupancy %</label><input class="fi" type="number" id="ip-occ"></div><div class="fg"><label class="fl">ADR (Rp)</label><input class="fi" type="number" id="ip-adr"></div></div>
+    <div class="fg"><label class="fl">Revenue Bulanan (Rp)</label><input class="fi" type="number" id="ip-rev"></div>
   </div>
-</div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeM('m-impact')">Batal</button><button class="btn btn-primary" onclick="saveImpact()">Simpan</button></div>
+</div></div>
 
 <script>
-// ── SIDEBAR TOGGLE ──────────────────────────────────────────
-var sidebarOpen = true;
-var isMobile = window.innerWidth <= 768;
+// ══════════════════════════════════════════════════════
+// ⚠️  GANTI DUA BARIS INI DENGAN KREDENSIAL SUPABASE KAMU
+// ══════════════════════════════════════════════════════
+var SUPABASE_URL = 'https://bysuylmxedewlpfovpmw.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5c3V5bG14ZWRld2xwZm92cG13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1ODUxMTMsImV4cCI6MjA5NzE2MTExM30.wzbbSF5SFb0bBy7YSuWI-SLX9LqEB8IJKZb32foZaA4';
+// ══════════════════════════════════════════════════════
 
-function toggleSidebar(){
-  var sb=document.getElementById('sidebar');
-  var mn=document.getElementById('main');
-  var ov=document.getElementById('overlay');
-  if(isMobile){
-    if(sb.classList.contains('mobile-open')){
-      sb.classList.remove('mobile-open');
-      ov.classList.remove('show');
-    } else {
-      sb.classList.add('mobile-open');
-      ov.classList.add('show');
-    }
-  } else {
-    sidebarOpen=!sidebarOpen;
-    if(sidebarOpen){
-      sb.classList.remove('collapsed');
-      mn.classList.remove('expanded');
-    } else {
-      sb.classList.add('collapsed');
-      mn.classList.add('expanded');
-    }
-  }
-}
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-function closeSidebar(){
-  var sb=document.getElementById('sidebar');
-  var ov=document.getElementById('overlay');
-  sb.classList.remove('mobile-open');
-  ov.classList.remove('show');
-}
-
-window.addEventListener('resize',function(){
-  isMobile=window.innerWidth<=768;
-  var sb=document.getElementById('sidebar');
-  var mn=document.getElementById('main');
-  if(isMobile){
-    sb.classList.remove('collapsed');
-    mn.classList.remove('expanded');
-    sidebarOpen=true;
-  }
-});
-
-// ── DATA STORE ──────────────────────────────────────────────
-var S={
-  get:function(k){try{return JSON.parse(localStorage.getItem('ptms3_'+k)||'[]')}catch(e){return[]}},
-  set:function(k,v){try{localStorage.setItem('ptms3_'+k,JSON.stringify(v))}catch(e){}},
-  add:function(k,item){var d=S.get(k);d.push(item);S.set(k,d);return item},
-  upd:function(k,id,ch){var d=S.get(k);for(var i=0;i<d.length;i++){if(d[i].id===id){for(var x in ch)d[i][x]=ch[x];S.set(k,d);return d[i]}}},
-  del:function(k,id){S.set(k,S.get(k).filter(function(x){return x.id!==id}))},
-  find:function(k,id){var d=S.get(k);for(var i=0;i<d.length;i++){if(d[i].id===id)return d[i]}return null}
-};
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+// ── HELPERS ─────────────────────────────────────────
 function rp(n){return 'Rp '+Number(n||0).toLocaleString('id-ID')}
 function fdate(d){if(!d)return '—';try{return new Date(d+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}catch(e){return d}}
 function today(){return new Date().toISOString().split('T')[0]}
-function pname(id){var p=S.find('props',id);return p?p.name:'—'}
 
-// Approval chain definition
-var APPROVERS=[
-  {role:'Operations Manager',short:'OM',color:'var(--info)',level:1},
-  {role:'Head of Operation',short:'HO',color:'var(--purple)',level:2},
-  {role:'Head of Leasing',short:'HL',color:'#f97316',level:3}
-];
+var _props=[];
+function pname(id){var p=_props.find(function(x){return x.id===id});return p?p.name:'—'}
 
-// ── SEED ────────────────────────────────────────────────────
-function seed(){
-  if(S.get('seeded').length>0) return;
-  var p1=uid(),p2=uid(),p3=uid(),p4=uid(),p5=uid();
-  S.add('props',{id:p1,name:'Sans Hotel Finest Medan',brand:'Sans Hotel',city:'Medan',region:'Sumatera Utara',owner:'Bapak Hendra',rooms:48,score:7.8,occ:62,status:'In Progress'});
-  S.add('props',{id:p2,name:'RedDoorz Medan Kota',brand:'RedDoorz',city:'Medan',region:'Sumatera Utara',owner:'Ibu Sari',rooms:32,score:8.2,occ:71,status:'Completed'});
-  S.add('props',{id:p3,name:'RedDoorz Sunggal',brand:'RedDoorz',city:'Medan',region:'Sumatera Utara',owner:'Bapak Anton',rooms:24,score:6.4,occ:41,status:'Assessment'});
-  S.add('props',{id:p4,name:'RedDoorz Helvetia',brand:'RedDoorz',city:'Medan',region:'Sumatera Utara',owner:'Ibu Dewi',rooms:20,score:8.6,occ:79,status:'Completed'});
-  S.add('props',{id:p5,name:'Sans Hotel Polonia',brand:'Sans Hotel',city:'Medan',region:'Sumatera Utara',owner:'Bapak Rizal',rooms:56,score:7.1,occ:55,status:'Not Started'});
-  var f1=uid(),f2=uid(),f3=uid(),f4=uid(),f5=uid();
-  S.add('findings',{id:f1,propId:p1,date:today(),cat:'Mechanical',area:'Room 201-203',desc:'AC drain unit bocor dan menetes ke plafon, berpotensi merusak plafon dan linen',root:'Pipa drain tersumbat dan tidak diinsulasi',sev:'Critical',status:'Open'});
-  S.add('findings',{id:f2,propId:p1,date:today(),cat:'Civil',area:'Lobby & Koridor Lt.1',desc:'Retak dinding area lobby dan koridor lantai 1 sepanjang ±3 meter',root:'Settlement gedung dan kelembaban tinggi',sev:'Major',status:'Open'});
-  S.add('findings',{id:f3,propId:p1,date:today(),cat:'Civil',area:'Room 108, 208, 308',desc:'Water stain plafon akibat rembesan dari lantai atas',root:'Waterproofing atap sudah tidak efektif',sev:'Major',status:'Open'});
-  S.add('findings',{id:f4,propId:p3,date:today(),cat:'Furniture',area:'Guest Room',desc:'Broken curtain rail di 5 unit kamar, tirai tidak dapat ditutup',root:'Material berkarat dan sekrup lepas',sev:'Critical',status:'Open'});
-  S.add('findings',{id:f5,propId:p5,date:today(),cat:'Safety',area:'Koridor & Parkir',desc:'Lampu koridor mati 3 titik dan CCTV blind spot area parkir',root:'Lampu expired, kamera sudah tua',sev:'Critical',status:'Open'});
-  var i1=uid(),i2=uid(),i3=uid(),i4=uid();
-  // approvalChain: array of {level, status, comment, date}
-  S.add('imps',{id:i1,findingId:f1,propId:p1,rec:'Ganti pipa drain AC + pemasangan isolasi seluruh unit AC lt.2',cost:4500000,date:'2024-06-25',pic:'Vendor MEP Sejahtera',status:'Approved',
-    chain:[{level:1,status:'Approved',name:'Operations Manager',comment:'Setuju, perlu segera dikerjakan.',date:today()},{level:2,status:'Approved',name:'Head of Operation',comment:'Approved. Prioritas tinggi.',date:today()},{level:3,status:'Approved',name:'Head of Leasing',comment:'Budget released.',date:today()}]});
-  S.add('imps',{id:i2,findingId:f2,propId:p1,rec:'Injeksi crack + plester ulang + cat dinding lobby dan koridor',cost:8200000,date:'2024-06-30',pic:'Vendor Civil Bangun Jaya',status:'In Progress',
-    chain:[{level:1,status:'Approved',name:'Operations Manager',comment:'OK, lanjut ke level 2.',date:today()},{level:2,status:'Approved',name:'Head of Operation',comment:'Approved.',date:today()},{level:3,status:'Pending',name:'Head of Leasing',comment:'',date:''}]});
-  S.add('imps',{id:i3,findingId:f3,propId:p1,rec:'Perbaikan waterproofing atap + ganti plafon room 108/208/308',cost:12000000,date:'2024-07-15',pic:'Vendor Civil Bangun Jaya',status:'Waiting Approval',
-    chain:[{level:1,status:'Pending',name:'Operations Manager',comment:'',date:''},{level:2,status:'Pending',name:'Head of Operation',comment:'',date:''},{level:3,status:'Pending',name:'Head of Leasing',comment:'',date:''}]});
-  S.add('imps',{id:i4,findingId:f4,propId:p3,rec:'Penggantian curtain rail 5 set + pasang kembali',cost:3200000,date:'2024-06-20',pic:'Maintenance Property',status:'Draft',chain:[]});
-  S.add('rab',{id:uid(),propId:p1,cat:'Material',desc:'Pipa PVC ¾" + fitting drain AC',qty:5,unit:'set',price:500000,actual:480000,inv:'INV-2024-001'});
-  S.add('rab',{id:uid(),propId:p1,cat:'Labor',desc:'Jasa teknisi AC + pasang pipa drain 3 unit',qty:1,unit:'ls',price:1800000,actual:1500000,inv:'INV-2024-002'});
-  S.add('rab',{id:uid(),propId:p1,cat:'Material',desc:'Cat dinding anti-jamur Dulux 20L',qty:3,unit:'galon',price:480000,actual:480000,inv:'INV-2024-003'});
-  S.add('rab',{id:uid(),propId:p1,cat:'Labor',desc:'Tukang cat 4 hari kerja x 2 orang',qty:2,unit:'orang',price:1200000,actual:1200000,inv:''});
-  S.add('rab',{id:uid(),propId:p1,cat:'Vendor',desc:'Jasa waterproofing atap vendor',qty:1,unit:'ls',price:8000000,actual:0,inv:''});
-  S.add('scores',{id:uid(),propId:p1,facade:10,lobby:9,room:14,bath:11,pub:6,safety:7,total:57});
-  S.add('scores',{id:uid(),propId:p2,facade:13,lobby:12,room:24,bath:17,pub:8,safety:8,total:82});
-  S.add('scores',{id:uid(),propId:p3,facade:6,lobby:5,room:8,bath:7,pub:4,safety:5,total:35});
-  S.add('scores',{id:uid(),propId:p4,facade:14,lobby:13,room:27,bath:18,pub:9,safety:9,total:90});
-  S.add('beforeafter',{id:uid(),propId:p1,area:'Lobby Area',desc:'Cat ulang dinding + anti-jamur seluruh area lobby',status:'Completed'});
-  S.add('beforeafter',{id:uid(),propId:p2,area:'Guest Room',desc:'Penggantian linen, bantal, bed cover seluruh kamar',status:'Completed'});
-  S.add('beforeafter',{id:uid(),propId:p1,area:'AC & Plafon Room 201-203',desc:'Perbaikan drain AC + tambal plafon',status:'In Progress'});
-  S.add('impact',{id:uid(),propId:p2,period:'2023-10',phase:'Before',score:7.1,occ:53,adr:186000,rev:59000000});
-  S.add('impact',{id:uid(),propId:p2,period:'2023-11',phase:'Before',score:7.2,occ:55,adr:188000,rev:61000000});
-  S.add('impact',{id:uid(),propId:p2,period:'2024-02',phase:'After',score:8.1,occ:69,adr:212000,rev:88000000});
-  S.add('impact',{id:uid(),propId:p2,period:'2024-03',phase:'After',score:8.2,occ:71,adr:218000,rev:94000000});
-  S.add('progress',{id:uid(),impId:i1,pct:100,note:'Selesai dikerjakan oleh vendor MEP',date:today()});
-  S.add('progress',{id:uid(),impId:i2,pct:60,note:'Injeksi retak selesai, cat sedang berjalan',date:today()});
-  S.add('seeded',{v:3});
-}
-
-// ── BADGE ───────────────────────────────────────────────────
 function badge(t){
-  var map={'Critical':'bc','Major':'bw','Minor':'bg','Open':'bc','In Progress':'bb','Completed':'bg',
-    'Approved':'bp','Waiting Approval':'bw','Draft':'bgr','Rejected':'bc',
-    'Not Started':'bgr','Assessment':'bw','Approval':'bb','Before':'bgr','After':'bg'};
+  var map={'Critical':'bc','Major':'bw','Minor':'bg','Open':'bc','In Progress':'bb','Completed':'bg','Approved':'bp','Waiting Approval':'bw','Draft':'bgr','Rejected':'bc','Not Started':'bgr','Assessment':'bw','Approval':'bb','Before':'bgr','After':'bg'};
   return '<span class="badge '+(map[t]||'bgr')+'"><span class="bd"></span>'+t+'</span>';
 }
-function pbar(pct,size){
-  size=size||6;
-  var c=pct>=100?'green':pct>=50?'blue':'amber';
-  return '<div class="pbar" style="height:'+size+'px"><div class="pfill '+c+'" style="width:'+Math.min(pct,100)+'%"></div></div>';
+function pbar(pct,h){h=h||6;var c=pct>=100?'green':pct>=50?'blue':'amber';return '<div class="pbar" style="height:'+h+'px"><div class="pfill '+c+'" style="width:'+Math.min(pct,100)+'%"></div></div>'}
+function kpi(col,lbl,val,sub){return '<div class="kpi '+col+'"><div class="kpi-label">'+lbl+'</div><div class="kpi-value">'+val+'</div><div class="kpi-sub">'+sub+'</div></div>'}
+function loading(id){var el=document.getElementById(id);if(el)el.innerHTML='<div class="loading"><div class="spinner"></div>Memuat...</div>'}
+
+var APPROVERS=[{role:'Operations Manager',short:'OM',color:'var(--info)',level:1},{role:'Head of Operation',short:'HO',color:'var(--purple)',level:2},{role:'Head of Leasing',short:'HL',color:'#f97316',level:3}];
+
+// ── SIDEBAR ─────────────────────────────────────────
+var sbOpen=true,isMobile=window.innerWidth<=768;
+function toggleSidebar(){
+  var s=document.getElementById('sidebar'),m=document.getElementById('main'),o=document.getElementById('sidebar-overlay');
+  if(isMobile){
+    var open=s.classList.contains('mobile-open');
+    if(open){s.classList.remove('mobile-open');o.classList.remove('show')}
+    else{s.classList.add('mobile-open');o.classList.add('show')}
+  } else {
+    sbOpen=!sbOpen;
+    if(sbOpen){s.classList.remove('collapsed');m.classList.remove('expanded')}
+    else{s.classList.add('collapsed');m.classList.add('expanded')}
+  }
 }
+function closeSidebar(){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sidebar-overlay').classList.remove('show')}
+window.addEventListener('resize',function(){isMobile=window.innerWidth<=768;if(!isMobile){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sidebar-overlay').classList.remove('show')}})
 
-// ── NAV ─────────────────────────────────────────────────────
-var TITLES={dashboard:'Executive Dashboard',properties:'Property Database',findings:'Inspection Findings',improvements:'Improvement Plans',rab:'RAB / Budget Management',approvals:'Approval Workflow',tracker:'Progress Tracker',beforeafter:'Before & After Comparison',scoring:'Transformation Scoring',impact:'Business Impact & ROI'};
-
+// ── NAV ─────────────────────────────────────────────
+var TITLES={dashboard:'Executive Dashboard',properties:'Property Database',findings:'Inspection Findings',improvements:'Improvement Plans',rab:'RAB / Budget Management',approvals:'Approval Workflow',tracker:'Progress Tracker',beforeafter:'Before & After',scoring:'Transformation Scoring',impact:'Business Impact & ROI'};
 function goTo(id){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active')});
   var pg=document.getElementById('p-'+id);if(pg)pg.classList.add('active');
   document.getElementById('ptitle').textContent=TITLES[id]||id;
-  document.querySelectorAll('.nav-item').forEach(function(b){
-    var oc=b.getAttribute('onclick');
-    if(oc&&oc.indexOf("'"+id+"'")>=0)b.classList.add('active');
-  });
-  render(id);badges();
+  document.querySelectorAll('.nav-item').forEach(function(b){var oc=b.getAttribute('onclick');if(oc&&oc.indexOf("'"+id+"'")>=0)b.classList.add('active')});
+  render(id);
   if(isMobile)closeSidebar();
 }
+function render(id){var map={dashboard:renderDash,properties:renderProperties,findings:renderFindings,improvements:renderImprovements,rab:renderRAB,approvals:renderApprovals,tracker:renderTracker,beforeafter:renderBA,scoring:renderScoring,impact:renderImpact};if(map[id])map[id]()}
 
-function render(id){
-  var map={dashboard:renderDash,properties:renderProperties,findings:renderFindings,improvements:renderImprovements,rab:renderRAB,approvals:renderApprovals,tracker:renderTracker,beforeafter:renderBA,scoring:renderScoring,impact:renderImpact};
-  if(map[id])map[id]();
-}
-function badges(){
-  var of=S.get('findings').filter(function(f){return f.status==='Open'}).length;
-  var wa=S.get('imps').filter(function(i){return i.status==='Waiting Approval'}).length;
-  document.getElementById('b-findings').textContent=of;
-  document.getElementById('b-approvals').textContent=wa;
-  document.getElementById('ndot').style.display=wa>0?'block':'none';
+// ── BADGES ──────────────────────────────────────────
+async function badges(){
+  var f=await sb.from('findings').select('id',{count:'exact'}).eq('status','Open');
+  var i=await sb.from('improvements').select('id',{count:'exact'}).eq('status','Waiting Approval');
+  document.getElementById('b-findings').textContent=f.count||0;
+  document.getElementById('b-approvals').textContent=i.count||0;
+  document.getElementById('ndot').style.display=(i.count>0)?'block':'none';
 }
 
-// ── DASHBOARD ───────────────────────────────────────────────
-function kpi(col,lbl,val,sub){return '<div class="kpi '+col+'"><div class="kpi-label">'+lbl+'</div><div class="kpi-value">'+val+'</div><div class="kpi-sub">'+sub+'</div></div>'}
-
-function renderDash(){
-  var props=S.get('props'),findings=S.get('findings'),imps=S.get('imps'),rabs=S.get('rab');
-  var est=rabs.reduce(function(a,r){return a+r.qty*r.price},0);
-  var act=rabs.reduce(function(a,r){return a+Number(r.actual||0)},0);
+// ── DASHBOARD ───────────────────────────────────────
+async function renderDash(){
+  var props=(await sb.from('properties').select('*')).data||[];
+  var findings=(await sb.from('findings').select('*')).data||[];
+  var imps=(await sb.from('improvements').select('*')).data||[];
+  var rabs=(await sb.from('rab_items').select('*')).data||[];
+  _props=props;
+  var est=rabs.reduce(function(a,r){return a+Number(r.quantity||1)*Number(r.unit_price||0)},0);
+  var act=rabs.reduce(function(a,r){return a+Number(r.actual_cost||0)},0);
   var done=imps.filter(function(i){return i.status==='Completed'}).length;
   var rate=imps.length?Math.round(done/imps.length*100):0;
   var of=findings.filter(function(f){return f.status==='Open'}).length;
-  var crit=findings.filter(function(f){return f.sev==='Critical'&&f.status==='Open'}).length;
+  var crit=findings.filter(function(f){return f.severity==='Critical'&&f.status==='Open'}).length;
   var wa=imps.filter(function(i){return i.status==='Waiting Approval'}).length;
-  document.getElementById('kpi-grid').innerHTML=kpi('blue','Total Properti',props.length,'Area West')+kpi('red','Open Findings',of,crit+' Critical')+kpi('amber','Pending Approval',wa,'Menunggu review')+kpi('purple','Budget Requested',rp(est),'')+kpi('green','Realisasi Budget',rp(act),'')+kpi('teal','Completion Rate',rate+'%',done+'/'+imps.length+' plan');
+  document.getElementById('kpi-grid').innerHTML=kpi('blue','Total Properti',props.length,'Area West')+kpi('red','Open Findings',of,crit+' Critical')+kpi('amber','Pending Approval',wa,'Menunggu review')+kpi('purple','Budget Requested',rp(est),'')+kpi('green','Realisasi',rp(act),'')+kpi('teal','Completion Rate',rate+'%',done+'/'+imps.length);
   var sts=['Not Started','Assessment','Approval','In Progress','Completed'];
-  var cols=['gray','amber','amber','blue','green'];
-  var sh='';
-  for(var i=0;i<sts.length;i++){
-    var cnt=props.filter(function(p){return p.status===sts[i]}).length;
-    sh+='<div class="rbar"><div class="rbar-head"><span style="font-size:12px;color:var(--text2)">'+sts[i]+'</span><span style="font-size:12px;color:var(--text);font-weight:500">'+cnt+'</span></div>'+pbar(props.length?cnt/props.length*100:0)+'</div>';
-  }
+  var sh='';for(var i=0;i<sts.length;i++){var cnt=props.filter(function(p){return p.status===sts[i]}).length;var c=sts[i]==='Completed'?'green':sts[i]==='In Progress'?'blue':'amber';sh+='<div class="rbar"><div class="rbar-head"><span style="font-size:12px;color:var(--text2)">'+sts[i]+'</span><span style="font-size:12px;color:var(--text)">'+cnt+'</span></div>'+pbar(props.length?cnt/props.length*100:0)+'</div>'}
   document.getElementById('status-bars').innerHTML=sh;
-  var crits=findings.filter(function(f){return f.sev==='Critical'&&f.status==='Open'}).slice(0,4);
-  var ch='';
-  for(var i=0;i<crits.length;i++){var f=crits[i];ch+='<div style="padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer" onclick="goTo(\'findings\')"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px;font-weight:500;color:var(--text)">'+f.desc.slice(0,45)+'...</span>'+badge('Critical')+'</div><div style="font-size:11px;color:var(--text3)">'+pname(f.propId)+' · '+f.area+'</div></div>'}
+  var crits=findings.filter(function(f){return f.severity==='Critical'&&f.status==='Open'}).slice(0,4);
+  var ch='';for(var i=0;i<crits.length;i++){var f=crits[i];ch+='<div style="padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer" onclick="goTo(\'findings\')"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px;font-weight:500;color:var(--text)">'+f.description.slice(0,45)+'...</span>'+badge('Critical')+'</div><div style="font-size:11px;color:var(--text3)">'+pname(f.property_id)+' · '+f.area+'</div></div>'}
   document.getElementById('crit-list').innerHTML=ch||'<div class="empty"><p>Tidak ada temuan kritis 🎉</p></div>';
   var recent=findings.slice(-5).reverse();
-  var th=recent.length?'<table><thead><tr><th>Properti</th><th>Temuan</th><th>Severity</th><th>Status</th></tr></thead><tbody>'+recent.map(function(f){return'<tr><td class="p">'+pname(f.propId)+'</td><td>'+f.desc.slice(0,45)+'...</td><td>'+badge(f.sev)+'</td><td>'+badge(f.status)+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty"><p>Belum ada findings</p></div>';
+  var th=recent.length?'<table><thead><tr><th>Properti</th><th>Temuan</th><th>Severity</th><th>Status</th></tr></thead><tbody>'+recent.map(function(f){return'<tr><td class="p">'+pname(f.property_id)+'</td><td>'+f.description.slice(0,45)+'...</td><td>'+badge(f.severity)+'</td><td>'+badge(f.status)+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty"><p>Belum ada findings</p></div>';
   document.getElementById('dash-findings').innerHTML=th;
+  badges();
 }
 
-// ── PROPERTIES ──────────────────────────────────────────────
-function renderProperties(){
+// ── PROPERTIES ──────────────────────────────────────
+async function renderProperties(){
+  loading('prop-table');
   var search=(document.getElementById('psearch')||{value:''}).value.toLowerCase();
   var sf=(document.getElementById('pfilter')||{value:''}).value;
-  var props=S.get('props');
+  var q=sb.from('properties').select('*').order('name');
+  if(sf)q=q.eq('status',sf);
+  var props=(await q).data||[];
+  _props=props;
   if(search)props=props.filter(function(p){return p.name.toLowerCase().indexOf(search)>=0||p.city.toLowerCase().indexOf(search)>=0});
-  if(sf)props=props.filter(function(p){return p.status===sf});
-  var scores=S.get('scores');var findings=S.get('findings');
   if(!props.length){document.getElementById('prop-table').innerHTML='<div class="empty"><p>Belum ada properti.</p></div>';return}
+  var scores=(await sb.from('scores').select('*')).data||[];
+  var findings=(await sb.from('findings').select('property_id,status')).data||[];
   var h='<table><thead><tr><th>Properti</th><th>Brand</th><th>Kota</th><th>Kamar</th><th>Score</th><th>Occ%</th><th>Status</th><th>Transform Score</th><th>Aksi</th></tr></thead><tbody>';
   for(var i=0;i<props.length;i++){
-    var p=props[i];var sc=scores.filter(function(s){return s.propId===p.id}).pop();
-    var of=findings.filter(function(f){return f.propId===p.id&&f.status==='Open'}).length;
-    var sc2=sc?sc.total:0;var sc_c=sc2>=70?'var(--success)':sc2>=50?'var(--warning)':'var(--danger)';
-    h+='<tr><td class="p">'+p.name+'</td><td>'+p.brand+'</td><td>'+p.city+'</td><td>'+p.rooms+'</td>';
-    h+='<td style="font-weight:600;color:'+(Number(p.score)>=8?'var(--success)':Number(p.score)>=7?'var(--warning)':'var(--danger)')+'">'+p.score+'</td>';
-    h+='<td>'+p.occ+'%</td><td>'+badge(p.status)+'</td>';
-    h+='<td>'+pbar(sc2)+'<span style="font-size:11px;color:'+sc_c+'">'+  (sc?sc2:'—')+'</span></td>';
-    h+='<td style="display:flex;gap:4px"><span style="font-size:11px;color:'+(of>0?'var(--danger)':'var(--text3)')+'">'+of+' open</span> <button class="btn btn-xs btn-ghost" onclick="delProp(\''+p.id+'\')">Hapus</button></td></tr>';
+    var p=props[i];
+    var sc=scores.filter(function(s){return s.property_id===p.id}).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)})[0];
+    var of=findings.filter(function(f){return f.property_id===p.id&&f.status==='Open'}).length;
+    var sv=sc?sc.total_score:0;var sc_c=sv>=70?'var(--success)':sv>=50?'var(--warning)':'var(--danger)';
+    h+='<tr><td class="p">'+p.name+'</td><td>'+p.brand+'</td><td>'+p.city+'</td><td>'+p.total_rooms+'</td>';
+    h+='<td style="font-weight:600;color:'+(Number(p.review_score)>=8?'var(--success)':Number(p.review_score)>=7?'var(--warning)':'var(--danger)')+'">'+p.review_score+'</td>';
+    h+='<td>'+p.occupancy+'%</td><td>'+badge(p.status)+'</td>';
+    h+='<td>'+pbar(sv)+'<span style="font-size:11px;color:'+sc_c+'"> '+(sc?sv:'—')+'</span></td>';
+    h+='<td style="display:flex;gap:4px"><span style="font-size:11px;color:'+(of>0?'var(--danger)':'var(--text3)')+'">'+of+' open</span><button class="btn btn-xs btn-ghost" onclick="delProp(\''+p.id+'\')">Hapus</button></td></tr>';
   }
   h+='</tbody></table>';
   document.getElementById('prop-table').innerHTML=h;
+  fillSelects(props);
 }
-function delProp(id){if(confirm('Hapus properti ini?')){S.del('props',id);renderProperties();toast('Properti dihapus','i')}}
+async function delProp(id){if(confirm('Hapus properti?')){await sb.from('properties').delete().eq('id',id);renderProperties();toast('Dihapus','i')}}
 
-// ── FINDINGS ────────────────────────────────────────────────
+// ── FINDINGS ────────────────────────────────────────
 var ffilter='all';
-function setFF(f){
-  ffilter=f;
-  ['all','Critical','Major','Minor'].forEach(function(x){
-    var b=document.getElementById('fb-'+x);if(!b)return;
-    b.className=x===f?'btn btn-primary btn-sm':'btn btn-ghost btn-sm';
-  });
-  renderFindings();
-}
-function renderFindings(){
-  var findings=S.get('findings');
-  if(ffilter!=='all')findings=findings.filter(function(f){return f.sev===ffilter});
+function setFF(f){ffilter=f;['all','Critical','Major','Minor'].forEach(function(x){var b=document.getElementById('fb-'+x);if(b)b.className=x===f?'btn btn-primary btn-sm':'btn btn-ghost btn-sm'});renderFindings()}
+async function renderFindings(){
+  loading('findings-list');
+  var q=sb.from('findings').select('*,properties(name)').order('created_at',{ascending:false});
+  if(ffilter!=='all')q=q.eq('severity',ffilter);
+  var findings=(await q).data||[];
   var h='';
   for(var i=0;i<findings.length;i++){
-    var f=findings[i];var bc={Critical:'crit',Major:'major',Minor:'minor'}[f.sev]||'minor';
-    var code='FND-'+new Date().getFullYear()+'-'+String(i+1).padStart(3,'0');
+    var f=findings[i];var bc={Critical:'crit',Major:'major',Minor:'minor'}[f.severity]||'minor';
+    var code='FND-'+new Date(f.created_at).getFullYear()+'-'+String(i+1).padStart(3,'0');
     h+='<div class="fcard '+bc+'" onclick="showFinding(\''+f.id+'\')">';
-    h+='<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">'+code+' · '+pname(f.propId)+'</span>'+badge(f.sev)+'</div>';
-    h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">'+f.desc.slice(0,65)+(f.desc.length>65?'...':'')+'</div>';
-    h+='<div style="font-size:11px;color:var(--text3)">📍 '+f.area+' · 🏷️ '+f.cat+'</div>';
-    h+='<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">'+badge(f.status);
-    h+='<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();newImpFromFinding(\''+f.id+'\')">+ Plan</button>';
-    h+='<button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="event.stopPropagation();delFinding(\''+f.id+'\')">Hapus</button>';
-    h+='</div></div>';
+    h+='<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">'+code+' · '+(f.properties?f.properties.name:'—')+'</span>'+badge(f.severity)+'</div>';
+    h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">'+f.description.slice(0,65)+(f.description.length>65?'...':'')+'</div>';
+    h+='<div style="font-size:11px;color:var(--text3)">📍 '+f.area+' · 🏷️ '+f.category+'</div>';
+    h+='<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">'+badge(f.status)+'<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();newImpFrom(\''+f.id+'\',\''+f.property_id+'\')">+ Plan</button><button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="event.stopPropagation();delFinding(\''+f.id+'\')">Hapus</button></div></div>';
   }
-  document.getElementById('findings-list').innerHTML=h||'<div class="empty"><p>Belum ada findings.<br>Klik "+ New Finding".</p></div>';
+  document.getElementById('findings-list').innerHTML=h||'<div class="empty"><p>Belum ada findings.</p></div>';
 }
-function showFinding(id){
-  var f=S.find('findings',id);if(!f)return;
-  var imps=S.get('imps').filter(function(i){return i.findingId===id});
+async function showFinding(id){
+  var f=(await sb.from('findings').select('*,properties(name)').eq('id',id).single()).data;
+  if(!f)return;
+  var imps=(await sb.from('improvements').select('*').eq('finding_id',id)).data||[];
   var h='<div class="secttitle">Detail Temuan</div><div class="card">';
-  h+='<div class="card-header"><div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">'+pname(f.propId)+'</div><div class="card-title">'+f.desc.slice(0,50)+'...</div></div>'+badge(f.sev)+'</div>';
+  h+='<div class="card-header"><div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">'+(f.properties?f.properties.name:'—')+'</div><div class="card-title">'+f.description.slice(0,50)+'...</div></div>'+badge(f.severity)+'</div>';
   h+='<div class="card-body">';
-  h+='<div class="irow"><div class="ilabel">Properti</div><div class="ival">'+pname(f.propId)+'</div></div>';
-  h+='<div class="irow"><div class="ilabel">Tanggal</div><div class="ival">'+fdate(f.date)+'</div></div>';
-  h+='<div class="irow"><div class="ilabel">Kategori</div><div class="ival">'+f.cat+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Properti</div><div class="ival">'+(f.properties?f.properties.name:'—')+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Tanggal</div><div class="ival">'+fdate(f.inspection_date)+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Kategori</div><div class="ival">'+f.category+'</div></div>';
   h+='<div class="irow"><div class="ilabel">Area</div><div class="ival">'+f.area+'</div></div>';
   h+='<div class="irow"><div class="ilabel">Status</div><div class="ival">'+badge(f.status)+'</div></div>';
-  h+='<div class="irow"><div class="ilabel">Deskripsi</div><div class="ival" style="line-height:1.6">'+f.desc+'</div></div>';
-  if(f.root)h+='<div class="irow"><div class="ilabel">Akar Masalah</div><div class="ival">'+f.root+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Deskripsi</div><div class="ival" style="line-height:1.6">'+f.description+'</div></div>';
+  if(f.root_cause)h+='<div class="irow"><div class="ilabel">Akar Masalah</div><div class="ival">'+f.root_cause+'</div></div>';
   h+='<div class="divider"></div>';
-  h+='<div style="font-size:11px;color:var(--text3);margin-bottom:8px">IMPROVEMENT PLANS ('+imps.length+')</div>';
-  for(var i=0;i<imps.length;i++){var im=imps[i];h+='<div style="background:var(--bg3);border-radius:var(--r);padding:10px;margin-bottom:6px;font-size:12px"><div style="font-weight:500;color:var(--text);margin-bottom:4px">'+im.rec.slice(0,55)+'...</div><div style="display:flex;gap:8px">'+badge(im.status)+'<span style="color:var(--text3)">'+rp(im.cost)+'</span></div></div>'}
+  h+='<div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">IMPROVEMENT PLANS ('+imps.length+')</div>';
+  for(var i=0;i<imps.length;i++){var im=imps[i];h+='<div style="background:var(--bg3);border-radius:var(--r);padding:10px;margin-bottom:6px;font-size:12px"><div style="font-weight:500;color:var(--text);margin-bottom:4px">'+im.recommendation.slice(0,55)+'...</div><div style="display:flex;gap:8px">'+badge(im.status)+'<span style="color:var(--text3)">'+rp(im.estimated_cost)+'</span></div></div>'}
   if(!imps.length)h+='<p style="font-size:12px;color:var(--text3)">Belum ada plan</p>';
-  h+='<button class="btn btn-primary btn-sm" style="margin-top:10px;width:100%" onclick="newImpFromFinding(\''+id+'\')">+ Buat Improvement Plan</button>';
+  h+='<button class="btn btn-primary btn-sm" style="margin-top:10px;width:100%" onclick="newImpFrom(\''+id+'\',\''+f.property_id+'\')">+ Buat Improvement Plan</button>';
   h+='</div></div>';
   document.getElementById('finding-detail').innerHTML=h;
 }
-function delFinding(id){if(confirm('Hapus finding?')){S.del('findings',id);renderFindings();document.getElementById('finding-detail').innerHTML='<div class="secttitle">Detail Temuan</div><div class="empty"><p>Pilih temuan di kiri</p></div>';badges();toast('Finding dihapus','i')}}
-function newImpFromFinding(fid){
-  fillSelects();
-  var sel=document.getElementById('im-finding');
-  if(sel){for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===fid){sel.selectedIndex=i;break}}}
-  var f=S.find('findings',fid);
-  if(f){var ps=document.getElementById('im-prop');if(ps){for(var i=0;i<ps.options.length;i++){if(ps.options[i].value===f.propId){ps.selectedIndex=i;break}}}}
-  openM('m-improvement');
-}
+async function delFinding(id){if(confirm('Hapus finding?')){await sb.from('findings').delete().eq('id',id);renderFindings();document.getElementById('finding-detail').innerHTML='<div class="secttitle">Detail Temuan</div><div class="empty"><p>Pilih temuan di kiri</p></div>';badges();toast('Finding dihapus','i')}}
+function newImpFrom(fid,pid){openM('m-improvement');setTimeout(function(){var fs=document.getElementById('im-finding');if(fs)for(var i=0;i<fs.options.length;i++){if(fs.options[i].value===fid){fs.selectedIndex=i;break}}var ps=document.getElementById('im-prop');if(ps)for(var i=0;i<ps.options.length;i++){if(ps.options[i].value===pid){ps.selectedIndex=i;break}}},100)}
 
-// ── IMPROVEMENTS ────────────────────────────────────────────
-function renderImprovements(){
+// ── IMPROVEMENTS ────────────────────────────────────
+async function renderImprovements(){
+  loading('imp-cards');
   var fil=(document.getElementById('ifilter')||{value:''}).value;
-  var imps=S.get('imps');
-  if(fil)imps=imps.filter(function(i){return i.status===fil});
+  var q=sb.from('improvements').select('*,properties(name)').order('created_at',{ascending:false});
+  if(fil)q=q.eq('status',fil);
+  var imps=(await q).data||[];
   if(!imps.length){document.getElementById('imp-cards').innerHTML='<div class="empty"><p>Belum ada improvement plan.<br>Klik "+ New" untuk tambah.</p></div>';return}
   var h='';
   for(var i=0;i<imps.length;i++){
-    var im=imps[i];
-    var code='IMP-'+String(i+1).padStart(3,'0');
-    var chain=im.chain||[];
-    var approvedLevels=chain.filter(function(c){return c.status==='Approved'}).length;
-    var statusColor={'Draft':'var(--text3)','Waiting Approval':'var(--warning)','Approved':'var(--success)','In Progress':'var(--info)','Completed':'var(--success)','Rejected':'var(--danger)'}[im.status]||'var(--text3)';
-    var borderColor={'Critical':'var(--danger)','Major':'var(--warning)'}['x']||'var(--border)';
-    h+='<div class="fcard" onclick="showImpDetail(\''+im.id+'\')" style="border-left:3px solid '+statusColor+'">';
-    h+='<div style="display:flex;justify-content:space-between;margin-bottom:5px">';
-    h+='<span style="font-size:11px;color:var(--text3)">'+code+' · '+pname(im.propId)+'</span>';
-    h+=badge(im.status)+'</div>';
-    h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px">'+im.rec.slice(0,65)+(im.rec.length>65?'...':'')+'</div>';
-    h+='<div style="display:flex;gap:12px;font-size:11px;color:var(--text3);margin-bottom:8px">';
-    h+='<span>💰 '+rp(im.cost)+'</span>';
-    h+='<span>📅 '+fdate(im.date)+'</span>';
-    if(im.pic)h+='<span>👤 '+im.pic+'</span>';
-    h+='</div>';
-    // Mini approval chain dots
+    var im=imps[i];var chain=im.approval_chain||[];
+    var approvedLvls=chain.filter(function(c){return c.status==='Approved'}).length;
+    var sc={Draft:'var(--text3)','Waiting Approval':'var(--warning)',Approved:'var(--success)','In Progress':'var(--info)',Completed:'var(--success)',Rejected:'var(--danger)'}[im.status]||'var(--text3)';
+    h+='<div class="fcard" style="border-left:3px solid '+sc+'" onclick="showImpDetail(\''+im.id+'\')">';
+    h+='<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">IMP-'+String(i+1).padStart(3,'0')+' · '+(im.properties?im.properties.name:'—')+'</span>'+badge(im.status)+'</div>';
+    h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px">'+im.recommendation.slice(0,65)+(im.recommendation.length>65?'...':'')+'</div>';
+    h+='<div style="display:flex;gap:12px;font-size:11px;color:var(--text3);margin-bottom:8px"><span>💰 '+rp(im.estimated_cost)+'</span><span>📅 '+fdate(im.target_date)+'</span>'+(im.pic?'<span>👤 '+im.pic+'</span>':'')+'</div>';
     if(chain.length>0){
       h+='<div style="display:flex;gap:5px;align-items:center">';
       for(var j=0;j<APPROVERS.length;j++){
-        var cs=null;for(var k=0;k<chain.length;k++){if(chain[k].level===APPROVERS[j].level){cs=chain[k];break}}
-        var dc=cs&&cs.status==='Approved'?'var(--success)':cs&&cs.status==='Rejected'?'var(--danger)':approvedLevels>=j?'var(--warning)':'var(--bg4)';
+        var cs=chain.find(function(c){return c.level===APPROVERS[j].level});
+        var dc=cs&&cs.status==='Approved'?'var(--success)':cs&&cs.status==='Rejected'?'var(--danger)':approvedLvls>=j?'var(--warning)':'var(--bg4)';
         var dt=cs&&cs.status==='Approved'?'✓':cs&&cs.status==='Rejected'?'✗':String(j+1);
         h+='<div style="width:18px;height:18px;border-radius:50%;background:'+dc+';color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center" title="'+APPROVERS[j].role+'">'+dt+'</div>';
         if(j<2)h+='<div style="width:12px;height:1px;background:var(--border)"></div>';
       }
-      h+='<span style="font-size:10px;color:var(--text3);margin-left:4px">'+approvedLevels+'/3 approved</span>';
+      h+='<span style="font-size:10px;color:var(--text3);margin-left:4px">'+approvedLvls+'/3</span>';
       h+='</div>';
     }
     h+='</div>';
@@ -998,412 +650,330 @@ function renderImprovements(){
   document.getElementById('imp-cards').innerHTML=h;
 }
 
-function showImpDetail(id){
-  var im=S.find('imps',id);if(!im)return;
-  var finding=im.findingId?S.find('findings',im.findingId):null;
-  var chain=im.chain||[];
-  var progs=S.get('progress').filter(function(p){return p.impId===id});
-  var latestPct=progs.length?progs[progs.length-1].pct:(im.status==='Completed'?100:0);
-
-  var h='<div class="secttitle">Detail Plan</div>';
-  h+='<div class="card">';
-  // Header
-  h+='<div class="card-header">';
-  h+='<div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">'+pname(im.propId)+'</div>';
-  h+='<div class="card-title">'+im.rec.slice(0,55)+'...</div></div>';
-  h+=badge(im.status)+'</div>';
-
+async function showImpDetail(id){
+  var im=(await sb.from('improvements').select('*,properties(name),findings(description,area,category,severity)').eq('id',id).single()).data;
+  if(!im)return;
+  var progs=(await sb.from('progress_updates').select('*').eq('improvement_id',id).order('created_at',{ascending:false})).data||[];
+  var chain=im.approval_chain||[];
+  var latestPct=progs.length?progs[0].percentage:(im.status==='Completed'?100:0);
+  var h='<div class="secttitle">Detail Plan</div><div class="card">';
+  h+='<div class="card-header"><div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">'+(im.properties?im.properties.name:'—')+'</div><div class="card-title">'+im.recommendation.slice(0,50)+'...</div></div>'+badge(im.status)+'</div>';
   h+='<div class="card-body">';
-
-  // Info rows
-  h+='<div class="irow"><div class="ilabel">Properti</div><div class="ival">'+pname(im.propId)+'</div></div>';
-  h+='<div class="irow"><div class="ilabel">Estimasi Biaya</div><div class="ival" style="font-weight:600;color:var(--text)">'+rp(im.cost)+'</div></div>';
-  h+='<div class="irow"><div class="ilabel">Target Selesai</div><div class="ival">'+fdate(im.date)+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Properti</div><div class="ival">'+(im.properties?im.properties.name:'—')+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Estimasi Biaya</div><div class="ival" style="font-weight:600;color:var(--text)">'+rp(im.estimated_cost)+'</div></div>';
+  h+='<div class="irow"><div class="ilabel">Target Selesai</div><div class="ival">'+fdate(im.target_date)+'</div></div>';
   h+='<div class="irow"><div class="ilabel">PIC / Vendor</div><div class="ival">'+(im.pic||'—')+'</div></div>';
   h+='<div class="irow"><div class="ilabel">Status</div><div class="ival">'+badge(im.status)+'</div></div>';
-  h+='<div class="irow"><div class="ilabel">Rekomendasi</div><div class="ival" style="line-height:1.6">'+im.rec+'</div></div>';
-
-  // Linked finding
-  if(finding){
-    h+='<div class="divider"></div>';
-    h+='<div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">FINDING TERKAIT</div>';
-    h+='<div style="background:var(--bg3);border-radius:var(--r);padding:10px 12px;border-left:3px solid var(--danger)">';
-    h+='<div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">'+finding.desc.slice(0,70)+'...</div>';
-    h+='<div style="display:flex;gap:8px;font-size:11px;color:var(--text3)"><span>📍 '+finding.area+'</span><span>🏷️ '+finding.cat+'</span>'+badge(finding.sev)+'</div>';
-    h+='</div>';
-  }
-
-  // Progress
+  h+='<div class="irow"><div class="ilabel">Rekomendasi</div><div class="ival" style="line-height:1.6">'+im.recommendation+'</div></div>';
+  if(im.findings){h+='<div class="divider"></div><div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">FINDING TERKAIT</div><div style="background:var(--bg3);border-radius:var(--r);padding:10px 12px;border-left:3px solid var(--danger)"><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">'+im.findings.description.slice(0,70)+'...</div><div style="display:flex;gap:8px;font-size:11px;color:var(--text3)"><span>📍 '+im.findings.area+'</span><span>🏷️ '+im.findings.category+'</span>'+badge(im.findings.severity)+'</div></div>'}
   h+='<div class="divider"></div>';
-  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
-  h+='<div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em">PROGRESS</div>';
-  h+='<span style="font-size:18px;font-weight:700;color:'+(latestPct>=100?'var(--success)':latestPct>=50?'var(--primary)':'var(--warning)')+'">'+latestPct+'%</span></div>';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em">PROGRESS</div><span style="font-size:18px;font-weight:700;color:'+(latestPct>=100?'var(--success)':latestPct>=50?'var(--primary)':'var(--warning)')+'">'+latestPct+'%</span></div>';
   h+=pbar(latestPct,8);
-  if(progs.length){
-    var last=progs[progs.length-1];
-    h+='<div style="font-size:12px;color:var(--text2);margin-top:6px">Update terakhir: '+fdate(last.date)+'</div>';
-    if(last.note)h+='<div style="font-size:12px;color:var(--text3);margin-top:3px;font-style:italic">"'+last.note+'"</div>';
-  }
-
-  // Approval chain
+  if(progs.length){h+='<div style="font-size:12px;color:var(--text2);margin-top:6px">Update: '+fdate(progs[0].created_at.split('T')[0])+'</div>';if(progs[0].notes)h+='<div style="font-size:12px;color:var(--text3);margin-top:3px;font-style:italic">"'+progs[0].notes+'"</div>'}
   h+='<div class="divider"></div>';
   h+='<div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px">APPROVAL CHAIN</div>';
-  if(chain.length===0){
-    h+='<div style="font-size:12px;color:var(--text3)">Belum disubmit untuk approval.</div>';
-  } else {
-    h+='<div class="asteps">';
-    // QSE step
-    h+='<div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Dika — Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
+  if(!chain.length){h+='<div style="font-size:12px;color:var(--text3)">Belum disubmit untuk approval.</div>'}
+  else{
+    h+='<div class="asteps"><div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Dika — Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
     for(var i=0;i<APPROVERS.length;i++){
-      var ap=APPROVERS[i];var cs=null;
-      for(var k=0;k<chain.length;k++){if(chain[k].level===ap.level){cs=chain[k];break}}
+      var ap=APPROVERS[i];var cs=chain.find(function(c){return c.level===ap.level});
       var ok=cs&&cs.status==='Approved';var rej=cs&&cs.status==='Rejected';
-      var dotClass=ok?'done':rej?'rej':'pend';
-      var dotTxt=ok?'✓':rej?'✗':String(i+2);
-      h+='<div class="astep"><div class="sdot '+dotClass+'">'+dotTxt+'</div><div class="sinfo">';
-      h+='<div class="srole">Level '+ap.level+'</div><div class="stitle">'+ap.role+'</div>';
+      h+='<div class="astep"><div class="sdot '+(ok?'done':rej?'rej':'pend')+'">'+(ok?'✓':rej?'✗':String(i+2))+'</div><div class="sinfo"><div class="srole">Level '+ap.level+'</div><div class="stitle">'+ap.role+'</div>';
       if(ok)h+='<div class="ssub" style="color:var(--success)">Approved · '+fdate(cs.date)+'</div>'+(cs.comment?'<div class="scomment">'+cs.comment+'</div>':'');
-      else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>'+(cs.comment?'<div class="scomment rej">'+cs.comment+'</div>':'');
+      else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>'+(cs.comment?'<div class="scomment" style="border-left-color:var(--danger)">'+cs.comment+'</div>':'');
       else h+='<div class="ssub">Menunggu review</div>';
       h+='</div></div>';
     }
     h+='</div>';
   }
-
-  // Action buttons
-  h+='<div class="divider"></div>';
-  h+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
-  if(im.status==='Draft'){
-    h+='<button class="btn btn-primary btn-sm" style="flex:1" onclick="submitApproval(\''+id+'\')">📤 Submit untuk Approval</button>';
-  }
-  if(['Approved','In Progress'].indexOf(im.status)>=0){
-    h+='<button class="btn btn-ghost btn-sm" onclick="openProgFor(\''+id+'\')">📊 Update Progress</button>';
-  }
+  h+='<div class="divider"></div><div style="display:flex;gap:8px;flex-wrap:wrap">';
+  if(im.status==='Draft')h+='<button class="btn btn-primary btn-sm" style="flex:1" onclick="submitApproval(\''+id+'\')">📤 Submit Approval</button>';
+  if(['Approved','In Progress'].indexOf(im.status)>=0)h+='<button class="btn btn-ghost btn-sm" onclick="openProgFor(\''+id+'\')">📊 Update Progress</button>';
   h+='<button class="btn btn-ghost btn-sm" onclick="goTo(\'approvals\')">🔍 Lihat Approval</button>';
   h+='<button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:5px 10px;font-size:11px" onclick="delImp(\''+id+'\')">Hapus</button>';
-  h+='</div>';
-  h+='</div></div>';
-
+  h+='</div></div></div>';
   document.getElementById('imp-detail').innerHTML=h;
 }
 
-function submitApproval(id){
+async function submitApproval(id){
   var chain=APPROVERS.map(function(a){return{level:a.level,status:'Pending',name:a.role,comment:'',date:''}});
-  S.upd('imps',id,{status:'Waiting Approval',chain:chain});
-  renderImprovements();badges();toast('Disubmit untuk approval!','s');
-  showImpDetail(id);
+  await sb.from('improvements').update({status:'Waiting Approval',approval_chain:chain}).eq('id',id);
+  renderImprovements();badges();toast('Disubmit!','s');showImpDetail(id);
 }
-function delImp(id){
-  if(confirm('Hapus plan ini?')){
-    S.del('imps',id);renderImprovements();badges();toast('Plan dihapus','i');
+async function delImp(id){
+  if(confirm('Hapus plan?')){
+    await sb.from('improvements').delete().eq('id',id);
+    renderImprovements();badges();toast('Plan dihapus','i');
     document.getElementById('imp-detail').innerHTML='<div class="secttitle">Detail Plan</div><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Pilih plan di kiri</p></div>';
   }
 }
 
-// ── RAB ─────────────────────────────────────────────────────
-function renderRAB(){
+// ── RAB ─────────────────────────────────────────────
+async function renderRAB(){
+  loading('rab-table');
   var pf=(document.getElementById('rab-pf')||{value:''}).value;
-  var items=S.get('rab');
-  if(pf)items=items.filter(function(r){return r.propId===pf});
-  var est=items.reduce(function(a,r){return a+r.qty*r.price},0);
-  var act=items.reduce(function(a,r){return a+Number(r.actual||0)},0);
+  var q=sb.from('rab_items').select('*,properties(name)').order('created_at');
+  if(pf)q=q.eq('property_id',pf);
+  var items=(await q).data||[];
+  var est=items.reduce(function(a,r){return a+Number(r.quantity||1)*Number(r.unit_price||0)},0);
+  var act=items.reduce(function(a,r){return a+Number(r.actual_cost||0)},0);
   document.getElementById('rab-kpi').innerHTML=kpi('purple','Total Estimasi',rp(est),'')+kpi('green','Total Realisasi',rp(act),'')+kpi('amber','Selisih',rp(est-act),'');
   if(!items.length){document.getElementById('rab-table').innerHTML='<div class="empty"><p>Belum ada item RAB.</p></div>';return}
   var cats=['Material','Labor','Vendor','Miscellaneous'];
   var h='<table><thead><tr><th>Properti</th><th>Kategori</th><th>Deskripsi</th><th>Qty</th><th>Satuan</th><th>Harga Satuan</th><th>Est. Total</th><th>Aktual</th><th>Invoice</th><th>Aksi</th></tr></thead><tbody>';
   for(var c=0;c<cats.length;c++){
-    var ci=items.filter(function(r){return r.cat===cats[c]});if(!ci.length)continue;
-    var ctot=ci.reduce(function(a,r){return a+r.qty*r.price},0);
-    var cact=ci.reduce(function(a,r){return a+Number(r.actual||0)},0);
-    h+='<tr style="background:var(--bg2)"><td colspan="6" style="font-weight:600;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.05em">'+cats[c]+'</td><td style="font-weight:600;color:var(--text)">'+rp(ctot)+'</td><td style="font-weight:600;color:var(--warning)">'+rp(cact)+'</td><td colspan="2"></td></tr>';
-    for(var i=0;i<ci.length;i++){var r=ci[i];h+='<tr><td>'+pname(r.propId)+'</td><td>'+badge(r.cat)+'</td><td class="p">'+r.desc+'</td><td>'+r.qty+'</td><td>'+r.unit+'</td><td>'+rp(r.price)+'</td><td style="color:var(--text);font-weight:500">'+rp(r.qty*r.price)+'</td><td style="color:'+(Number(r.actual)>0?'var(--warning)':'var(--text3)')+'">'+rp(Number(r.actual)||0)+'</td><td style="font-size:11px;color:var(--text3)">'+(r.inv||'—')+'</td><td><button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="delRAB(\''+r.id+'\')">Hapus</button></td></tr>'}
+    var ci=items.filter(function(r){return r.category===cats[c]});if(!ci.length)continue;
+    var ctot=ci.reduce(function(a,r){return a+Number(r.quantity||1)*Number(r.unit_price||0)},0);
+    var cact=ci.reduce(function(a,r){return a+Number(r.actual_cost||0)},0);
+    h+='<tr style="background:var(--bg2)"><td colspan="6" style="font-weight:600;color:var(--text3);font-size:10px;text-transform:uppercase">'+cats[c]+'</td><td style="font-weight:600;color:var(--text)">'+rp(ctot)+'</td><td style="font-weight:600;color:var(--warning)">'+rp(cact)+'</td><td colspan="2"></td></tr>';
+    for(var i=0;i<ci.length;i++){var r=ci[i];h+='<tr><td>'+(r.properties?r.properties.name:'—')+'</td><td>'+badge(r.category)+'</td><td class="p">'+r.description+'</td><td>'+r.quantity+'</td><td>'+r.unit+'</td><td>'+rp(r.unit_price)+'</td><td style="color:var(--text);font-weight:500">'+rp(Number(r.quantity)*Number(r.unit_price))+'</td><td style="color:'+(Number(r.actual_cost)>0?'var(--warning)':'var(--text3)')+'">'+rp(r.actual_cost||0)+'</td><td style="font-size:11px;color:var(--text3)">'+(r.invoice_number||'—')+'</td><td><button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="delRAB(\''+r.id+'\')">Hapus</button></td></tr>'}
   }
   h+='</tbody></table>';
   document.getElementById('rab-table').innerHTML=h;
 }
-function delRAB(id){if(confirm('Hapus item?')){S.del('rab',id);renderRAB();toast('Item dihapus','i')}}
+async function delRAB(id){if(confirm('Hapus?')){await sb.from('rab_items').delete().eq('id',id);renderRAB();toast('Item dihapus','i')}}
 
-// ── APPROVALS (3 LEVEL) ─────────────────────────────────────
-var selApprovalId=null;
-function renderApprovals(){
-  var pending=S.get('imps').filter(function(i){return i.status==='Waiting Approval'});
+// ── APPROVALS ───────────────────────────────────────
+async function renderApprovals(){
+  var imps=(await sb.from('improvements').select('*,properties(name)').in('status',['Waiting Approval','Approved','Rejected','In Progress','Completed']).order('created_at',{ascending:false})).data||[];
+  var pending=imps.filter(function(i){return i.status==='Waiting Approval'});
+  var done=imps.filter(function(i){return i.status!=='Waiting Approval'});
   var h='';
   for(var i=0;i<pending.length;i++){
-    var im=pending[i];var chain=im.chain||[];
-    var nextLevel=1;
-    for(var j=0;j<chain.length;j++){if(chain[j].status==='Approved')nextLevel=chain[j].level+1}
-    var nextApprover=nextLevel<=3?APPROVERS[nextLevel-1]:null;
+    var im=pending[i];var chain=im.approval_chain||[];
+    var approvedLvls=chain.filter(function(c){return c.status==='Approved'}).length;
+    var nextLvl=approvedLvls+1;var nap=nextLvl<=3?APPROVERS[nextLvl-1]:null;
     h+='<div class="card" style="margin-bottom:10px;border-left:3px solid var(--warning);cursor:pointer" onclick="showApproval(\''+im.id+'\')">';
-    h+='<div class="card-body">';
-    h+='<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">'+pname(im.propId)+'</span>'+badge('Waiting Approval')+'</div>';
-    h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">'+im.rec.slice(0,60)+'...</div>';
-    h+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px">'+rp(im.cost)+' · Target: '+fdate(im.date)+'</div>';
-    // Workflow progress dots
-    h+='<div style="display:flex;gap:6px;align-items:center;margin-bottom:10px">';
-    for(var j=0;j<APPROVERS.length;j++){
-      var ap=APPROVERS[j];var cs=chain.find?chain.find(function(c){return c.level===ap.level}):null;
-      for(var k=0;k<chain.length;k++){if(chain[k].level===ap.level){cs=chain[k];break}}
-      var dotColor=cs&&cs.status==='Approved'?'var(--success)':cs&&cs.status==='Rejected'?'var(--danger)':j===0||chain.filter(function(c){return c.status==='Approved'}).length>=j?'var(--warning)':'var(--bg4)';
-      var dotText=cs&&cs.status==='Approved'?'✓':cs&&cs.status==='Rejected'?'✗':String(j+1);
-      h+='<div style="display:flex;align-items:center;gap:4px"><div style="width:22px;height:22px;border-radius:50%;background:'+dotColor+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">'+dotText+'</div>';
-      h+='<span style="font-size:10px;color:var(--text3)">'+ap.short+'</span>';
-      if(j<APPROVERS.length-1)h+='<span style="color:var(--border2);font-size:12px;margin:0 2px">→</span>';
-      h+='</div>';
-    }
-    h+='</div>';
-    if(nextApprover){
-      h+='<div style="font-size:11px;color:var(--text3);margin-bottom:8px">⏳ Menunggu: <strong style="color:var(--warning)">'+nextApprover.role+'</strong></div>';
-      h+='<div style="display:flex;gap:8px"><button class="btn btn-success btn-sm" onclick="event.stopPropagation();approveLevel(\''+im.id+'\','+nextApprover.level+',true)">✓ Approve ('+nextApprover.short+')</button>';
-      h+='<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();approveLevel(\''+im.id+'\','+nextApprover.level+',false)">✕ Tolak</button></div>';
-    }
+    h+='<div class="card-body"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">'+(im.properties?im.properties.name:'—')+'</span>'+badge('Waiting Approval')+'</div>';
+    h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">'+im.recommendation.slice(0,60)+'...</div>';
+    h+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px">'+rp(im.estimated_cost)+' · Target: '+fdate(im.target_date)+'</div>';
+    h+='<div style="display:flex;gap:5px;align-items:center;margin-bottom:10px">';
+    for(var j=0;j<APPROVERS.length;j++){var cs=chain.find(function(c){return c.level===APPROVERS[j].level});var dc=cs&&cs.status==='Approved'?'var(--success)':cs&&cs.status==='Rejected'?'var(--danger)':approvedLvls>=j?'var(--warning)':'var(--bg4)';var dt=cs&&cs.status==='Approved'?'✓':cs&&cs.status==='Rejected'?'✗':String(j+1);h+='<div style="width:20px;height:20px;border-radius:50%;background:'+dc+';color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">'+dt+'</div>';if(j<2)h+='<div style="width:14px;height:1px;background:var(--border)"></div>'}
+    h+='<span style="font-size:10px;color:var(--text3);margin-left:4px">'+approvedLvls+'/3</span></div>';
+    if(nap)h+='<div style="font-size:11px;color:var(--text3);margin-bottom:8px">⏳ Menunggu: <strong style="color:var(--warning)">'+nap.role+'</strong></div><div style="display:flex;gap:8px"><button class="btn btn-success btn-sm" onclick="event.stopPropagation();approveLevel(\''+im.id+'\','+nap.level+',true)">✓ Approve ('+nap.short+')</button><button class="btn btn-danger btn-sm" onclick="event.stopPropagation();approveLevel(\''+im.id+'\','+nap.level+',false)">✕ Tolak</button></div>';
     h+='</div></div>';
   }
   document.getElementById('approval-list').innerHTML=h||'<div class="empty"><p>Tidak ada item pending 🎉</p></div>';
-
-  var done=S.get('imps').filter(function(i){return i.status==='Approved'||i.status==='Rejected'||i.status==='In Progress'||i.status==='Completed'});
-  var dh='';
-  for(var i=0;i<done.length;i++){var im=done[i];dh+='<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="showApproval(\''+im.id+'\')"><div class="card-body" style="padding:10px 14px"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text2)">'+im.rec.slice(0,45)+'...</span>'+badge(im.status)+'</div><div style="font-size:11px;color:var(--text3);margin-top:3px">'+pname(im.propId)+' · '+rp(im.cost)+'</div></div></div>'}
+  var dh='';for(var i=0;i<done.length;i++){var im=done[i];dh+='<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="showApproval(\''+im.id+'\')"><div class="card-body" style="padding:10px 14px"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text2)">'+im.recommendation.slice(0,45)+'...</span>'+badge(im.status)+'</div><div style="font-size:11px;color:var(--text3);margin-top:3px">'+(im.properties?im.properties.name:'—')+' · '+rp(im.estimated_cost)+'</div></div></div>'}
   document.getElementById('approval-history').innerHTML=dh||'<div style="font-size:12px;color:var(--text3)">Belum ada riwayat</div>';
 }
 
-function showApproval(id){
-  selApprovalId=id;
-  var im=S.find('imps',id);if(!im)return;
-  var chain=im.chain||[];
-  var nextLevel=1;
-  for(var i=0;i<chain.length;i++){if(chain[i].status==='Approved')nextLevel=chain[i].level+1}
-  var h='';
-  h+='<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">'+im.rec.slice(0,60)+'...</div>';
-  h+='<div style="font-size:12px;color:var(--text3)">'+pname(im.propId)+' · '+rp(im.cost)+'</div></div>';
-  // Status pills
-  h+='<div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">';
+async function showApproval(id){
+  var im=(await sb.from('improvements').select('*,properties(name)').eq('id',id).single()).data;
+  if(!im)return;
+  var chain=im.approval_chain||[];
+  var approvedLvls=chain.filter(function(c){return c.status==='Approved'}).length;
+  var nextLvl=approvedLvls+1;
+  var h='<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">'+im.recommendation.slice(0,60)+'...</div><div style="font-size:12px;color:var(--text3)">'+(im.properties?im.properties.name:'—')+' · '+rp(im.estimated_cost)+'</div></div>';
+  h+='<div class="asteps"><div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Dika — Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
   for(var i=0;i<APPROVERS.length;i++){
-    var ap=APPROVERS[i];var cs=null;
-    for(var k=0;k<chain.length;k++){if(chain[k].level===ap.level){cs=chain[k];break}}
-    var bg=cs&&cs.status==='Approved'?'var(--sbg)':cs&&cs.status==='Rejected'?'var(--dbg)':'var(--bg3)';
-    var col=cs&&cs.status==='Approved'?'var(--success)':cs&&cs.status==='Rejected'?'var(--danger)':'var(--text3)';
-    var icon=cs&&cs.status==='Approved'?'✓':cs&&cs.status==='Rejected'?'✗':'?';
-    h+='<div style="background:'+bg+';border-radius:6px;padding:6px 10px;display:flex;align-items:center;gap:6px">';
-    h+='<span style="font-size:11px;font-weight:700;color:'+col+'">'+icon+'</span>';
-    h+='<div><div style="font-size:11px;font-weight:600;color:'+col+'">'+ap.role+'</div>';
-    h+='<div style="font-size:10px;color:var(--text3)">'+(cs&&cs.status!='Pending'?cs.status:'Menunggu')+'</div></div></div>';
-  }
-  h+='</div>';
-  h+='<div class="asteps">';
-  // Step 0: QSE
-  h+='<div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Dika — Quality Specialist</div><div class="ssub">Submitted · '+fdate(today())+'</div><div class="scomment">Mohon disetujui untuk perbaikan segera.</div></div></div>';
-  for(var i=0;i<APPROVERS.length;i++){
-    var ap=APPROVERS[i];var cs=null;
-    for(var k=0;k<chain.length;k++){if(chain[k].level===ap.level){cs=chain[k];break}}
-    var ok=cs&&cs.status==='Approved';var rej=cs&&cs.status==='Rejected';var isNext=ap.level===nextLevel;
-    var dotClass=ok?'done':rej?'rej':isNext?'curr':'pend';
-    var dotTxt=ok?'✓':rej?'✗':String(i+2);
-    h+='<div class="astep"><div class="sdot '+dotClass+'">'+dotTxt+'</div><div class="sinfo">';
-    h+='<div class="srole">Level '+ap.level+'</div>';
-    h+='<div class="stitle">'+ap.role+'</div>';
+    var ap=APPROVERS[i];var cs=chain.find(function(c){return c.level===ap.level});
+    var ok=cs&&cs.status==='Approved';var rej=cs&&cs.status==='Rejected';var isnxt=ap.level===nextLvl;
+    h+='<div class="astep"><div class="sdot '+(ok?'done':rej?'rej':isnxt?'curr':'pend')+'">'+(ok?'✓':rej?'✗':String(i+2))+'</div><div class="sinfo"><div class="srole">Level '+ap.level+'</div><div class="stitle">'+ap.role+'</div>';
     if(ok)h+='<div class="ssub" style="color:var(--success)">Approved · '+fdate(cs.date)+'</div>'+(cs.comment?'<div class="scomment">'+cs.comment+'</div>':'');
-    else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected · '+fdate(cs.date)+'</div>'+(cs.comment?'<div class="scomment rej">'+cs.comment+'</div>':'');
-    else if(isNext)h+='<div class="ssub" style="color:var(--warning)">⏳ Menunggu review...</div>';
+    else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>'+(cs.comment?'<div class="scomment" style="border-left-color:var(--danger)">'+cs.comment+'</div>':'');
+    else if(isnxt)h+='<div class="ssub" style="color:var(--warning)">⏳ Menunggu review...</div>';
     else h+='<div class="ssub">Pending</div>';
     h+='</div></div>';
   }
   h+='</div>';
-  if(nextLevel<=3){
-    var nap=APPROVERS[nextLevel-1];
-    h+='<div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-success" style="flex:1" onclick="approveLevel(\''+id+'\','+nextLevel+',true)">✓ Approve as '+nap.short+'</button><button class="btn btn-danger" style="flex:1" onclick="approveLevel(\''+id+'\','+nextLevel+',false)">✕ Tolak</button></div>';
-  } else if(im.status!=='Rejected'){
-    h+='<div style="background:var(--sbg);border-radius:var(--r);padding:12px;text-align:center;margin-top:12px"><div style="font-size:13px;font-weight:600;color:var(--success)">✓ Semua Level Approved</div><div style="font-size:12px;color:var(--text2)">Budget released</div></div>';
-  }
+  if(nextLvl<=3){var nap=APPROVERS[nextLvl-1];h+='<div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-success" style="flex:1" onclick="approveLevel(\''+id+'\','+nextLvl+',true)">✓ Approve as '+nap.short+'</button><button class="btn btn-danger" style="flex:1" onclick="approveLevel(\''+id+'\','+nextLvl+',false)">✕ Tolak</button></div>'}
+  else if(im.status!=='Rejected')h+='<div style="background:var(--sbg);border-radius:var(--r);padding:12px;text-align:center;margin-top:12px"><div style="font-size:13px;font-weight:600;color:var(--success)">✓ Semua Level Approved</div><div style="font-size:12px;color:var(--text2)">Budget released</div></div>';
   document.getElementById('approval-workflow').innerHTML=h;
 }
 
-function approveLevel(id,level,ok){
-  var im=S.find('imps',id);if(!im)return;
-  var chain=im.chain||[];
+async function approveLevel(id,level,ok){
+  var im=(await sb.from('improvements').select('approval_chain').eq('id',id).single()).data;
+  var chain=(im&&im.approval_chain)||APPROVERS.map(function(a){return{level:a.level,status:'Pending',name:a.role,comment:'',date:''}});
   var found=false;
   for(var i=0;i<chain.length;i++){if(chain[i].level===level){chain[i].status=ok?'Approved':'Rejected';chain[i].date=today();found=true;break}}
   if(!found)chain.push({level:level,status:ok?'Approved':'Rejected',name:APPROVERS[level-1].role,comment:'',date:today()});
-  var allApproved=true;
-  for(var i=0;i<APPROVERS.length;i++){var cs=null;for(var k=0;k<chain.length;k++){if(chain[k].level===APPROVERS[i].level){cs=chain[k];break}}if(!cs||cs.status!=='Approved'){allApproved=false;break}}
-  var newStatus=ok?(allApproved?'Approved':'Waiting Approval'):'Rejected';
-  S.upd('imps',id,{status:newStatus,chain:chain});
-  toast(ok?(allApproved?'✓ Semua level approved! Budget released.':'Level '+level+' approved, lanjut ke level berikutnya.'):'Plan ditolak.',ok?'s':'e');
+  var allDone=APPROVERS.every(function(a){var cs=chain.find(function(c){return c.level===a.level});return cs&&cs.status==='Approved'});
+  var ns=ok?(allDone?'Approved':'Waiting Approval'):'Rejected';
+  await sb.from('improvements').update({status:ns,approval_chain:chain}).eq('id',id);
+  toast(ok?(allDone?'✓ Semua level approved!':'Level '+level+' approved!'):'Plan ditolak.',ok?'s':'e');
   renderApprovals();badges();showApproval(id);
 }
 
-// ── TRACKER ─────────────────────────────────────────────────
-function renderTracker(){
-  var imps=S.get('imps').filter(function(i){return ['Approved','In Progress','Completed'].indexOf(i.status)>=0});
-  var progs=S.get('progress');
+// ── TRACKER ─────────────────────────────────────────
+async function renderTracker(){
+  var imps=(await sb.from('improvements').select('*,properties(name)').in('status',['Approved','In Progress','Completed'])).data||[];
+  var progs=(await sb.from('progress_updates').select('*').order('created_at',{ascending:false})).data||[];
   var gh='';
   if(imps.length){
     gh='<div style="display:grid;grid-template-columns:120px 1fr"><div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);font-size:10px;color:var(--text3);text-align:center;margin-bottom:6px"><span>W1</span><span>W2</span><span>W3</span><span>W4</span></div></div>';
     for(var i=0;i<imps.length;i++){
-      var im=imps[i];var ip=progs.filter(function(p){return p.impId===im.id});
-      var pct=ip.length?ip[ip.length-1].pct:(im.status==='Completed'?100:0);
+      var im=imps[i];var ip=progs.filter(function(p){return p.improvement_id===im.id});
+      var pct=ip.length?ip[0].percentage:(im.status==='Completed'?100:0);
       var col=pct>=100?'var(--success)':pct>=50?'var(--primary)':'var(--warning)';
-      gh+='<div class="gantt-row"><div class="gantt-label">'+im.rec.slice(0,18)+'...</div><div class="gantt-track"><div class="gantt-bar" style="left:'+(i*7)+'%;width:'+Math.max(15,pct*.65)+'%;background:'+col+'">'+pct+'%</div></div></div>';
+      gh+='<div style="display:flex;align-items:center;height:28px;margin-bottom:3px"><div style="width:120px;font-size:11px;color:var(--text2);text-align:right;padding-right:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+im.recommendation.slice(0,18)+'...</div><div style="flex:1;background:var(--bg3);border-radius:4px;height:18px;position:relative;overflow:hidden"><div style="position:absolute;height:100%;border-radius:4px;font-size:10px;font-weight:600;display:flex;align-items:center;padding:0 8px;color:#fff;left:'+(i*7)+'%;width:'+Math.max(15,pct*.65)+'%;background:'+col+'">'+pct+'%</div></div></div>';
     }
     gh+='<div style="margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="openM(\'m-progress\')">+ Update Progress</button></div>';
   } else gh='<div class="empty"><p>Belum ada plan yang approved.</p></div>';
-  document.getElementById('gantt').innerHTML=gh;
+  document.getElementById('tracker-content').innerHTML=gh;
   var ch='';
-  var show=imps.slice(0,3);
-  for(var i=0;i<show.length;i++){
-    var im=show[i];var ip=progs.filter(function(p){return p.impId===im.id});
-    var pct=ip.length?ip[ip.length-1].pct:(im.status==='Completed'?100:0);
+  for(var i=0;i<Math.min(imps.length,3);i++){
+    var im=imps[i];var ip=progs.filter(function(p){return p.improvement_id===im.id});
+    var pct=ip.length?ip[0].percentage:(im.status==='Completed'?100:0);
     var col=pct>=100?'var(--success)':pct>=50?'var(--primary)':'var(--warning)';
-    ch+='<div class="card"><div class="card-header"><div class="card-title" style="font-size:12px">'+im.rec.slice(0,28)+'...</div></div><div class="card-body" style="text-align:center">';
-    ch+='<div style="font-size:30px;font-weight:700;color:'+col+';margin-bottom:4px">'+pct+'%</div><div style="font-size:11px;color:var(--text3);margin-bottom:8px">'+im.status+'</div>';
-    ch+=pbar(pct,8)+'<div style="font-size:11px;color:var(--text3);margin-top:8px">PIC: '+(im.pic||'—')+'</div>';
-    ch+='<button class="btn btn-ghost btn-xs" style="margin-top:8px;width:100%" onclick="openProgFor(\''+im.id+'\')">Update</button>';
-    ch+='</div></div>';
+    ch+='<div class="card"><div class="card-header"><div class="card-title" style="font-size:12px">'+im.recommendation.slice(0,28)+'...</div></div><div class="card-body" style="text-align:center"><div style="font-size:30px;font-weight:700;color:'+col+';margin-bottom:4px">'+pct+'%</div><div style="font-size:11px;color:var(--text3);margin-bottom:8px">'+im.status+'</div>'+pbar(pct,8)+'<button class="btn btn-ghost btn-xs" style="margin-top:8px;width:100%" onclick="openProgFor(\''+im.id+'\')">Update</button></div></div>';
   }
   document.getElementById('prog-cards').innerHTML=ch||'';
 }
-function openProgFor(id){fillSelects();var sel=document.getElementById('pg-imp');if(sel){for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===id){sel.selectedIndex=i;break}}}openM('m-progress')}
+function openProgFor(id){openM('m-progress');setTimeout(function(){var sel=document.getElementById('pg-imp');if(sel)for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===id){sel.selectedIndex=i;break}}},200)}
 
-// ── BEFORE AFTER ────────────────────────────────────────────
-function renderBA(){
-  var items=S.get('beforeafter');var h='';
+// ── BEFORE AFTER ────────────────────────────────────
+async function renderBA(){
+  var items=(await sb.from('before_after').select('*,properties(name)').order('created_at',{ascending:false})).data||[];
+  var h='';
   for(var i=0;i<items.length;i++){
     var b=items[i];var done=b.status==='Completed';
-    h+='<div class="card"><div class="card-header"><div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">'+pname(b.propId)+'</div><div class="card-title">'+b.area+'</div></div>'+badge(b.status)+'</div>';
+    h+='<div class="card"><div class="card-header"><div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">'+(b.properties?b.properties.name:'—')+'</div><div class="card-title">'+b.area+'</div></div>'+badge(b.status)+'</div>';
     h+='<div class="card-body" style="padding:0"><div class="ba-wrap">';
     h+='<div class="ba-panel"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.25"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Foto Before</span><div class="ba-lbl">BEFORE</div></div>';
-    h+='<div class="ba-panel" style="background:'+(done?'var(--bg4)':'var(--bg3)')+'">'+  (done?'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span style="color:var(--success)">Selesai ✓</span>':'<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.25"><path d="M12 5v14M5 12l7-7 7 7"/></svg><span>Upload After</span>');
-    h+='<div class="ba-lbl" style="background:'+(done?'rgba(34,211,165,.8)':'rgba(56,189,248,.7)')+'">'+  (done?'AFTER':'PENDING')+'</div></div></div>';
-    h+='<div style="padding:10px 14px"><div style="font-size:12px;color:var(--text2);margin-bottom:6px">'+b.desc+'</div>';
-    h+='<div style="display:flex;gap:6px">';
-    if(!done)h+='<button class="btn btn-success btn-xs" onclick="baMarkDone(\''+b.id+'\')">✓ Mark Done</button>';
+    h+='<div class="ba-panel" style="background:'+(done?'var(--bg4)':'var(--bg3)')+'">'+  (done?'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span style="color:var(--success)">Selesai ✓</span>':'<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.25"><path d="M12 5v14M5 12l7-7 7 7"/></svg><span>Upload After</span>')+'<div class="ba-lbl" style="background:'+(done?'rgba(34,211,165,.8)':'rgba(56,189,248,.7)')+'">'+  (done?'AFTER':'PENDING')+'</div></div></div>';
+    h+='<div style="padding:10px 14px"><div style="font-size:12px;color:var(--text2);margin-bottom:6px">'+(b.description||'')+'</div><div style="display:flex;gap:6px">';
+    if(!done)h+='<button class="btn btn-success btn-xs" onclick="baMarkDone(\''+b.id+'\')">✓ Done</button>';
     h+='<button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="delBA(\''+b.id+'\')">Hapus</button>';
     h+='</div></div></div></div>';
   }
-  document.getElementById('ba-gallery').innerHTML=h||'<div class="empty" style="grid-column:span 2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:40px;height:40px;margin:0 auto 10px;display:block;opacity:.25"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><p>Belum ada data before & after.<br>Klik "+ Tambah".</p></div>';
+  document.getElementById('ba-gallery').innerHTML=h||'<div class="empty" style="grid-column:span 2"><p>Belum ada data before & after.</p></div>';
 }
-function baMarkDone(id){S.upd('beforeafter',id,{status:'Completed'});renderBA();toast('Ditandai selesai!','s')}
-function delBA(id){if(confirm('Hapus?')){S.del('beforeafter',id);renderBA();toast('Dihapus','i')}}
+async function baMarkDone(id){await sb.from('before_after').update({status:'Completed'}).eq('id',id);renderBA();toast('Ditandai selesai!','s')}
+async function delBA(id){if(confirm('Hapus?')){await sb.from('before_after').delete().eq('id',id);renderBA();toast('Dihapus','i')}}
 
-// ── SCORING ─────────────────────────────────────────────────
-var SCATS=[{k:'facade',l:'Facade',max:15},{k:'lobby',l:'Lobby',max:15},{k:'room',l:'Guest Room',max:30},{k:'bath',l:'Bathroom',max:20},{k:'pub',l:'Public Area',max:10},{k:'safety',l:'Safety',max:10}];
+// ── SCORING ─────────────────────────────────────────
+var SCATS=[{k:'facade',l:'Facade',c:'facade_score',max:15},{k:'lobby',l:'Lobby',c:'lobby_score',max:15},{k:'room',l:'Guest Room',c:'room_score',max:30},{k:'bath',l:'Bathroom',c:'bath_score',max:20},{k:'pub',l:'Public Area',c:'public_score',max:10},{k:'safety',l:'Safety',c:'safety_score',max:10}];
 function renderScoring(){
-  var h='';
-  for(var i=0;i<SCATS.length;i++){var c=SCATS[i];h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:90px;font-size:12px;color:var(--text2)">'+c.l+'<span style="color:var(--text3);font-size:10px"> /'+c.max+'</span></div><input type="range" min="0" max="'+c.max+'" value="0" id="sc-'+c.k+'" style="flex:1;cursor:pointer;accent-color:var(--primary)" oninput="updateTotal()"><span id="scv-'+c.k+'" style="font-size:13px;font-weight:600;color:var(--primary2);min-width:20px;text-align:right">0</span></div>'}
+  var h='';for(var i=0;i<SCATS.length;i++){var c=SCATS[i];h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:90px;font-size:12px;color:var(--text2)">'+c.l+'<span style="color:var(--text3);font-size:10px"> /'+c.max+'</span></div><input type="range" min="0" max="'+c.max+'" value="0" id="sc-'+c.k+'" style="flex:1;cursor:pointer;accent-color:var(--primary)" oninput="updateTotal()"><span id="scv-'+c.k+'" style="font-size:13px;font-weight:600;color:var(--primary2);min-width:20px;text-align:right">0</span></div>'}
   document.getElementById('score-sliders').innerHTML=h;
   renderRanking();
 }
 function updateTotal(){var tot=0;for(var i=0;i<SCATS.length;i++){var v=Number(document.getElementById('sc-'+SCATS[i].k).value);document.getElementById('scv-'+SCATS[i].k).textContent=v;tot+=v}document.getElementById('score-total').textContent=tot+' / 100'}
-function saveScore(){
-  var pid=(document.getElementById('score-prop')||{value:''}).value;
-  if(!pid){toast('Pilih properti dulu','e');return}
-  var obj={id:uid(),propId:pid,total:0};
-  for(var i=0;i<SCATS.length;i++){obj[SCATS[i].k]=Number(document.getElementById('sc-'+SCATS[i].k).value);obj.total+=obj[SCATS[i].k]}
-  var old=S.get('scores').filter(function(s){return s.propId===pid});for(var i=0;i<old.length;i++)S.del('scores',old[i].id);
-  S.add('scores',obj);toast('Score disimpan!','s');renderRanking();
+async function saveScore(){
+  var pid=(document.getElementById('score-prop')||{value:''}).value;if(!pid){toast('Pilih properti dulu','e');return}
+  var obj={property_id:pid};for(var i=0;i<SCATS.length;i++)obj[SCATS[i].c]=Number(document.getElementById('sc-'+SCATS[i].k).value);
+  await sb.from('scores').insert(obj);
+  toast('Score disimpan!','s');renderRanking();
 }
-function renderRanking(){
-  var scores=S.get('scores').sort(function(a,b){return b.total-a.total});var h='';
-  for(var i=0;i<scores.length;i++){var s=scores[i];var p=S.find('props',s.propId);var col=s.total>=70?'var(--success)':s.total>=50?'var(--warning)':'var(--danger)';h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:var(--text3);width:20px">#'+(i+1)+'</span><span style="font-size:13px;color:var(--text);flex:1">'+(p?p.name:'—')+'</span>'+pbar(s.total)+'<span style="font-size:13px;font-weight:700;color:'+col+';min-width:28px;text-align:right">'+s.total+'</span></div>'}
+async function renderRanking(){
+  var scores=(await sb.from('scores').select('*,properties(name)').order('total_score',{ascending:false})).data||[];
+  var h='';
+  for(var i=0;i<scores.length;i++){var s=scores[i];var col=s.total_score>=70?'var(--success)':s.total_score>=50?'var(--warning)':'var(--danger)';h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:var(--text3);width:20px">#'+(i+1)+'</span><span style="font-size:13px;color:var(--text);flex:1">'+(s.properties?s.properties.name:'—')+'</span>'+pbar(s.total_score)+'<span style="font-size:13px;font-weight:700;color:'+col+';min-width:28px;text-align:right">'+Math.round(s.total_score)+'</span></div>'}
   document.getElementById('score-ranking').innerHTML=h||'<div class="empty"><p>Belum ada data score</p></div>';
 }
 
-// ── IMPACT ──────────────────────────────────────────────────
-function renderImpact(){
+// ── IMPACT ──────────────────────────────────────────
+async function renderImpact(){
   var pid=(document.getElementById('impact-prop')||{value:''}).value;
-  var items=S.get('impact');if(pid)items=items.filter(function(i){return i.propId===pid});
-  var before=items.filter(function(i){return i.phase==='Before'});var after=items.filter(function(i){return i.phase==='After'});
+  var q=sb.from('business_impact').select('*,properties(name)').order('period',{ascending:false});
+  if(pid)q=q.eq('property_id',pid);
+  var items=(await q).data||[];
+  var before=items.filter(function(i){return i.phase==='Before'});
+  var after=items.filter(function(i){return i.phase==='After'});
   function avg(arr,key){return arr.length?arr.reduce(function(a,i){return a+Number(i[key]||0)},0)/arr.length:0}
-  var br=avg(before,'rev'),ar=avg(after,'rev');
-  var invest=S.get('rab').filter(function(r){return !pid||r.propId===pid}).reduce(function(a,r){return a+Number(r.actual||0)},0);
+  var br=avg(before,'monthly_revenue'),ar=avg(after,'monthly_revenue');
+  var rabs=(await sb.from('rab_items').select('actual_cost'+(pid?',property_id':'')).filter(pid?'property_id':'id',pid?'eq':'neq',pid||'x')).data||[];
+  var invest=rabs.reduce(function(a,r){return a+Number(r.actual_cost||0)},0);
   var roi=invest>0?Math.round((ar-br)*12/invest*100):0;
   document.getElementById('impact-kpi').innerHTML=kpi('blue','Avg Rev Before',rp(Math.round(br)),'Per bulan')+kpi('green','Avg Rev After',rp(Math.round(ar)),'Per bulan')+kpi('amber','Total Investasi',rp(invest),'Realisasi RAB')+kpi(roi>0?'green':'red','Est. ROI',roi>0?roi+'%':'—','Annualized');
   if(!items.length){document.getElementById('impact-table').innerHTML='<div class="empty"><p>Belum ada data metrics.</p></div>';return}
   var h='<table><thead><tr><th>Properti</th><th>Periode</th><th>Phase</th><th>Score</th><th>Occ%</th><th>ADR</th><th>Revenue</th><th>Aksi</th></tr></thead><tbody>';
-  var sorted=items.sort(function(a,b){return b.period.localeCompare(a.period)});
-  for(var i=0;i<sorted.length;i++){var im=sorted[i];h+='<tr><td>'+pname(im.propId)+'</td><td>'+im.period+'</td><td>'+badge(im.phase)+'</td><td style="font-weight:600;color:'+(Number(im.score)>=8?'var(--success)':'var(--warning)')+'">'+im.score+'</td><td>'+im.occ+'%</td><td>'+rp(im.adr)+'</td><td style="font-weight:500;color:var(--text)">'+rp(im.rev)+'</td><td><button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="delImpact(\''+im.id+'\')">Hapus</button></td></tr>'}
+  for(var i=0;i<items.length;i++){var im=items[i];h+='<tr><td>'+(im.properties?im.properties.name:'—')+'</td><td>'+im.period+'</td><td>'+badge(im.phase)+'</td><td style="font-weight:600;color:'+(Number(im.review_score)>=8?'var(--success)':'var(--warning)')+'">'+im.review_score+'</td><td>'+im.occupancy+'%</td><td>'+rp(im.adr)+'</td><td style="font-weight:500;color:var(--text)">'+rp(im.monthly_revenue)+'</td><td><button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="delImpact(\''+im.id+'\')">Hapus</button></td></tr>'}
   h+='</tbody></table>';
   document.getElementById('impact-table').innerHTML=h;
 }
-function delImpact(id){if(confirm('Hapus?')){S.del('impact',id);renderImpact();toast('Dihapus','i')}}
+async function delImpact(id){if(confirm('Hapus?')){await sb.from('business_impact').delete().eq('id',id);renderImpact();toast('Dihapus','i')}}
 
-// ── FILL SELECTS ────────────────────────────────────────────
-function fillSelects(){
-  var props=S.get('props'),findings=S.get('findings'),imps=S.get('imps');
+// ── FILL SELECTS ────────────────────────────────────
+async function fillSelects(props){
+  if(!props)props=(await sb.from('properties').select('*').order('name')).data||[];
+  _props=props;
   var phtml='<option value="">-- Pilih Properti --</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
   ['fn-prop','im-prop','rb-prop','ba-prop','ip-prop','score-prop'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=phtml});
   var rf=document.getElementById('rab-pf');if(rf)rf.innerHTML='<option value="">Semua Properti</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
   var ip2=document.getElementById('impact-prop');if(ip2)ip2.innerHTML='<option value="">Semua Properti</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
-  var fhtml='<option value="">-- Link ke Finding --</option>'+findings.map(function(f,i){return'<option value="'+f.id+'">FND-'+String(i+1).padStart(3,'0')+': '+f.desc.slice(0,30)+'...</option>'}).join('');
+  var findings=(await sb.from('findings').select('id,description').order('created_at',{ascending:false})).data||[];
+  var fhtml='<option value="">-- Link ke Finding --</option>'+findings.map(function(f,i){return'<option value="'+f.id+'">'+f.description.slice(0,40)+'...</option>'}).join('');
   var fs=document.getElementById('im-finding');if(fs)fs.innerHTML=fhtml;
-  var apimps=imps.filter(function(i){return['Approved','In Progress'].indexOf(i.status)>=0});
-  var ihtml='<option value="">-- Pilih Plan --</option>'+apimps.map(function(im,idx){return'<option value="'+im.id+'">IMP-'+String(idx+1).padStart(3,'0')+': '+im.rec.slice(0,30)+'...</option>'}).join('');
+  var apimps=(await sb.from('improvements').select('id,recommendation').in('status',['Approved','In Progress'])).data||[];
+  var ihtml='<option value="">-- Pilih Plan --</option>'+apimps.map(function(im,idx){return'<option value="'+im.id+'">'+im.recommendation.slice(0,35)+'...</option>'}).join('');
   var ps=document.getElementById('pg-imp');if(ps)ps.innerHTML=ihtml;
 }
 
-// ── SAVE ────────────────────────────────────────────────────
-function saveProp(){
-  var name=document.getElementById('pn-name').value.trim();
-  if(!name){toast('Nama properti wajib','e');return}
-  S.add('props',{id:uid(),name:name,brand:document.getElementById('pn-brand').value,city:document.getElementById('pn-city').value,region:document.getElementById('pn-region').value,owner:document.getElementById('pn-owner').value,rooms:document.getElementById('pn-rooms').value||0,score:document.getElementById('pn-score').value||0,occ:document.getElementById('pn-occ').value||0,status:document.getElementById('pn-status').value});
-  closeM('m-property');fillSelects();renderProperties();badges();toast('Properti ditambahkan!','s');
+// ── SAVE ────────────────────────────────────────────
+async function saveProp(){
+  var name=document.getElementById('pn-name').value.trim();if(!name){toast('Nama wajib','e');return}
+  var r=await sb.from('properties').insert({name:name,brand:document.getElementById('pn-brand').value,city:document.getElementById('pn-city').value,region:document.getElementById('pn-region').value,owner_name:document.getElementById('pn-owner').value,total_rooms:document.getElementById('pn-rooms').value||0,review_score:document.getElementById('pn-score').value||0,occupancy:document.getElementById('pn-occ').value||0,status:document.getElementById('pn-status').value});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
+  closeM('m-property');await fillSelects();renderProperties();badges();toast('Properti ditambahkan!','s');
   ['pn-name','pn-city','pn-owner','pn-rooms','pn-score','pn-occ'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
 }
-function saveFinding(){
+async function saveFinding(){
   var pid=document.getElementById('fn-prop').value,desc=document.getElementById('fn-desc').value.trim();
   if(!pid||!desc){toast('Properti & deskripsi wajib','e');return}
-  S.add('findings',{id:uid(),propId:pid,date:document.getElementById('fn-date').value||today(),cat:document.getElementById('fn-cat').value,area:document.getElementById('fn-area').value,desc:desc,root:document.getElementById('fn-root').value,sev:document.getElementById('fn-sev').value,status:'Open'});
+  var r=await sb.from('findings').insert({property_id:pid,inspection_date:document.getElementById('fn-date').value||today(),category:document.getElementById('fn-cat').value,area:document.getElementById('fn-area').value,description:desc,root_cause:document.getElementById('fn-root').value,severity:document.getElementById('fn-sev').value,status:'Open'});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
   closeM('m-finding');renderFindings();renderDash();badges();toast('Temuan disimpan!','s');
   ['fn-area','fn-desc','fn-root'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
 }
-function saveImprovement(){
+async function saveImprovement(){
   var rec=document.getElementById('im-rec').value.trim();if(!rec){toast('Rekomendasi wajib','e');return}
   var fid=document.getElementById('im-finding').value,pid=document.getElementById('im-prop').value;
-  if(!pid&&fid){var f=S.find('findings',fid);if(f)pid=f.propId}
   if(!pid){toast('Pilih properti','e');return}
-  S.add('imps',{id:uid(),findingId:fid,propId:pid,rec:rec,cost:document.getElementById('im-cost').value||0,date:document.getElementById('im-date').value,pic:document.getElementById('im-pic').value,status:document.getElementById('im-status').value,chain:[]});
+  var r=await sb.from('improvements').insert({finding_id:fid||null,property_id:pid,recommendation:rec,estimated_cost:document.getElementById('im-cost').value||0,target_date:document.getElementById('im-date').value||null,pic:document.getElementById('im-pic').value,status:document.getElementById('im-status').value,approval_chain:[]});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
   closeM('m-improvement');renderImprovements();badges();toast('Plan ditambahkan!','s');
   ['im-rec','im-pic'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
 }
-function saveRAB(){
+async function saveRAB(){
   var pid=document.getElementById('rb-prop').value,desc=document.getElementById('rb-desc').value.trim();
   if(!pid||!desc){toast('Properti & deskripsi wajib','e');return}
-  S.add('rab',{id:uid(),propId:pid,cat:document.getElementById('rb-cat').value,desc:desc,qty:Number(document.getElementById('rb-qty').value)||1,unit:document.getElementById('rb-unit').value||'unit',price:Number(document.getElementById('rb-price').value)||0,actual:Number(document.getElementById('rb-actual').value)||0,inv:document.getElementById('rb-inv').value});
+  var r=await sb.from('rab_items').insert({property_id:pid,category:document.getElementById('rb-cat').value,description:desc,quantity:document.getElementById('rb-qty').value||1,unit:document.getElementById('rb-unit').value||'unit',unit_price:document.getElementById('rb-price').value||0,actual_cost:document.getElementById('rb-actual').value||0,invoice_number:document.getElementById('rb-inv').value});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
   closeM('m-rab');renderRAB();toast('Item RAB ditambahkan!','s');
   ['rb-desc','rb-price','rb-actual','rb-inv'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
-  document.getElementById('rb-qty').value='1';
 }
-function saveProgress(){
+async function saveProgress(){
   var iid=document.getElementById('pg-imp').value;if(!iid){toast('Pilih plan','e');return}
   var pct=Number(document.getElementById('pg-pct').value);
-  S.add('progress',{id:uid(),impId:iid,pct:pct,note:document.getElementById('pg-note').value,date:today()});
-  if(pct>=100)S.upd('imps',iid,{status:'Completed'});else if(pct>0)S.upd('imps',iid,{status:'In Progress'});
+  var r=await sb.from('progress_updates').insert({improvement_id:iid,percentage:pct,notes:document.getElementById('pg-note').value});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
+  var ns=pct>=100?'Completed':pct>0?'In Progress':null;
+  if(ns)await sb.from('improvements').update({status:ns}).eq('id',iid);
   closeM('m-progress');renderTracker();toast('Progress diupdate!','s');
   document.getElementById('pg-note').value='';document.getElementById('pg-pct').value=50;document.getElementById('pg-val').textContent='50%';
 }
-function saveBA(){
+async function saveBA(){
   var pid=document.getElementById('ba-prop').value;if(!pid){toast('Pilih properti','e');return}
-  S.add('beforeafter',{id:uid(),propId:pid,area:document.getElementById('ba-area').value,desc:document.getElementById('ba-desc').value,status:document.getElementById('ba-status').value});
+  var r=await sb.from('before_after').insert({property_id:pid,area:document.getElementById('ba-area').value,description:document.getElementById('ba-desc').value,status:document.getElementById('ba-status').value});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
   closeM('m-ba');renderBA();toast('Data ditambahkan!','s');
   ['ba-area','ba-desc'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
 }
-function saveImpact(){
+async function saveImpact(){
   var pid=document.getElementById('ip-prop').value,period=document.getElementById('ip-period').value;
   if(!pid||!period){toast('Properti & periode wajib','e');return}
-  S.add('impact',{id:uid(),propId:pid,period:period,phase:document.getElementById('ip-phase').value,score:document.getElementById('ip-score').value,occ:document.getElementById('ip-occ').value,adr:document.getElementById('ip-adr').value,rev:document.getElementById('ip-rev').value});
+  var r=await sb.from('business_impact').insert({property_id:pid,period:period,phase:document.getElementById('ip-phase').value,review_score:document.getElementById('ip-score').value||null,occupancy:document.getElementById('ip-occ').value||null,adr:document.getElementById('ip-adr').value||null,monthly_revenue:document.getElementById('ip-rev').value||null});
+  if(r.error){toast('Error: '+r.error.message,'e');return}
   closeM('m-impact');renderImpact();toast('Metrics disimpan!','s');
   ['ip-score','ip-occ','ip-adr','ip-rev'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
 }
 
-// ── MODAL ───────────────────────────────────────────────────
+// ── MODAL ───────────────────────────────────────────
 function openM(id){fillSelects();var el=document.getElementById(id);if(el)el.classList.remove('hidden');if(id==='m-finding'){var d=document.getElementById('fn-date');if(d&&!d.value)d.value=today()}}
 function closeM(id){var el=document.getElementById(id);if(el)el.classList.add('hidden')}
 document.querySelectorAll('.overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.add('hidden')})});
 
-// ── TOAST ───────────────────────────────────────────────────
-function toast(msg,type){var t=document.createElement('div');t.className='toast '+(type||'i');t.textContent=msg;document.getElementById('toasts').appendChild(t);setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t)},3000)}
+// ── TOAST ───────────────────────────────────────────
+function toast(msg,type){var t=document.createElement('div');t.className='toast '+(type||'i');t.textContent=msg;document.getElementById('toasts').appendChild(t);setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t)},3200)}
 
-// ── INIT ────────────────────────────────────────────────────
-seed();fillSelects();renderDash();badges();
+// ── INIT ────────────────────────────────────────────
+async function init(){
+  await fillSelects();
+  renderDash();
+}
+init();
 </script>
 </body>
 </html>
