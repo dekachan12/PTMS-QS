@@ -20,7 +20,30 @@
   --red-rddz:#e31837;
   --r:8px;--rl:12px;--sw:220px;
 }
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;font-size:14px;line-height:1.5;overflow-x:hidden}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* ── LOGIN PAGE ── */
+.login-page{display:none;min-height:100vh;align-items:center;justify-content:center;background:var(--bg)}
+.login-page.active{display:flex}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;width:100%;max-width:400px;margin:16px}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-rddz{width:56px;height:56px;background:var(--red-rddz);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.login-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--text3)}
+.login-form .fg{margin-bottom:14px}
+.login-form .fl{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500}
+.login-form .fi{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;font-size:14px;color:var(--text);outline:none;transition:border-color .15s;font-family:inherit}
+.login-form .fi:focus{border-color:var(--primary)}
+.login-btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;transition:background .15s;font-family:inherit;margin-top:4px}
+.login-btn:hover{background:var(--primary2)}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
+.login-error{background:var(--dbg);border:1px solid rgba(239,68,68,.3);border-radius:var(--r);padding:10px 12px;font-size:12px;color:var(--danger);margin-bottom:14px;display:none}
+.login-error.show{display:block}
+.login-footer{text-align:center;margin-top:20px;font-size:12px;color:var(--text3)}
+
+/* ── APP ── */
+.app{display:none;min-height:100vh}
+.app.active{display:flex}
 .sidebar{width:var(--sw);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;z-index:100;transition:transform .25s ease;overflow:hidden}
 .sidebar.collapsed{transform:translateX(-100%)}
 .logo{padding:14px 14px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -35,9 +58,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
 .nav-item.active svg{opacity:1}
 .nbadge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center}
-.sidebar-footer{padding:10px;border-top:1px solid var(--border);margin-top:auto}
+.sidebar-footer{padding:10px;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
 .ucard{display:flex;align-items:center;gap:9px;padding:8px;border-radius:var(--r);background:var(--bg3)}
 .avatar{width:30px;height:30px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.user-email{font-size:10px;color:var(--text3);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:11px;padding:4px 0;text-align:left;transition:color .15s;width:100%}
+.logout-btn:hover{color:var(--danger)}
 .main{flex:1;margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;transition:margin-left .25s ease}
 .main.expanded{margin-left:0}
 .topbar{height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;position:sticky;top:0;z-index:50}
@@ -49,12 +75,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .page{display:none}.page.active{display:block}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
 .sidebar-overlay.show{display:block}
+
+/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:inherit;line-height:1}
 .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary2)}
 .btn-success{background:var(--success);color:#fff}.btn-success:hover{filter:brightness(1.1)}
 .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{filter:brightness(1.1)}
 .btn-ghost{background:transparent;color:var(--text2);border-color:var(--border)}.btn-ghost:hover{background:var(--bg3);color:var(--text)}
 .btn-sm{padding:5px 10px;font-size:12px}.btn-xs{padding:3px 8px;font-size:11px;border-radius:6px}
+
+/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:18px}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -64,12 +94,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .kpi-label{font-size:10px;color:var(--text3);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
 .kpi-value{font-size:22px;font-weight:700;line-height:1}
 .kpi-sub{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:16px}
 .card-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
 .card-title{font-size:13px;font-weight:600}
 .card-body{padding:14px 16px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+
+/* BADGE */
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
 .bd{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .bc{background:var(--dbg);color:var(--danger)}.bc .bd{background:var(--danger)}
@@ -78,6 +112,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .bb{background:var(--ibg);color:var(--info)}.bb .bd{background:var(--info)}
 .bp{background:var(--purbg);color:var(--purple)}.bp .bd{background:var(--purple)}
 .bgr{background:var(--bg3);color:var(--text2)}.bgr .bd{background:var(--text3)}
+
+/* TABLE */
 .twrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 thead th{padding:9px 12px;font-size:10px;font-weight:600;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);background:var(--bg2);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
@@ -86,12 +122,16 @@ tbody tr:hover{background:var(--bg3)}
 tbody tr:last-child{border-bottom:none}
 td{padding:10px 12px;font-size:13px;color:var(--text2);vertical-align:middle}
 td.p{color:var(--text);font-weight:500}
+
+/* FORM */
 .fg{margin-bottom:12px}
 .fl{display:block;font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:500}
 .fi,.fs,.fta{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;font-family:inherit}
 .fi:focus,.fs:focus,.fta:focus{border-color:var(--primary)}
 .fta{resize:vertical;min-height:72px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
 .overlay.hidden{display:none}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
@@ -99,15 +139,21 @@ td.p{color:var(--text);font-weight:500}
 .mtitle{font-size:14px;font-weight:600}
 .mclose{background:none;border:none;color:var(--text3);cursor:pointer;font-size:22px;line-height:1;padding:0 4px}
 .mbody{padding:18px}.mfoot{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+
+/* PROGRESS */
 .pbar{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden}
 .pfill{height:100%;border-radius:4px;transition:width .4s}
 .pfill.blue{background:var(--primary)}.pfill.green{background:var(--success)}.pfill.amber{background:var(--warning)}
+
+/* APPROVAL */
 .asteps{padding:4px 0}
 .astep{display:flex;gap:12px;padding:10px 0;position:relative}
 .astep:not(:last-child)::after{content:'';position:absolute;left:13px;top:36px;width:2px;height:calc(100% - 12px);background:var(--border)}
 .sdot{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700;z-index:1}
 .sdot.done{background:var(--success);color:#fff}.sdot.curr{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--pbg)}.sdot.pend{background:var(--bg3);color:var(--text3);border:2px solid var(--border)}.sdot.rej{background:var(--danger);color:#fff}
 .sinfo{flex:1;padding-top:2px}.stitle{font-size:13px;font-weight:500;color:var(--text)}.srole{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}.ssub{font-size:11px;color:var(--text3);margin-top:2px}.scomment{background:var(--bg3);border-left:2px solid var(--success);padding:6px 10px;border-radius:0 6px 6px 0;font-size:12px;color:var(--text2);margin-top:6px}
+
+/* MISC */
 .fcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
 .fcard:hover{border-color:var(--border2)}.fcard.crit{border-left:3px solid var(--danger)}.fcard.major{border-left:3px solid var(--warning)}.fcard.minor{border-left:3px solid var(--success)}
 .irow{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
@@ -121,6 +167,9 @@ td.p{color:var(--text);font-weight:500}
 .approver-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
 .level-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
 .level-1{background:rgba(56,189,248,.15);color:var(--info)}.level-2{background:rgba(168,85,247,.15);color:var(--purple)}.level-3{background:rgba(249,115,22,.15);color:#f97316}
+.ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border)}
+.ba-panel{background:var(--bg3);height:130px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;position:relative;font-size:11px;color:var(--text3)}
+.ba-lbl{position:absolute;top:7px;left:7px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
 .toasts{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:7px}
 .toast{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--text);box-shadow:0 4px 20px rgba(0,0,0,.4);animation:tin .3s ease;max-width:300px}
 .toast.s{border-left:3px solid var(--success)}.toast.e{border-left:3px solid var(--danger)}.toast.i{border-left:3px solid var(--primary)}
@@ -129,237 +178,292 @@ td.p{color:var(--text);font-weight:500}
 .loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text3);gap:10px;font-size:13px}
 .spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border)}
-.ba-panel{background:var(--bg3);height:130px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;position:relative;font-size:11px;color:var(--text3)}
-.ba-lbl{position:absolute;top:7px;left:7px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
-@media(max-width:768px){.sidebar.collapsed{transform:translateX(0)}.sidebar{transform:translateX(-100%)}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.g2,.g3{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)}
+.filter-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.g2,.g3{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
-
-<nav class="sidebar" id="sidebar">
-  <div class="logo">
-    <div class="rddz-icon">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8">
-        <path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M1 21h22"/>
-        <rect x="9" y="13" width="6" height="8" rx="1" fill="#fff" stroke="none"/>
-        <rect x="6" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
-        <rect x="14" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
-      </svg>
+<!-- ── LOGIN PAGE ── -->
+<div class="login-page active" id="login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-rddz">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="1.8">
+          <path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M1 21h22"/>
+          <rect x="9" y="13" width="6" height="8" rx="1" fill="#fff" stroke="none"/>
+          <rect x="6" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
+          <rect x="14" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="login-title">PTMS — Team Quality</div>
+      <div class="login-sub">RedDoorz Property Transformation</div>
     </div>
-    <div>
-      <div class="logo-brand">RedDoorz</div>
-      <div class="logo-team">Team Quality</div>
-      <div class="logo-sub">Property Transformation</div>
+    <div id="login-error" class="login-error">Email atau password salah. Coba lagi.</div>
+    <div class="login-form">
+      <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="login-email" placeholder="email@reddoorz.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="fg"><label class="fl">Password</label><input class="fi" type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="login-btn" id="login-btn" onclick="doLogin()">Masuk</button>
+    </div>
+    <div class="login-footer">
+      Belum punya akun? Hubungi admin tim QSE.<br>
+      <span style="color:var(--text3);margin-top:6px;display:block">v2.0 · RedDoorz Area West</span>
     </div>
   </div>
-  <div class="nav-sec">Overview</div>
-  <button class="nav-item active" onclick="goTo('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</button>
-  <div class="nav-sec">Properti</div>
-  <button class="nav-item" onclick="goTo('properties')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Properties</button>
-  <button class="nav-item" onclick="goTo('findings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Findings<span class="nbadge" id="b-findings">0</span></button>
-  <div class="nav-sec">Perencanaan</div>
-  <button class="nav-item" onclick="goTo('improvements')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Improvement Plans</button>
-  <button class="nav-item" onclick="goTo('rab')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>RAB / Budget</button>
-  <div class="nav-sec">Eksekusi</div>
-  <button class="nav-item" onclick="goTo('approvals')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Approvals<span class="nbadge" id="b-approvals">0</span></button>
-  <button class="nav-item" onclick="goTo('tracker')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Progress Tracker</button>
-  <button class="nav-item" onclick="goTo('beforeafter')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Before &amp; After</button>
-  <div class="nav-sec">Hasil</div>
-  <button class="nav-item" onclick="goTo('scoring')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Scoring</button>
-  <button class="nav-item" onclick="goTo('impact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Business Impact</button>
-  <div class="sidebar-footer">
-    <div class="ucard">
-      <div class="avatar">DK</div>
-      <div><div style="font-size:12px;font-weight:600">Dika</div><div style="font-size:10px;color:var(--text3)">QSE — Area West</div></div>
-    </div>
-  </div>
-</nav>
+</div>
 
-<div class="main" id="main">
-  <div class="topbar">
-    <button class="toggle-btn" onclick="toggleSidebar()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-    <div class="ptitle" id="ptitle">Executive Dashboard</div>
-    <div class="topbar-r">
-      <div style="position:relative;width:32px;height:32px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2)" onclick="toast('Tidak ada notifikasi baru','i')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <div class="ndot" id="ndot" style="display:none"></div>
-      </div>
-      <button class="btn btn-primary btn-sm" onclick="openM('m-finding')">+ New Finding</button>
-    </div>
-  </div>
-  <div class="content">
+<!-- ── APP ── -->
+<div class="app" id="app">
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-    <!-- DASHBOARD -->
-    <div class="page active" id="p-dashboard">
-      <div class="kpi-grid" id="kpi-grid"><div class="loading"><div class="spinner"></div>Memuat data...</div></div>
-      <div class="g2">
-        <div class="card"><div class="card-header"><div class="card-title">Status Transformasi</div></div><div class="card-body" id="status-bars"></div></div>
-        <div class="card"><div class="card-header"><div class="card-title">Findings Kritis</div></div><div id="crit-list"></div></div>
+  <nav class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="rddz-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8">
+          <path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M1 21h22"/>
+          <rect x="9" y="13" width="6" height="8" rx="1" fill="#fff" stroke="none"/>
+          <rect x="6" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
+          <rect x="14" y="7" width="4" height="4" rx=".5" fill="rgba(255,255,255,.5)" stroke="none"/>
+        </svg>
       </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Findings Terbaru</div><button class="btn btn-ghost btn-sm" onclick="goTo('findings')">Lihat semua</button></div>
-        <div class="twrap" id="dash-findings"></div>
+      <div>
+        <div class="logo-brand">RedDoorz</div>
+        <div class="logo-team">Team Quality</div>
+        <div class="logo-sub">Property Transformation</div>
       </div>
     </div>
-
-    <!-- PROPERTIES -->
-    <div class="page" id="p-properties">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Property Database</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <input class="fi" id="psearch" placeholder="Cari..." style="width:150px;padding:6px 10px;font-size:12px" oninput="renderProperties()">
-            <select class="fs" id="pfilter" style="width:140px;padding:6px 10px;font-size:12px" onchange="renderProperties()">
-              <option value="">Semua Status</option>
-              <option>Not Started</option><option>Assessment</option><option>Approval</option><option>In Progress</option><option>Completed</option>
-            </select>
-            <button class="btn btn-primary btn-sm" onclick="openM('m-property')">+ Tambah</button>
-          </div>
-        </div>
-        <div class="twrap" id="prop-table"></div>
-      </div>
-    </div>
-
-    <!-- FINDINGS -->
-    <div class="page" id="p-findings">
-      <div class="g2" style="align-items:start">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <div class="secttitle" style="margin:0">Inspection Findings</div>
-            <button class="btn btn-primary btn-sm" onclick="openM('m-finding')">+ New Finding</button>
-          </div>
-          <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" id="fb-all" onclick="setFF('all')">Semua</button>
-            <button class="btn btn-ghost btn-sm" id="fb-Critical" onclick="setFF('Critical')">Critical</button>
-            <button class="btn btn-ghost btn-sm" id="fb-Major" onclick="setFF('Major')">Major</button>
-            <button class="btn btn-ghost btn-sm" id="fb-Minor" onclick="setFF('Minor')">Minor</button>
-          </div>
-          <div id="findings-list"></div>
-        </div>
-        <div id="finding-detail">
-          <div class="secttitle">Detail Temuan</div>
-          <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>Pilih temuan di kiri</p></div>
+    <div class="nav-sec">Overview</div>
+    <button class="nav-item active" onclick="goTo('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</button>
+    <div class="nav-sec">Properti</div>
+    <button class="nav-item" onclick="goTo('properties')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Properties</button>
+    <button class="nav-item" onclick="goTo('findings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Findings<span class="nbadge" id="b-findings">0</span></button>
+    <div class="nav-sec">Perencanaan</div>
+    <button class="nav-item" onclick="goTo('improvements')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Improvement Plans</button>
+    <button class="nav-item" onclick="goTo('rab')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>RAB / Budget</button>
+    <div class="nav-sec">Eksekusi</div>
+    <button class="nav-item" onclick="goTo('approvals')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Approvals<span class="nbadge" id="b-approvals">0</span></button>
+    <button class="nav-item" onclick="goTo('tracker')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Progress Tracker</button>
+    <button class="nav-item" onclick="goTo('beforeafter')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Before &amp; After</button>
+    <div class="nav-sec">Hasil</div>
+    <button class="nav-item" onclick="goTo('scoring')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Scoring</button>
+    <button class="nav-item" onclick="goTo('impact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Business Impact</button>
+    <div class="sidebar-footer">
+      <div class="ucard">
+        <div class="avatar" id="user-avatar">?</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:600;color:var(--text)" id="user-name">-</div>
+          <div class="user-email" id="user-email">-</div>
+          <button class="logout-btn" onclick="doLogout()">⎋ Logout</button>
         </div>
       </div>
     </div>
+  </nav>
 
-    <!-- IMPROVEMENTS -->
-    <div class="page" id="p-improvements">
-      <div class="g2" style="align-items:start">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap">
-            <div class="secttitle" style="margin:0">Improvement Plans</div>
-            <div style="display:flex;gap:6px">
-              <select class="fs" id="ifilter" style="width:150px;padding:6px 10px;font-size:12px" onchange="renderImprovements()">
-                <option value="">Semua Status</option>
-                <option>Draft</option><option>Waiting Approval</option><option>Approved</option><option>In Progress</option><option>Completed</option><option>Rejected</option>
-              </select>
-              <button class="btn btn-primary btn-sm" onclick="openM('m-improvement')">+ New</button>
-            </div>
-          </div>
-          <div id="imp-cards"></div>
+  <div class="main" id="main">
+    <div class="topbar">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="ptitle" id="ptitle">Executive Dashboard</div>
+      <div class="topbar-r">
+        <div style="position:relative;width:32px;height:32px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2)" onclick="toast('Tidak ada notifikasi baru','i')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="ndot" id="ndot" style="display:none"></div>
         </div>
-        <div id="imp-detail">
-          <div class="secttitle">Detail Plan</div>
-          <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Pilih plan di kiri</p></div>
-        </div>
+        <button class="btn btn-primary btn-sm" onclick="openM('m-finding')">+ New Finding</button>
       </div>
     </div>
 
-    <!-- RAB -->
-    <div class="page" id="p-rab">
-      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)" id="rab-kpi"></div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">RAB — Rencana Anggaran Biaya</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <select class="fs" id="rab-pf" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderRAB()"><option value="">Semua Properti</option></select>
-            <button class="btn btn-primary btn-sm" onclick="openM('m-rab')">+ Item RAB</button>
-          </div>
-        </div>
-        <div class="twrap" id="rab-table"></div>
-      </div>
-    </div>
+    <div class="content">
 
-    <!-- APPROVALS -->
-    <div class="page" id="p-approvals">
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-header"><div class="card-title">📋 Alur Approval — 3 Level</div></div>
-        <div class="card-body">
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-            <div class="approver-card"><div class="approver-avatar" style="background:var(--info)">OM</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Operations Manager</div><div style="font-size:11px;color:var(--text3)">Level 1 · Review teknis</div></div><span class="level-badge level-1">Lvl 1</span></div>
-            <div class="approver-card"><div class="approver-avatar" style="background:var(--purple)">HO</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Head of Operation</div><div style="font-size:11px;color:var(--text3)">Level 2 · Review budget</div></div><span class="level-badge level-2">Lvl 2</span></div>
-            <div class="approver-card"><div class="approver-avatar" style="background:#f97316">HL</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Head of Leasing</div><div style="font-size:11px;color:var(--text3)">Level 3 · Final approval</div></div><span class="level-badge level-3">Lvl 3</span></div>
-          </div>
+      <!-- DASHBOARD -->
+      <div class="page active" id="p-dashboard">
+        <div class="kpi-grid" id="kpi-grid"><div class="loading"><div class="spinner"></div>Memuat data...</div></div>
+        <div class="g2">
+          <div class="card"><div class="card-header"><div class="card-title">Status Transformasi</div></div><div class="card-body" id="status-bars"></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">Findings Kritis</div></div><div id="crit-list"></div></div>
         </div>
-      </div>
-      <div class="g2" style="align-items:start">
-        <div>
-          <div class="secttitle">Menunggu Approval</div>
-          <div id="approval-list"></div>
-          <div class="secttitle" style="margin-top:16px">Riwayat</div>
-          <div id="approval-history"></div>
-        </div>
-        <div>
-          <div class="secttitle">Detail Workflow</div>
-          <div class="card"><div class="card-body" id="approval-workflow"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><p>Pilih item untuk lihat workflow</p></div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TRACKER -->
-    <div class="page" id="p-tracker">
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-header"><div class="card-title">Progress Tracker</div><button class="btn btn-primary btn-sm" onclick="openM('m-progress')">+ Update Progress</button></div>
-        <div class="card-body" id="tracker-content"></div>
-      </div>
-      <div class="g3" id="prog-cards"></div>
-    </div>
-
-    <!-- BEFORE AFTER -->
-    <div class="page" id="p-beforeafter">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div class="secttitle" style="margin:0">Before &amp; After</div>
-        <button class="btn btn-primary btn-sm" onclick="openM('m-ba')">+ Tambah</button>
-      </div>
-      <div class="g2" id="ba-gallery"></div>
-    </div>
-
-    <!-- SCORING -->
-    <div class="page" id="p-scoring">
-      <div class="g2" style="align-items:start">
         <div class="card">
-          <div class="card-header"><div class="card-title">Input Transformation Score</div><select class="fs" id="score-prop" style="width:170px;padding:6px 10px;font-size:12px"></select></div>
-          <div class="card-body"><div id="score-sliders"></div>
-            <div style="background:var(--bg3);border-radius:var(--r);padding:12px;display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-              <span style="font-size:13px;font-weight:600">Total Score</span>
-              <span id="score-total" style="font-size:22px;font-weight:700;color:var(--primary)">0 / 100</span>
+          <div class="card-header"><div class="card-title">Findings Terbaru</div><button class="btn btn-ghost btn-sm" onclick="goTo('findings')">Lihat semua</button></div>
+          <div class="twrap" id="dash-findings"></div>
+        </div>
+      </div>
+
+      <!-- PROPERTIES -->
+      <div class="page" id="p-properties">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Property Database</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input class="fi" id="psearch" placeholder="Cari..." style="width:150px;padding:6px 10px;font-size:12px" oninput="renderProperties()">
+              <select class="fs" id="pfilter" style="width:140px;padding:6px 10px;font-size:12px" onchange="renderProperties()">
+                <option value="">Semua Status</option>
+                <option>Not Started</option><option>Assessment</option><option>Approval</option><option>In Progress</option><option>Completed</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="openM('m-property')">+ Tambah</button>
             </div>
-            <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveScore()">Simpan Score</button>
+          </div>
+          <div class="twrap" id="prop-table"></div>
+        </div>
+      </div>
+
+      <!-- FINDINGS -->
+      <div class="page" id="p-findings">
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <span class="filter-label">Filter:</span>
+          <select class="fs" id="f-filter-prop" style="width:200px;padding:6px 10px;font-size:12px" onchange="renderFindings()">
+            <option value="">Semua Properti</option>
+          </select>
+          <select class="fs" id="f-filter-sev" style="width:130px;padding:6px 10px;font-size:12px" onchange="renderFindings()">
+            <option value="">Semua Severity</option>
+            <option>Critical</option><option>Major</option><option>Minor</option>
+          </select>
+          <select class="fs" id="f-filter-status" style="width:130px;padding:6px 10px;font-size:12px" onchange="renderFindings()">
+            <option value="">Semua Status</option>
+            <option>Open</option><option>In Progress</option><option>Completed</option><option>Verified</option>
+          </select>
+          <select class="fs" id="f-filter-cat" style="width:130px;padding:6px 10px;font-size:12px" onchange="renderFindings()">
+            <option value="">Semua Kategori</option>
+            <option>Civil</option><option>Mechanical</option><option>Electrical</option>
+            <option>Furniture</option><option>Finishing</option><option>Safety</option><option>Sanitation</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="clearFindingFilters()">Reset</button>
+          <span id="findings-count" style="font-size:12px;color:var(--text3);margin-left:auto"></span>
+        </div>
+        <div class="g2" style="align-items:start">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div class="secttitle" style="margin:0">Inspection Findings</div>
+              <button class="btn btn-primary btn-sm" onclick="openM('m-finding')">+ New Finding</button>
+            </div>
+            <div id="findings-list"></div>
+          </div>
+          <div id="finding-detail">
+            <div class="secttitle">Detail Temuan</div>
+            <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>Pilih temuan di kiri</p></div>
           </div>
         </div>
-        <div class="card"><div class="card-header"><div class="card-title">Ranking — Area West</div></div><div class="card-body" id="score-ranking"></div></div>
       </div>
-    </div>
 
-    <!-- IMPACT -->
-    <div class="page" id="p-impact">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-        <div class="secttitle" style="margin:0">Business Impact &amp; ROI</div>
-        <div style="display:flex;gap:8px">
-          <select class="fs" id="impact-prop" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderImpact()"><option value="">Semua Properti</option></select>
-          <button class="btn btn-primary btn-sm" onclick="openM('m-impact')">+ Input Metrics</button>
+      <!-- IMPROVEMENTS -->
+      <div class="page" id="p-improvements">
+        <div class="g2" style="align-items:start">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap">
+              <div class="secttitle" style="margin:0">Improvement Plans</div>
+              <div style="display:flex;gap:6px">
+                <select class="fs" id="ifilter" style="width:150px;padding:6px 10px;font-size:12px" onchange="renderImprovements()">
+                  <option value="">Semua Status</option>
+                  <option>Draft</option><option>Waiting Approval</option><option>Approved</option><option>In Progress</option><option>Completed</option><option>Rejected</option>
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="openM('m-improvement')">+ New</button>
+              </div>
+            </div>
+            <div id="imp-cards"></div>
+          </div>
+          <div id="imp-detail">
+            <div class="secttitle">Detail Plan</div>
+            <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Pilih plan di kiri</p></div>
+          </div>
         </div>
       </div>
-      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="impact-kpi"></div>
-      <div class="card"><div class="card-header"><div class="card-title">Riwayat Metrics</div></div><div class="twrap" id="impact-table"></div></div>
-    </div>
 
+      <!-- RAB -->
+      <div class="page" id="p-rab">
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)" id="rab-kpi"></div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">RAB — Rencana Anggaran Biaya</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <select class="fs" id="rab-pf" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderRAB()"><option value="">Semua Properti</option></select>
+              <button class="btn btn-primary btn-sm" onclick="openM('m-rab')">+ Item RAB</button>
+            </div>
+          </div>
+          <div class="twrap" id="rab-table"></div>
+        </div>
+      </div>
+
+      <!-- APPROVALS -->
+      <div class="page" id="p-approvals">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><div class="card-title">📋 Alur Approval — 3 Level</div></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div class="approver-card"><div class="approver-avatar" style="background:var(--info)">OM</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Operations Manager</div><div style="font-size:11px;color:var(--text3)">Level 1 · Review teknis</div></div><span class="level-badge level-1">Lvl 1</span></div>
+              <div class="approver-card"><div class="approver-avatar" style="background:var(--purple)">HO</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Head of Operation</div><div style="font-size:11px;color:var(--text3)">Level 2 · Review budget</div></div><span class="level-badge level-2">Lvl 2</span></div>
+              <div class="approver-card"><div class="approver-avatar" style="background:#f97316">HL</div><div><div style="font-size:13px;font-weight:500;color:var(--text)">Head of Leasing</div><div style="font-size:11px;color:var(--text3)">Level 3 · Final approval</div></div><span class="level-badge level-3">Lvl 3</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="g2" style="align-items:start">
+          <div>
+            <div class="secttitle">Menunggu Approval</div>
+            <div id="approval-list"></div>
+            <div class="secttitle" style="margin-top:16px">Riwayat</div>
+            <div id="approval-history"></div>
+          </div>
+          <div>
+            <div class="secttitle">Detail Workflow</div>
+            <div class="card"><div class="card-body" id="approval-workflow"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><p>Pilih item untuk lihat workflow</p></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRACKER -->
+      <div class="page" id="p-tracker">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><div class="card-title">Progress Tracker</div><button class="btn btn-primary btn-sm" onclick="openM('m-progress')">+ Update Progress</button></div>
+          <div class="card-body" id="tracker-content"></div>
+        </div>
+        <div class="g3" id="prog-cards"></div>
+      </div>
+
+      <!-- BEFORE AFTER -->
+      <div class="page" id="p-beforeafter">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="secttitle" style="margin:0">Before &amp; After</div>
+          <button class="btn btn-primary btn-sm" onclick="openM('m-ba')">+ Tambah</button>
+        </div>
+        <div class="g2" id="ba-gallery"></div>
+      </div>
+
+      <!-- SCORING -->
+      <div class="page" id="p-scoring">
+        <div class="g2" style="align-items:start">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Input Transformation Score</div><select class="fs" id="score-prop" style="width:170px;padding:6px 10px;font-size:12px"></select></div>
+            <div class="card-body">
+              <div id="score-sliders"></div>
+              <div style="background:var(--bg3);border-radius:var(--r);padding:12px;display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                <span style="font-size:13px;font-weight:600">Total Score</span>
+                <span id="score-total" style="font-size:22px;font-weight:700;color:var(--primary)">0 / 100</span>
+              </div>
+              <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="saveScore()">Simpan Score</button>
+            </div>
+          </div>
+          <div class="card"><div class="card-header"><div class="card-title">Ranking — Area West</div></div><div class="card-body" id="score-ranking"></div></div>
+        </div>
+      </div>
+
+      <!-- IMPACT -->
+      <div class="page" id="p-impact">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div class="secttitle" style="margin:0">Business Impact &amp; ROI</div>
+          <div style="display:flex;gap:8px">
+            <select class="fs" id="impact-prop" style="width:190px;padding:6px 10px;font-size:12px" onchange="renderImpact()"><option value="">Semua Properti</option></select>
+            <button class="btn btn-primary btn-sm" onclick="openM('m-impact')">+ Input Metrics</button>
+          </div>
+        </div>
+        <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="impact-kpi"></div>
+        <div class="card"><div class="card-header"><div class="card-title">Riwayat Metrics</div></div><div class="twrap" id="impact-table"></div></div>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -447,23 +551,16 @@ td.p{color:var(--text);font-weight:500}
 </div></div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// ⚠️  GANTI DUA BARIS INI DENGAN KREDENSIAL SUPABASE KAMU
-// ══════════════════════════════════════════════════════
-var SUPABASE_URL = 'https://bysuylmxedewlpfovpmw.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5c3V5bG14ZWRld2xwZm92cG13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1ODUxMTMsImV4cCI6MjA5NzE2MTExM30.wzbbSF5SFb0bBy7YSuWI-SLX9LqEB8IJKZb32foZaA4';
-// ══════════════════════════════════════════════════════
+var SUPABASE_URL='https://bysuylmxedewlpfovpmw.supabase.co';
+var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5c3V5bG14ZWRld2xwZm92cG13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1ODUxMTMsImV4cCI6MjA5NzE2MTExM30.wzbbSF5SFb0bBy7YSuWI-SLX9LqEB8IJKZb32foZaA4';
+var sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// ── HELPERS ─────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────
 function rp(n){return 'Rp '+Number(n||0).toLocaleString('id-ID')}
 function fdate(d){if(!d)return '—';try{return new Date(d+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}catch(e){return d}}
 function today(){return new Date().toISOString().split('T')[0]}
-
 var _props=[];
 function pname(id){var p=_props.find(function(x){return x.id===id});return p?p.name:'—'}
-
 function badge(t){
   var map={'Critical':'bc','Major':'bw','Minor':'bg','Open':'bc','In Progress':'bb','Completed':'bg','Approved':'bp','Waiting Approval':'bw','Draft':'bgr','Rejected':'bc','Not Started':'bgr','Assessment':'bw','Approval':'bb','Before':'bgr','After':'bg'};
   return '<span class="badge '+(map[t]||'bgr')+'"><span class="bd"></span>'+t+'</span>';
@@ -471,27 +568,66 @@ function badge(t){
 function pbar(pct,h){h=h||6;var c=pct>=100?'green':pct>=50?'blue':'amber';return '<div class="pbar" style="height:'+h+'px"><div class="pfill '+c+'" style="width:'+Math.min(pct,100)+'%"></div></div>'}
 function kpi(col,lbl,val,sub){return '<div class="kpi '+col+'"><div class="kpi-label">'+lbl+'</div><div class="kpi-value">'+val+'</div><div class="kpi-sub">'+sub+'</div></div>'}
 function loading(id){var el=document.getElementById(id);if(el)el.innerHTML='<div class="loading"><div class="spinner"></div>Memuat...</div>'}
+var APPROVERS=[{role:'Operations Manager',short:'OM',level:1},{role:'Head of Operation',short:'HO',level:2},{role:'Head of Leasing',short:'HL',level:3}];
 
-var APPROVERS=[{role:'Operations Manager',short:'OM',color:'var(--info)',level:1},{role:'Head of Operation',short:'HO',color:'var(--purple)',level:2},{role:'Head of Leasing',short:'HL',color:'#f97316',level:3}];
+// ── AUTH ─────────────────────────────────────────────
+async function doLogin(){
+  var email=document.getElementById('login-email').value.trim();
+  var pass=document.getElementById('login-password').value;
+  var errEl=document.getElementById('login-error');
+  var btn=document.getElementById('login-btn');
+  if(!email||!pass){errEl.textContent='Email dan password harus diisi.';errEl.classList.add('show');return}
+  btn.disabled=true;btn.textContent='Masuk...';errEl.classList.remove('show');
+  var r=await sb.auth.signInWithPassword({email:email,password:pass});
+  if(r.error){
+    errEl.textContent='Email atau password salah. Coba lagi.';
+    errEl.classList.add('show');
+    btn.disabled=false;btn.textContent='Masuk';
+  } else {
+    showApp(r.data.user);
+  }
+}
 
-// ── SIDEBAR ─────────────────────────────────────────
+async function doLogout(){
+  await sb.auth.signOut();
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('login-page').classList.add('active');
+  document.getElementById('login-email').value='';
+  document.getElementById('login-password').value='';
+  document.getElementById('login-btn').disabled=false;
+  document.getElementById('login-btn').textContent='Masuk';
+}
+
+function showApp(user){
+  document.getElementById('login-page').classList.remove('active');
+  document.getElementById('app').classList.add('active');
+  var email=user.email||'';
+  var initials=email.slice(0,2).toUpperCase();
+  document.getElementById('user-avatar').textContent=initials;
+  document.getElementById('user-name').textContent=email.split('@')[0];
+  document.getElementById('user-email').textContent=email;
+  init();
+}
+
+// Cek session saat load
+async function checkSession(){
+  var r=await sb.auth.getSession();
+  if(r.data&&r.data.session&&r.data.session.user){
+    showApp(r.data.session.user);
+  }
+}
+
+// ── SIDEBAR ──────────────────────────────────────────
 var sbOpen=true,isMobile=window.innerWidth<=768;
 function toggleSidebar(){
   var s=document.getElementById('sidebar'),m=document.getElementById('main'),o=document.getElementById('sidebar-overlay');
-  if(isMobile){
-    var open=s.classList.contains('mobile-open');
-    if(open){s.classList.remove('mobile-open');o.classList.remove('show')}
-    else{s.classList.add('mobile-open');o.classList.add('show')}
-  } else {
-    sbOpen=!sbOpen;
-    if(sbOpen){s.classList.remove('collapsed');m.classList.remove('expanded')}
-    else{s.classList.add('collapsed');m.classList.add('expanded')}
-  }
+  if(isMobile){var op=s.classList.contains('mobile-open');if(op){s.classList.remove('mobile-open');o.classList.remove('show')}else{s.classList.add('mobile-open');o.classList.add('show')}}
+  else{sbOpen=!sbOpen;if(sbOpen){s.classList.remove('collapsed');m.classList.remove('expanded')}else{s.classList.add('collapsed');m.classList.add('expanded')}}
 }
 function closeSidebar(){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sidebar-overlay').classList.remove('show')}
 window.addEventListener('resize',function(){isMobile=window.innerWidth<=768;if(!isMobile){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sidebar-overlay').classList.remove('show')}})
 
-// ── NAV ─────────────────────────────────────────────
+// ── NAV ──────────────────────────────────────────────
 var TITLES={dashboard:'Executive Dashboard',properties:'Property Database',findings:'Inspection Findings',improvements:'Improvement Plans',rab:'RAB / Budget Management',approvals:'Approval Workflow',tracker:'Progress Tracker',beforeafter:'Before & After',scoring:'Transformation Scoring',impact:'Business Impact & ROI'};
 function goTo(id){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
@@ -502,9 +638,10 @@ function goTo(id){
   render(id);
   if(isMobile)closeSidebar();
 }
-function render(id){var map={dashboard:renderDash,properties:renderProperties,findings:renderFindings,improvements:renderImprovements,rab:renderRAB,approvals:renderApprovals,tracker:renderTracker,beforeafter:renderBA,scoring:renderScoring,impact:renderImpact};if(map[id])map[id]()}
-
-// ── BADGES ──────────────────────────────────────────
+function render(id){
+  var map={dashboard:renderDash,properties:renderProperties,findings:renderFindings,improvements:renderImprovements,rab:renderRAB,approvals:renderApprovals,tracker:renderTracker,beforeafter:renderBA,scoring:renderScoring,impact:renderImpact};
+  if(map[id])map[id]();
+}
 async function badges(){
   var f=await sb.from('findings').select('id',{count:'exact'}).eq('status','Open');
   var i=await sb.from('improvements').select('id',{count:'exact'}).eq('status','Waiting Approval');
@@ -513,7 +650,7 @@ async function badges(){
   document.getElementById('ndot').style.display=(i.count>0)?'block':'none';
 }
 
-// ── DASHBOARD ───────────────────────────────────────
+// ── DASHBOARD ────────────────────────────────────────
 async function renderDash(){
   var props=(await sb.from('properties').select('*')).data||[];
   var findings=(await sb.from('findings').select('*')).data||[];
@@ -540,7 +677,7 @@ async function renderDash(){
   badges();
 }
 
-// ── PROPERTIES ──────────────────────────────────────
+// ── PROPERTIES ───────────────────────────────────────
 async function renderProperties(){
   loading('prop-table');
   var search=(document.getElementById('psearch')||{value:''}).value.toLowerCase();
@@ -571,14 +708,32 @@ async function renderProperties(){
 }
 async function delProp(id){if(confirm('Hapus properti?')){await sb.from('properties').delete().eq('id',id);renderProperties();toast('Dihapus','i')}}
 
-// ── FINDINGS ────────────────────────────────────────
-var ffilter='all';
-function setFF(f){ffilter=f;['all','Critical','Major','Minor'].forEach(function(x){var b=document.getElementById('fb-'+x);if(b)b.className=x===f?'btn btn-primary btn-sm':'btn btn-ghost btn-sm'});renderFindings()}
+// ── FINDINGS (with multi-filter) ─────────────────────
+function clearFindingFilters(){
+  ['f-filter-prop','f-filter-sev','f-filter-status','f-filter-cat'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  renderFindings();
+}
+
 async function renderFindings(){
   loading('findings-list');
+  var fp=(document.getElementById('f-filter-prop')||{value:''}).value;
+  var fs=(document.getElementById('f-filter-sev')||{value:''}).value;
+  var fst=(document.getElementById('f-filter-status')||{value:''}).value;
+  var fc=(document.getElementById('f-filter-cat')||{value:''}).value;
+
   var q=sb.from('findings').select('*,properties(name)').order('created_at',{ascending:false});
-  if(ffilter!=='all')q=q.eq('severity',ffilter);
+  if(fp)q=q.eq('property_id',fp);
+  if(fs)q=q.eq('severity',fs);
+  if(fst)q=q.eq('status',fst);
+  if(fc)q=q.eq('category',fc);
+
   var findings=(await q).data||[];
+
+  // Update counter
+  var propName=fp?pname(fp):'Semua Properti';
+  var cntEl=document.getElementById('findings-count');
+  if(cntEl)cntEl.textContent=findings.length+' temuan ditemukan'+(fp?' — '+propName:'');
+
   var h='';
   for(var i=0;i<findings.length;i++){
     var f=findings[i];var bc={Critical:'crit',Major:'major',Minor:'minor'}[f.severity]||'minor';
@@ -589,8 +744,9 @@ async function renderFindings(){
     h+='<div style="font-size:11px;color:var(--text3)">📍 '+f.area+' · 🏷️ '+f.category+'</div>';
     h+='<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">'+badge(f.status)+'<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();newImpFrom(\''+f.id+'\',\''+f.property_id+'\')">+ Plan</button><button class="btn btn-xs" style="background:var(--dbg);color:var(--danger);border:none;border-radius:6px;cursor:pointer;padding:3px 8px;font-size:11px" onclick="event.stopPropagation();delFinding(\''+f.id+'\')">Hapus</button></div></div>';
   }
-  document.getElementById('findings-list').innerHTML=h||'<div class="empty"><p>Belum ada findings.</p></div>';
+  document.getElementById('findings-list').innerHTML=h||'<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>Tidak ada temuan'+(fp?' untuk properti ini':'')+'.<br>'+(fp?'Coba reset filter.':'Klik "+ New Finding" untuk tambah.')+'</p></div>';
 }
+
 async function showFinding(id){
   var f=(await sb.from('findings').select('*,properties(name)').eq('id',id).single()).data;
   if(!f)return;
@@ -614,21 +770,21 @@ async function showFinding(id){
   document.getElementById('finding-detail').innerHTML=h;
 }
 async function delFinding(id){if(confirm('Hapus finding?')){await sb.from('findings').delete().eq('id',id);renderFindings();document.getElementById('finding-detail').innerHTML='<div class="secttitle">Detail Temuan</div><div class="empty"><p>Pilih temuan di kiri</p></div>';badges();toast('Finding dihapus','i')}}
-function newImpFrom(fid,pid){openM('m-improvement');setTimeout(function(){var fs=document.getElementById('im-finding');if(fs)for(var i=0;i<fs.options.length;i++){if(fs.options[i].value===fid){fs.selectedIndex=i;break}}var ps=document.getElementById('im-prop');if(ps)for(var i=0;i<ps.options.length;i++){if(ps.options[i].value===pid){ps.selectedIndex=i;break}}},100)}
+function newImpFrom(fid,pid){openM('m-improvement');setTimeout(function(){var fs=document.getElementById('im-finding');if(fs)for(var i=0;i<fs.options.length;i++){if(fs.options[i].value===fid){fs.selectedIndex=i;break}}var ps=document.getElementById('im-prop');if(ps)for(var i=0;i<ps.options.length;i++){if(ps.options[i].value===pid){ps.selectedIndex=i;break}}},150)}
 
-// ── IMPROVEMENTS ────────────────────────────────────
+// ── IMPROVEMENTS ─────────────────────────────────────
 async function renderImprovements(){
   loading('imp-cards');
   var fil=(document.getElementById('ifilter')||{value:''}).value;
   var q=sb.from('improvements').select('*,properties(name)').order('created_at',{ascending:false});
   if(fil)q=q.eq('status',fil);
   var imps=(await q).data||[];
-  if(!imps.length){document.getElementById('imp-cards').innerHTML='<div class="empty"><p>Belum ada improvement plan.<br>Klik "+ New" untuk tambah.</p></div>';return}
+  if(!imps.length){document.getElementById('imp-cards').innerHTML='<div class="empty"><p>Belum ada improvement plan.</p></div>';return}
   var h='';
   for(var i=0;i<imps.length;i++){
     var im=imps[i];var chain=im.approval_chain||[];
     var approvedLvls=chain.filter(function(c){return c.status==='Approved'}).length;
-    var sc={Draft:'var(--text3)','Waiting Approval':'var(--warning)',Approved:'var(--success)','In Progress':'var(--info)',Completed:'var(--success)',Rejected:'var(--danger)'}[im.status]||'var(--text3)';
+    var sc={'Draft':'var(--text3)','Waiting Approval':'var(--warning)','Approved':'var(--success)','In Progress':'var(--info)','Completed':'var(--success)','Rejected':'var(--danger)'}[im.status]||'var(--text3)';
     h+='<div class="fcard" style="border-left:3px solid '+sc+'" onclick="showImpDetail(\''+im.id+'\')">';
     h+='<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">IMP-'+String(i+1).padStart(3,'0')+' · '+(im.properties?im.properties.name:'—')+'</span>'+badge(im.status)+'</div>';
     h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px">'+im.recommendation.slice(0,65)+(im.recommendation.length>65?'...':'')+'</div>';
@@ -642,8 +798,7 @@ async function renderImprovements(){
         h+='<div style="width:18px;height:18px;border-radius:50%;background:'+dc+';color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center" title="'+APPROVERS[j].role+'">'+dt+'</div>';
         if(j<2)h+='<div style="width:12px;height:1px;background:var(--border)"></div>';
       }
-      h+='<span style="font-size:10px;color:var(--text3);margin-left:4px">'+approvedLvls+'/3</span>';
-      h+='</div>';
+      h+='<span style="font-size:10px;color:var(--text3);margin-left:4px">'+approvedLvls+'/3</span></div>';
     }
     h+='</div>';
   }
@@ -665,7 +820,7 @@ async function showImpDetail(id){
   h+='<div class="irow"><div class="ilabel">PIC / Vendor</div><div class="ival">'+(im.pic||'—')+'</div></div>';
   h+='<div class="irow"><div class="ilabel">Status</div><div class="ival">'+badge(im.status)+'</div></div>';
   h+='<div class="irow"><div class="ilabel">Rekomendasi</div><div class="ival" style="line-height:1.6">'+im.recommendation+'</div></div>';
-  if(im.findings){h+='<div class="divider"></div><div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">FINDING TERKAIT</div><div style="background:var(--bg3);border-radius:var(--r);padding:10px 12px;border-left:3px solid var(--danger)"><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">'+im.findings.description.slice(0,70)+'...</div><div style="display:flex;gap:8px;font-size:11px;color:var(--text3)"><span>📍 '+im.findings.area+'</span><span>🏷️ '+im.findings.category+'</span>'+badge(im.findings.severity)+'</div></div>'}
+  if(im.findings){h+='<div class="divider"></div><div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">FINDING TERKAIT</div><div style="background:var(--bg3);border-radius:var(--r);padding:10px 12px;border-left:3px solid var(--danger)"><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">'+im.findings.description.slice(0,70)+'...</div><div style="display:flex;gap:8px;font-size:11px;color:var(--text3)"><span>📍 '+im.findings.area+'</span>'+badge(im.findings.severity)+'</div></div>'}
   h+='<div class="divider"></div>';
   h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em">PROGRESS</div><span style="font-size:18px;font-weight:700;color:'+(latestPct>=100?'var(--success)':latestPct>=50?'var(--primary)':'var(--warning)')+'">'+latestPct+'%</span></div>';
   h+=pbar(latestPct,8);
@@ -674,13 +829,13 @@ async function showImpDetail(id){
   h+='<div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px">APPROVAL CHAIN</div>';
   if(!chain.length){h+='<div style="font-size:12px;color:var(--text3)">Belum disubmit untuk approval.</div>'}
   else{
-    h+='<div class="asteps"><div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Dika — Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
+    h+='<div class="asteps"><div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
     for(var i=0;i<APPROVERS.length;i++){
       var ap=APPROVERS[i];var cs=chain.find(function(c){return c.level===ap.level});
       var ok=cs&&cs.status==='Approved';var rej=cs&&cs.status==='Rejected';
       h+='<div class="astep"><div class="sdot '+(ok?'done':rej?'rej':'pend')+'">'+(ok?'✓':rej?'✗':String(i+2))+'</div><div class="sinfo"><div class="srole">Level '+ap.level+'</div><div class="stitle">'+ap.role+'</div>';
       if(ok)h+='<div class="ssub" style="color:var(--success)">Approved · '+fdate(cs.date)+'</div>'+(cs.comment?'<div class="scomment">'+cs.comment+'</div>':'');
-      else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>'+(cs.comment?'<div class="scomment" style="border-left-color:var(--danger)">'+cs.comment+'</div>':'');
+      else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>';
       else h+='<div class="ssub">Menunggu review</div>';
       h+='</div></div>';
     }
@@ -700,15 +855,9 @@ async function submitApproval(id){
   await sb.from('improvements').update({status:'Waiting Approval',approval_chain:chain}).eq('id',id);
   renderImprovements();badges();toast('Disubmit!','s');showImpDetail(id);
 }
-async function delImp(id){
-  if(confirm('Hapus plan?')){
-    await sb.from('improvements').delete().eq('id',id);
-    renderImprovements();badges();toast('Plan dihapus','i');
-    document.getElementById('imp-detail').innerHTML='<div class="secttitle">Detail Plan</div><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Pilih plan di kiri</p></div>';
-  }
-}
+async function delImp(id){if(confirm('Hapus plan?')){await sb.from('improvements').delete().eq('id',id);renderImprovements();badges();toast('Dihapus','i');document.getElementById('imp-detail').innerHTML='<div class="secttitle">Detail Plan</div><div class="empty"><p>Pilih plan di kiri</p></div>'}}
 
-// ── RAB ─────────────────────────────────────────────
+// ── RAB ──────────────────────────────────────────────
 async function renderRAB(){
   loading('rab-table');
   var pf=(document.getElementById('rab-pf')||{value:''}).value;
@@ -731,9 +880,9 @@ async function renderRAB(){
   h+='</tbody></table>';
   document.getElementById('rab-table').innerHTML=h;
 }
-async function delRAB(id){if(confirm('Hapus?')){await sb.from('rab_items').delete().eq('id',id);renderRAB();toast('Item dihapus','i')}}
+async function delRAB(id){if(confirm('Hapus?')){await sb.from('rab_items').delete().eq('id',id);renderRAB();toast('Dihapus','i')}}
 
-// ── APPROVALS ───────────────────────────────────────
+// ── APPROVALS ────────────────────────────────────────
 async function renderApprovals(){
   var imps=(await sb.from('improvements').select('*,properties(name)').in('status',['Waiting Approval','Approved','Rejected','In Progress','Completed']).order('created_at',{ascending:false})).data||[];
   var pending=imps.filter(function(i){return i.status==='Waiting Approval'});
@@ -746,7 +895,7 @@ async function renderApprovals(){
     h+='<div class="card" style="margin-bottom:10px;border-left:3px solid var(--warning);cursor:pointer" onclick="showApproval(\''+im.id+'\')">';
     h+='<div class="card-body"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text3)">'+(im.properties?im.properties.name:'—')+'</span>'+badge('Waiting Approval')+'</div>';
     h+='<div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">'+im.recommendation.slice(0,60)+'...</div>';
-    h+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px">'+rp(im.estimated_cost)+' · Target: '+fdate(im.target_date)+'</div>';
+    h+='<div style="font-size:12px;color:var(--text2);margin-bottom:8px">'+rp(im.estimated_cost)+' · '+fdate(im.target_date)+'</div>';
     h+='<div style="display:flex;gap:5px;align-items:center;margin-bottom:10px">';
     for(var j=0;j<APPROVERS.length;j++){var cs=chain.find(function(c){return c.level===APPROVERS[j].level});var dc=cs&&cs.status==='Approved'?'var(--success)':cs&&cs.status==='Rejected'?'var(--danger)':approvedLvls>=j?'var(--warning)':'var(--bg4)';var dt=cs&&cs.status==='Approved'?'✓':cs&&cs.status==='Rejected'?'✗':String(j+1);h+='<div style="width:20px;height:20px;border-radius:50%;background:'+dc+';color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">'+dt+'</div>';if(j<2)h+='<div style="width:14px;height:1px;background:var(--border)"></div>'}
     h+='<span style="font-size:10px;color:var(--text3);margin-left:4px">'+approvedLvls+'/3</span></div>';
@@ -757,7 +906,6 @@ async function renderApprovals(){
   var dh='';for(var i=0;i<done.length;i++){var im=done[i];dh+='<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="showApproval(\''+im.id+'\')"><div class="card-body" style="padding:10px 14px"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text2)">'+im.recommendation.slice(0,45)+'...</span>'+badge(im.status)+'</div><div style="font-size:11px;color:var(--text3);margin-top:3px">'+(im.properties?im.properties.name:'—')+' · '+rp(im.estimated_cost)+'</div></div></div>'}
   document.getElementById('approval-history').innerHTML=dh||'<div style="font-size:12px;color:var(--text3)">Belum ada riwayat</div>';
 }
-
 async function showApproval(id){
   var im=(await sb.from('improvements').select('*,properties(name)').eq('id',id).single()).data;
   if(!im)return;
@@ -765,13 +913,13 @@ async function showApproval(id){
   var approvedLvls=chain.filter(function(c){return c.status==='Approved'}).length;
   var nextLvl=approvedLvls+1;
   var h='<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">'+im.recommendation.slice(0,60)+'...</div><div style="font-size:12px;color:var(--text3)">'+(im.properties?im.properties.name:'—')+' · '+rp(im.estimated_cost)+'</div></div>';
-  h+='<div class="asteps"><div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Dika — Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
+  h+='<div class="asteps"><div class="astep"><div class="sdot done">✓</div><div class="sinfo"><div class="srole">QSE</div><div class="stitle">Quality Specialist</div><div class="ssub">Submitted</div></div></div>';
   for(var i=0;i<APPROVERS.length;i++){
     var ap=APPROVERS[i];var cs=chain.find(function(c){return c.level===ap.level});
     var ok=cs&&cs.status==='Approved';var rej=cs&&cs.status==='Rejected';var isnxt=ap.level===nextLvl;
     h+='<div class="astep"><div class="sdot '+(ok?'done':rej?'rej':isnxt?'curr':'pend')+'">'+(ok?'✓':rej?'✗':String(i+2))+'</div><div class="sinfo"><div class="srole">Level '+ap.level+'</div><div class="stitle">'+ap.role+'</div>';
     if(ok)h+='<div class="ssub" style="color:var(--success)">Approved · '+fdate(cs.date)+'</div>'+(cs.comment?'<div class="scomment">'+cs.comment+'</div>':'');
-    else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>'+(cs.comment?'<div class="scomment" style="border-left-color:var(--danger)">'+cs.comment+'</div>':'');
+    else if(rej)h+='<div class="ssub" style="color:var(--danger)">Rejected</div>';
     else if(isnxt)h+='<div class="ssub" style="color:var(--warning)">⏳ Menunggu review...</div>';
     else h+='<div class="ssub">Pending</div>';
     h+='</div></div>';
@@ -781,7 +929,6 @@ async function showApproval(id){
   else if(im.status!=='Rejected')h+='<div style="background:var(--sbg);border-radius:var(--r);padding:12px;text-align:center;margin-top:12px"><div style="font-size:13px;font-weight:600;color:var(--success)">✓ Semua Level Approved</div><div style="font-size:12px;color:var(--text2)">Budget released</div></div>';
   document.getElementById('approval-workflow').innerHTML=h;
 }
-
 async function approveLevel(id,level,ok){
   var im=(await sb.from('improvements').select('approval_chain').eq('id',id).single()).data;
   var chain=(im&&im.approval_chain)||APPROVERS.map(function(a){return{level:a.level,status:'Pending',name:a.role,comment:'',date:''}});
@@ -795,7 +942,7 @@ async function approveLevel(id,level,ok){
   renderApprovals();badges();showApproval(id);
 }
 
-// ── TRACKER ─────────────────────────────────────────
+// ── TRACKER ──────────────────────────────────────────
 async function renderTracker(){
   var imps=(await sb.from('improvements').select('*,properties(name)').in('status',['Approved','In Progress','Completed'])).data||[];
   var progs=(await sb.from('progress_updates').select('*').order('created_at',{ascending:false})).data||[];
@@ -822,7 +969,7 @@ async function renderTracker(){
 }
 function openProgFor(id){openM('m-progress');setTimeout(function(){var sel=document.getElementById('pg-imp');if(sel)for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===id){sel.selectedIndex=i;break}}},200)}
 
-// ── BEFORE AFTER ────────────────────────────────────
+// ── BEFORE AFTER ─────────────────────────────────────
 async function renderBA(){
   var items=(await sb.from('before_after').select('*,properties(name)').order('created_at',{ascending:false})).data||[];
   var h='';
@@ -842,19 +989,17 @@ async function renderBA(){
 async function baMarkDone(id){await sb.from('before_after').update({status:'Completed'}).eq('id',id);renderBA();toast('Ditandai selesai!','s')}
 async function delBA(id){if(confirm('Hapus?')){await sb.from('before_after').delete().eq('id',id);renderBA();toast('Dihapus','i')}}
 
-// ── SCORING ─────────────────────────────────────────
+// ── SCORING ──────────────────────────────────────────
 var SCATS=[{k:'facade',l:'Facade',c:'facade_score',max:15},{k:'lobby',l:'Lobby',c:'lobby_score',max:15},{k:'room',l:'Guest Room',c:'room_score',max:30},{k:'bath',l:'Bathroom',c:'bath_score',max:20},{k:'pub',l:'Public Area',c:'public_score',max:10},{k:'safety',l:'Safety',c:'safety_score',max:10}];
 function renderScoring(){
   var h='';for(var i=0;i<SCATS.length;i++){var c=SCATS[i];h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:90px;font-size:12px;color:var(--text2)">'+c.l+'<span style="color:var(--text3);font-size:10px"> /'+c.max+'</span></div><input type="range" min="0" max="'+c.max+'" value="0" id="sc-'+c.k+'" style="flex:1;cursor:pointer;accent-color:var(--primary)" oninput="updateTotal()"><span id="scv-'+c.k+'" style="font-size:13px;font-weight:600;color:var(--primary2);min-width:20px;text-align:right">0</span></div>'}
-  document.getElementById('score-sliders').innerHTML=h;
-  renderRanking();
+  document.getElementById('score-sliders').innerHTML=h;renderRanking();
 }
 function updateTotal(){var tot=0;for(var i=0;i<SCATS.length;i++){var v=Number(document.getElementById('sc-'+SCATS[i].k).value);document.getElementById('scv-'+SCATS[i].k).textContent=v;tot+=v}document.getElementById('score-total').textContent=tot+' / 100'}
 async function saveScore(){
   var pid=(document.getElementById('score-prop')||{value:''}).value;if(!pid){toast('Pilih properti dulu','e');return}
   var obj={property_id:pid};for(var i=0;i<SCATS.length;i++)obj[SCATS[i].c]=Number(document.getElementById('sc-'+SCATS[i].k).value);
-  await sb.from('scores').insert(obj);
-  toast('Score disimpan!','s');renderRanking();
+  await sb.from('scores').insert(obj);toast('Score disimpan!','s');renderRanking();
 }
 async function renderRanking(){
   var scores=(await sb.from('scores').select('*,properties(name)').order('total_score',{ascending:false})).data||[];
@@ -863,7 +1008,7 @@ async function renderRanking(){
   document.getElementById('score-ranking').innerHTML=h||'<div class="empty"><p>Belum ada data score</p></div>';
 }
 
-// ── IMPACT ──────────────────────────────────────────
+// ── IMPACT ───────────────────────────────────────────
 async function renderImpact(){
   var pid=(document.getElementById('impact-prop')||{value:''}).value;
   var q=sb.from('business_impact').select('*,properties(name)').order('period',{ascending:false});
@@ -873,7 +1018,8 @@ async function renderImpact(){
   var after=items.filter(function(i){return i.phase==='After'});
   function avg(arr,key){return arr.length?arr.reduce(function(a,i){return a+Number(i[key]||0)},0)/arr.length:0}
   var br=avg(before,'monthly_revenue'),ar=avg(after,'monthly_revenue');
-  var rabs=(await sb.from('rab_items').select('actual_cost'+(pid?',property_id':'')).filter(pid?'property_id':'id',pid?'eq':'neq',pid||'x')).data||[];
+  var rq=sb.from('rab_items').select('actual_cost');if(pid)rq=rq.eq('property_id',pid);
+  var rabs=(await rq).data||[];
   var invest=rabs.reduce(function(a,r){return a+Number(r.actual_cost||0)},0);
   var roi=invest>0?Math.round((ar-br)*12/invest*100):0;
   document.getElementById('impact-kpi').innerHTML=kpi('blue','Avg Rev Before',rp(Math.round(br)),'Per bulan')+kpi('green','Avg Rev After',rp(Math.round(ar)),'Per bulan')+kpi('amber','Total Investasi',rp(invest),'Realisasi RAB')+kpi(roi>0?'green':'red','Est. ROI',roi>0?roi+'%':'—','Annualized');
@@ -885,23 +1031,25 @@ async function renderImpact(){
 }
 async function delImpact(id){if(confirm('Hapus?')){await sb.from('business_impact').delete().eq('id',id);renderImpact();toast('Dihapus','i')}}
 
-// ── FILL SELECTS ────────────────────────────────────
+// ── FILL SELECTS ─────────────────────────────────────
 async function fillSelects(props){
-  if(!props)props=(await sb.from('properties').select('*').order('name')).data||[];
-  _props=props;
+  if(!props){props=(await sb.from('properties').select('*').order('name')).data||[];_props=props;}
   var phtml='<option value="">-- Pilih Properti --</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
   ['fn-prop','im-prop','rb-prop','ba-prop','ip-prop','score-prop'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=phtml});
+  // Filter dropdowns di findings page
+  var fpEl=document.getElementById('f-filter-prop');
+  if(fpEl)fpEl.innerHTML='<option value="">Semua Properti</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
   var rf=document.getElementById('rab-pf');if(rf)rf.innerHTML='<option value="">Semua Properti</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
   var ip2=document.getElementById('impact-prop');if(ip2)ip2.innerHTML='<option value="">Semua Properti</option>'+props.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>'}).join('');
   var findings=(await sb.from('findings').select('id,description').order('created_at',{ascending:false})).data||[];
-  var fhtml='<option value="">-- Link ke Finding --</option>'+findings.map(function(f,i){return'<option value="'+f.id+'">'+f.description.slice(0,40)+'...</option>'}).join('');
+  var fhtml='<option value="">-- Link ke Finding --</option>'+findings.map(function(f){return'<option value="'+f.id+'">'+f.description.slice(0,40)+'...</option>'}).join('');
   var fs=document.getElementById('im-finding');if(fs)fs.innerHTML=fhtml;
   var apimps=(await sb.from('improvements').select('id,recommendation').in('status',['Approved','In Progress'])).data||[];
-  var ihtml='<option value="">-- Pilih Plan --</option>'+apimps.map(function(im,idx){return'<option value="'+im.id+'">'+im.recommendation.slice(0,35)+'...</option>'}).join('');
+  var ihtml='<option value="">-- Pilih Plan --</option>'+apimps.map(function(im){return'<option value="'+im.id+'">'+im.recommendation.slice(0,35)+'...</option>'}).join('');
   var ps=document.getElementById('pg-imp');if(ps)ps.innerHTML=ihtml;
 }
 
-// ── SAVE ────────────────────────────────────────────
+// ── SAVE ─────────────────────────────────────────────
 async function saveProp(){
   var name=document.getElementById('pn-name').value.trim();if(!name){toast('Nama wajib','e');return}
   var r=await sb.from('properties').insert({name:name,brand:document.getElementById('pn-brand').value,city:document.getElementById('pn-city').value,region:document.getElementById('pn-region').value,owner_name:document.getElementById('pn-owner').value,total_rooms:document.getElementById('pn-rooms').value||0,review_score:document.getElementById('pn-score').value||0,occupancy:document.getElementById('pn-occ').value||0,status:document.getElementById('pn-status').value});
@@ -933,6 +1081,7 @@ async function saveRAB(){
   if(r.error){toast('Error: '+r.error.message,'e');return}
   closeM('m-rab');renderRAB();toast('Item RAB ditambahkan!','s');
   ['rb-desc','rb-price','rb-actual','rb-inv'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  document.getElementById('rb-qty').value='1';
 }
 async function saveProgress(){
   var iid=document.getElementById('pg-imp').value;if(!iid){toast('Pilih plan','e');return}
@@ -960,20 +1109,23 @@ async function saveImpact(){
   ['ip-score','ip-occ','ip-adr','ip-rev'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
 }
 
-// ── MODAL ───────────────────────────────────────────
+// ── MODAL ────────────────────────────────────────────
 function openM(id){fillSelects();var el=document.getElementById(id);if(el)el.classList.remove('hidden');if(id==='m-finding'){var d=document.getElementById('fn-date');if(d&&!d.value)d.value=today()}}
 function closeM(id){var el=document.getElementById(id);if(el)el.classList.add('hidden')}
 document.querySelectorAll('.overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.add('hidden')})});
 
-// ── TOAST ───────────────────────────────────────────
+// ── TOAST ────────────────────────────────────────────
 function toast(msg,type){var t=document.createElement('div');t.className='toast '+(type||'i');t.textContent=msg;document.getElementById('toasts').appendChild(t);setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t)},3200)}
 
-// ── INIT ────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────
 async function init(){
   await fillSelects();
   renderDash();
 }
-init();
+
+// Buat akun pertama kali jika belum ada user
+// Cek session saat pertama load
+checkSession();
 </script>
 </body>
 </html>
